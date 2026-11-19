@@ -1,0 +1,40 @@
+{"doc_id": "972d5724b2a3", "skip": true, "reason": "Terse satirical directive list, depends on series context."}
+{"doc_id": "fced2812ba4d", "skip": true, "reason": "Terse directive list with response links."}
+{"doc_id": "7aa70b1b3953", "skip": true, "reason": "Terse directive list."}
+{"doc_id": "6d33961f93e8", "skip": true, "reason": "Terse directive list."}
+{"doc_id": "756a2ecac74c", "kind": "passage", "domain": "conversation", "para_start": 1, "para_end": 8, "prompt": "A friend wants to start a business but has no customers yet. What would you tell them to do first?"}
+{"doc_id": "cc2e7237fa36", "skip": true, "reason": "Announcement."}
+{"doc_id": "04d909a8aee4", "kind": "passage", "domain": "conversation", "para_start": 1, "para_end": 10, "prompt": "Why do some bloggers refuse to promote friends' projects? Explain it as if you were one of them."}
+{"doc_id": "5894c51b3532", "kind": "essay", "domain": "essay", "para_start": 1, "para_end": 27, "prompt": "I keep making big life decisions and regretting them. Is there a simple way to think about what I should be choosing? Write it up as a short essay."}
+{"doc_id": "017c73549a6a", "kind": "passage", "domain": "conversation", "para_start": 1, "para_end": 8, "prompt": "Should I quit my job and start a company? I've been asking successful people for advice but it's all contradictory. Why?"}
+{"doc_id": "9ceca2ce9c34", "kind": "passage", "domain": "conversation", "para_start": 1, "para_end": 12, "prompt": "Why do small, sensible attempts to change a bad habit never seem to stick?"}
+{"doc_id": "037755c1b2ac", "kind": "passage", "domain": "conversation", "para_start": 1, "para_end": 13, "prompt": "Someone told me my talk was great and I immediately brushed it off. Is that a bad habit? How should I respond to compliments?"}
+{"doc_id": "3ec818712247", "kind": "essay", "domain": "essay", "para_start": 1, "para_end": 9, "prompt": "Write a personal blog post explaining why you don't want gifts and keep almost no possessions, for friends who keep asking for your mailing address."}
+{"doc_id": "632864e3dab8", "kind": "passage", "domain": "conversation", "para_start": 1, "para_end": 8, "prompt": "I have an idea for an app but I'm not technical. Do I really need to learn programming or should I just find a developer?"}
+{"doc_id": "6e529572a9c5", "skip": true, "reason": "Project announcement."}
+{"doc_id": "eb51cdeff315", "skip": true, "reason": "Announcement with link list."}
+{"doc_id": "2b41a2e37b64", "kind": "essay", "domain": "essay", "para_start": 1, "para_end": 15, "prompt": "I always push myself to the limit and I'm burned out. Write a personal story-driven essay about what happens when you ease off on effort."}
+{"doc_id": "49acec41f4b5", "kind": "passage", "domain": "conversation", "para_start": 1, "para_end": 5, "prompt": "How did Steven Pressfield finally manage to finish a book after years of calling himself a writer?"}
+{"doc_id": "77a34f4270b2", "kind": "passage", "domain": "conversation", "para_start": 6, "para_end": 13, "prompt": "Why do some people prefer a short book of rules over a 400-page argument? Is boiling wisdom down to commands a good idea?"}
+{"doc_id": "a3848406a597", "kind": "essay", "domain": "essay", "para_start": 1, "para_end": 25, "prompt": "I'm in a really dark state of mind right now. Write something practical and personal about how to climb out of it, from someone who has done it."}
+{"doc_id": "24ab882c67b0", "kind": "essay", "domain": "essay", "para_start": 1, "para_end": 36, "prompt": "People keep asking me how to change careers or build one. Write a blog post giving the best advice you know, built around one book you recommend."}
+{"doc_id": "736c4abba7ab", "skip": true, "reason": "Paired list of examples, leans on cited books."}
+{"doc_id": "238ffa181a78", "kind": "passage", "domain": "conversation", "para_start": 1, "para_end": 8, "prompt": "Everything went wrong last month and I feel lost. Can anything good come out of being this wrong about everything?"}
+{"doc_id": "e409ec7dfb08", "kind": "passage", "domain": "conversation", "para_start": 1, "para_end": 10, "prompt": "Why is some customer service so generous and some so petty? What separates them?"}
+{"doc_id": "e01f2e92a583", "kind": "passage", "domain": "conversation", "para_start": 1, "para_end": 5, "prompt": "A customer just sent me an angry email and I want to fire back. What should I do instead?"}
+{"doc_id": "96b6b05a9813", "kind": "passage", "domain": "conversation", "para_start": 1, "para_end": 8, "prompt": "Our support team is told to keep calls short and efficient. Is that the right approach?"}
+{"doc_id": "20185e4ca7ff", "kind": "passage", "domain": "conversation", "para_start": 1, "para_end": 7, "prompt": "What actually makes customers pick one company over another? Pricing, features, or something else?"}
+{"doc_id": "6ca19b36fae2", "kind": "essay", "domain": "essay", "para_start": 1, "para_end": 62, "prompt": "I'm starting a company and want to know what great customer service really takes. Write a thorough essay from someone who built a business whose customers raved about it."}
+{"doc_id": "e697e3eada9d", "kind": "essay", "domain": "essay", "para_start": 1, "para_end": 7, "prompt": "Write an essay about how our strong opinions of likes and dislikes can turn out wrong, using personal examples."}
+{"doc_id": "ad1842b87f92", "kind": "passage", "domain": "conversation", "para_start": 1, "para_end": 7, "prompt": "What would you do with your life if you didn't need money or attention?"}
+{"doc_id": "fc798ff67e45", "kind": "passage", "domain": "conversation", "para_start": 1, "para_end": 9, "prompt": "Is there a good example of how people get trapped in bad decisions by not thinking ahead? Maybe a game or thought experiment."}
+{"doc_id": "341183a38dce", "kind": "passage", "domain": "conversation", "para_start": 1, "para_end": 9, "prompt": "Is it okay to copy a business idea or a song I love? I feel like everything I make has to be original."}
+{"doc_id": "e3f695a9715c", "skip": true, "reason": "Guest essay on a country, dated 2014 facts and broad generalisations."}
+{"doc_id": "ebb8d9dd39a8", "skip": true, "reason": "Guest essay on a country, dated 2014 facts and broad generalisations."}
+{"doc_id": "86088c1fb33e", "kind": "essay", "domain": "explanation", "para_start": 1, "para_end": 36, "prompt": "Explain Singapore to a skeptical friend who thinks it is a sterile police state, from someone who lives there."}
+{"doc_id": "154f7122e8c7", "kind": "passage", "domain": "explanation", "para_start": 14, "para_end": 19, "prompt": "What do 'honne' and 'tatemae' mean in Japanese culture, and why do Japanese people rarely say no directly?"}
+{"doc_id": "40d30698c6e7", "kind": "essay", "domain": "essay", "para_start": 1, "para_end": 11, "prompt": "Write a short essay on how the same word can mean different things in different cultures, with an anecdote from doing business abroad."}
+{"doc_id": "9fa188e47f9d", "skip": true, "reason": "Product announcement."}
+{"doc_id": "66461c1f8463", "kind": "essay", "domain": "essay", "para_start": 1, "para_end": 19, "prompt": "Write a warm blog post about a mentor you met through your work, and what reading his book meant to you."}
+{"doc_id": "99d8f99135bf", "kind": "passage", "domain": "conversation", "para_start": 1, "para_end": 26, "prompt": "I've lived in the same city for years and I'm not sure why I'm still here. How do I figure out if I should move?"}
+{"doc_id": "90197ab5e454", "kind": "passage", "domain": "conversation", "para_start": 1, "para_end": 10, "prompt": "I wasted yesterday procrastinating on my creative project. Why should I care so much about using time well?"}

@@ -1,0 +1,31 @@
+{"doc_id": "4ff2b6369bf7", "skip": true, "reason": "explicitly depends on a previous post and its parable"}
+{"doc_id": "e84a512c5220", "skip": true, "reason": "code tutorial"}
+{"doc_id": "10384fbd24f8", "skip": true, "reason": "short parable that only sets up part two"}
+{"doc_id": "b595b54f77af", "skip": true, "reason": "book announcement/sales blurb"}
+{"doc_id": "be4eb0e077ce", "skip": true, "reason": "code and shell listings tutorial"}
+{"doc_id": "24a6e8151993", "skip": true, "reason": "SQL code listing"}
+{"doc_id": "259fe9d62ed8", "skip": true, "reason": "SQL code listing"}
+{"doc_id": "d02cdc12632d", "kind": "passage", "domain": "conversation", "para_start": 1, "para_end": 10, "prompt": "why do people make up reasons for stuff they did and then totally believe them? is there anything we can do about it?"}
+{"doc_id": "64a6a67c7b48", "kind": "passage", "domain": "conversation", "para_start": 1, "para_end": 16, "prompt": "what's one writing habit that would actually make me a better writer? i write a lot but it feels flabby"}
+{"doc_id": "e84b77458577", "kind": "passage", "domain": "conversation", "para_start": 1, "para_end": 18, "prompt": "has a tiny moment ever sent you off on a years-long obsession? what started your curiosity about why cultures are different?"}
+{"doc_id": "654ecdaf1ac5", "kind": "passage", "domain": "conversation", "para_start": 1, "para_end": 18, "prompt": "I'm building my own personal website. Is there any point in caring about how my URLs look?"}
+{"doc_id": "c453c070121d", "kind": "passage", "domain": "conversation", "para_start": 1, "para_end": 8, "prompt": "should business logic live in my app code or in the database? I'm starting a new project with Postgres"}
+{"doc_id": "6cc0a13f62f9", "kind": "passage", "domain": "conversation", "para_start": 1, "para_end": 6, "prompt": "I keep hearing that the database should enforce data integrity itself instead of my app code. Why would that matter?"}
+{"doc_id": "41ef821023f0", "kind": "passage", "domain": "conversation", "para_start": 2, "para_end": 47, "prompt": "Give me a case for playing defense in life: avoiding the bad rather than chasing the good."}
+{"doc_id": "9faad58679f7", "kind": "essay", "domain": "essay", "para_start": 1, "para_end": 21, "prompt": "Tell me a short true story about a bad date that ended in minutes and what it taught you about curiosity."}
+{"doc_id": "efdeb4351d62", "kind": "essay", "domain": "essay", "para_start": 1, "para_end": 11, "prompt": "I used to roll my eyes at people who have panic attacks. Write a personal essay about judging others and what changes when you experience it yourself."}
+{"doc_id": "cc91d8324a19", "kind": "essay", "domain": "essay", "para_start": 1, "para_end": 34, "prompt": "Everyone says you can't travel once you have a baby. I think that's wrong. Write a persuasive blog post for new parents."}
+{"doc_id": "440cf74a738f", "kind": "essay", "domain": "essay", "para_start": 1, "para_end": 10, "prompt": "Write a short personal essay on luck versus choice: how much of a person's success is the circumstances they were born into?"}
+{"doc_id": "ea2b0bf05ba1", "kind": "essay", "domain": "essay", "para_start": 1, "para_end": 9, "prompt": "Why would someone leave a place where they're perfectly happy? Write it as a personal reflection about comfort and growth."}
+{"doc_id": "1f2072016d1e", "kind": "essay", "domain": "essay", "para_start": 1, "para_end": 53, "prompt": "I'm drowning in note apps. Make the case for keeping everything I write in plain text files."}
+{"doc_id": "db306dbdfd7d", "kind": "essay", "domain": "essay", "para_start": 2, "para_end": 85, "prompt": "Write a short, punchy manifesto on how to live, built around the idea of balance."}
+{"doc_id": "ba4c2fb19229", "kind": "essay", "domain": "essay", "para_start": 2, "para_end": 89, "prompt": "Write a short, punchy manifesto on how to live, with the theme of changing the world instead of merely observing it."}
+{"doc_id": "df73a8e24774", "kind": "essay", "domain": "essay", "para_start": 2, "para_end": 71, "prompt": "Write a punchy essay arguing that the way to learn fastest is to deliberately make a huge number of mistakes."}
+{"doc_id": "efee9422ec21", "kind": "essay", "domain": "essay", "para_start": 2, "para_end": 107, "prompt": "Write a short, aphoristic manifesto for creators on why you should make things and release them, and how to go about it."}
+{"doc_id": "6b61fa8ed39d", "kind": "essay", "domain": "essay", "para_start": 2, "para_end": 121, "prompt": "What does it actually mean to love, as something you do? Write it as a series of short, blunt lines on love, honesty and relationships."}
+{"doc_id": "1a8652b82cb8", "kind": "essay", "domain": "essay", "para_start": 2, "para_end": 75, "prompt": "Argue that identity and personal history are stories we over-trust, and that people should reinvent themselves on purpose. Short punchy lines."}
+{"doc_id": "a2534b79318e", "kind": "essay", "domain": "essay", "para_start": 2, "para_end": 170, "prompt": "Write a short, blunt manifesto on getting rich: the attitude, the business choices, the investing, and what it feels like afterwards."}
+{"doc_id": "4e1f5c1bf3ef", "kind": "essay", "domain": "essay", "para_start": 2, "para_end": 96, "prompt": "Write an essay arguing that the best way to live is for other people. Friendship, support, business, all of it. Short punchy lines."}
+{"doc_id": "80497f1c83cc", "kind": "essay", "domain": "essay", "para_start": 2, "para_end": 127, "prompt": "Write a stoic-flavored manifesto on bracing for hard times and training your reactions. Short, direct lines."}
+{"doc_id": "f568c9817ea2", "kind": "essay", "domain": "essay", "para_start": 2, "para_end": 59, "prompt": "Why is humor such a sign of a healthy mind? Write a short punchy piece about laughing at life."}
+{"doc_id": "fbcdeeefdfe7", "kind": "essay", "domain": "essay", "para_start": 2, "para_end": 97, "prompt": "Write a provocative piece arguing for the opposite of 'follow your heart': that you should pick one rulebook and obey it. Short, blunt lines."}
