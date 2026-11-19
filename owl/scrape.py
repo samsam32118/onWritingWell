@@ -93,6 +93,11 @@ def fetch_doc(source, url):
     # dashes). trafilatura starts a new paragraph at inline tags and at source line breaks,
     # so unwrap inline tags, keep italics as *markdown*, and turn hard wraps into spaces.
     soup = BeautifulSoup(r.content, "lxml")
+    # Footnote markers would fuse onto the preceding word once links are unwrapped
+    # ("conditions2."), and footnote bodies are not part of the essay.
+    for tag in soup.select("a.footnote-anchor, div.footnote, sup"):
+        if tag.name != "sup" or re.fullmatch(r"[\s\[\]\d,*†‡]*", tag.get_text()):
+            tag.decompose()
     for tag in soup.find_all(["a", "u", "font", "span", "b", "strong"]):
         tag.unwrap()
     for tag in soup.find_all(["i", "em"]):
