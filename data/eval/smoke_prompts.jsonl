@@ -1,0 +1,6 @@
+{"id": "smoke-0", "domain": "conversation", "prompt": "My cofounder wants to raise a big round now, I'd rather stay small and profitable for another year. How do I think about this?"}
+{"id": "smoke-1", "domain": "conversation", "prompt": "is it dumb to learn latin in 2026"}
+{"id": "smoke-2", "domain": "explanation", "prompt": "Why does adding more people to a late software project make it later? I've heard the claim but never understood the mechanism."}
+{"id": "smoke-3", "domain": "explanation", "prompt": "Explain what a hash table is to someone who knows basic programming but never took a CS class."}
+{"id": "smoke-4", "domain": "essay", "prompt": "Write an essay on why people underrate boredom."}
+{"id": "smoke-5", "domain": "essay", "prompt": "Write an essay about what makes a city good for ambitious young people."}

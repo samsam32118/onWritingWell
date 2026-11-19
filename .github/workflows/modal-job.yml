@@ -1,0 +1,109 @@
+# Runs Modal jobs described in ops/jobs/<id>.yaml and commits their results to
+# ops/results/<id>/ on the same branch.
+#
+# Trigger: push a new or changed ops/jobs/*.yaml to a claude/** branch, or run manually.
+# Needs repo secrets MODAL_TOKEN_ID and MODAL_TOKEN_SECRET.
+#
+# Results are model outputs, metrics and logs only. The human-written corpus stays on the
+# Modal volume and is never copied here.
+name: modal-job
+
+on:
+  push:
+    branches: ["claude/**"]
+    paths: ["ops/jobs/*.yaml"]
+  workflow_dispatch:
+    inputs:
+      spec:
+        description: "Path to the job spec, e.g. ops/jobs/001-smoke.yaml"
+        required: true
+
+permissions:
+  contents: write
+
+concurrency:
+  group: modal-job-${{ github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  run:
+    runs-on: ubuntu-latest
+    timeout-minutes: 355
+    env:
+      MODAL_TOKEN_ID: ${{ secrets.MODAL_TOKEN_ID }}
+      MODAL_TOKEN_SECRET: ${{ secrets.MODAL_TOKEN_SECRET }}
+      PYTHONUNBUFFERED: "1"
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install Modal client
+        run: pip install "modal==1.6.4" "pyyaml==6.0.2"
+
+      - name: Find job specs
+        id: specs
+        env:
+          INPUT_SPEC: ${{ github.event.inputs.spec }}
+          BEFORE: ${{ github.event.before }}
+        run: |
+          if [ -n "$INPUT_SPEC" ]; then
+            specs="$INPUT_SPEC"
+          else
+            if git cat-file -e "$BEFORE^{commit}" 2>/dev/null; then base="$BEFORE"; else base="HEAD~1"; fi
+            specs=$(git diff --name-only --diff-filter=AM "$base" HEAD -- 'ops/jobs/*.yaml' | sort)
+          fi
+          echo "specs: $specs"
+          { echo "list<<EOF"; echo "$specs"; echo "EOF"; } >> "$GITHUB_OUTPUT"
+
+      - name: Run jobs
+        if: steps.specs.outputs.list != ''
+        env:
+          SPECS: ${{ steps.specs.outputs.list }}
+        run: |
+          set -o pipefail
+          status=0
+          for spec in $SPECS; do
+            id=$(python -c "import yaml,sys;print(yaml.safe_load(open(sys.argv[1]))['id'])" "$spec")
+            out="ops/results/$id"
+            if [ -f "$out/job_report.json" ] && ! grep -q '"rerun": *true' "$spec"; then
+              echo "::notice::$id already has results; skipping"; continue
+            fi
+            mkdir -p "$out"
+            echo "::group::modal run $id"
+            if modal run modal_app.py --spec "$spec" 2>&1 | tee "$out/modal.log"; then ok=1; else ok=0; status=1; fi
+            echo "::endgroup::"
+            [ -f job_report.json ] && mv job_report.json "$out/job_report.json"
+            rm -rf /tmp/dl && mkdir -p /tmp/dl
+            if modal volume get owl-vol "results/$id" /tmp/dl --force; then
+              src=/tmp/dl
+              [ -d "/tmp/dl/$id" ] && src="/tmp/dl/$id"
+              [ -d "/tmp/dl/results/$id" ] && src="/tmp/dl/results/$id"
+              cp -r "$src"/. "$out"/
+            fi
+            # Keep the log readable in the repo: strip progress-bar noise.
+            sed -i -E '/it\/s\]|s\/it\]|^\s*$/d' "$out/modal.log" || true
+            [ $ok = 1 ] || echo "::error::job $id failed (see $out/modal.log)"
+          done
+          echo "status=$status" >> "$GITHUB_ENV"
+
+      - name: Commit results
+        if: always() && steps.specs.outputs.list != ''
+        run: |
+          git config user.name "owl-bot"
+          git config user.email "owl-bot@users.noreply.github.com"
+          git add ops/results || true
+          if git diff --cached --quiet; then echo "no results to commit"; exit 0; fi
+          git commit -m "results: $(ls -t ops/results | head -3 | tr '\n' ' ')"
+          for i in 1 2 3 4; do
+            git pull --rebase origin "${GITHUB_REF_NAME}" && git push origin "HEAD:${GITHUB_REF_NAME}" && break
+            sleep $((i * 10))
+          done
+
+      - name: Fail if a job failed
+        if: env.status == '1'
+        run: exit 1

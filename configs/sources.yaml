@@ -1,0 +1,108 @@
+# Writers whose prose we want the model to learn from.
+#
+# Selection bar: people who write to *develop* ideas (see the essay in README), whose
+# sentences sound right and whose conclusions are usually right. Edit freely; this list is
+# the single most important taste decision in the project.
+#
+# Each source:
+#   index:    one or more pages that link to the posts
+#   include:  regex a post URL must match
+#   exclude:  regex that removes a post (link roundups, open threads, announcements)
+#   domains:  which training domains its text is best for: essay | conversation | explanation
+#   weight:   relative sampling weight in SFT (1.0 = normal)
+#   paginate: optional {param, max} or {pattern, max} for multi-page indexes
+#
+# Copyright: these texts belong to their authors. The repo commits only URLs, hashes and
+# the prompts we write for them; the text itself is fetched on Modal and never committed.
+
+min_words: 500
+max_words: 9000
+
+sources:
+  - name: paul_graham
+    index: [https://paulgraham.com/articles.html]
+    include: '^https://paulgraham\.com/[a-z0-9]+\.html$'
+    exclude: '/(articles|index|rss|faq|bio|books|arc|lisp|kedrosky|resume|info)\.html$'
+    domains: [essay, conversation]
+    weight: 2.0
+
+  - name: dan_luu
+    index: [https://danluu.com/]
+    include: '^https://danluu\.com/[a-z0-9-]+/$'
+    exclude: '/(about|cocktail-ideas|programming-blogs|tech-discrimination)/$'
+    domains: [essay, explanation]
+    weight: 1.0
+
+  - name: slate_star_codex
+    index: [https://slatestarcodex.com/archives/]
+    include: '^https://slatestarcodex\.com/20\d\d/\d\d/\d\d/[^/]+/$'
+    exclude: '(open-thread|links-for|ot\d|links-\d|hidden-open|meetup|book-review-contest|survey|comments-highlights|highlights-from)'
+    domains: [essay, explanation]
+    weight: 1.0
+
+  - name: patrick_mckenzie
+    index: [https://www.kalzumeus.com/archive/]
+    include: '^https://www\.kalzumeus\.com/20(09|1\d|2\d)/\d\d/\d\d/[^/]+/$'
+    exclude: '(bingo|update|stats|christmas|announcing)'
+    domains: [essay, explanation]
+    weight: 1.0
+
+  - name: julia_evans
+    index: [https://jvns.ca/]
+    include: '^https://jvns\.ca/blog/20\d\d/\d\d/\d\d/[^/]+/$'
+    exclude: '(zine|new-zine|day-\d|hacker-school|recurse-center-day|talk|podcast|wizard|print)'
+    domains: [explanation, conversation]
+    weight: 1.0
+
+  - name: joel_spolsky
+    index: [https://www.joelonsoftware.com/archives/]
+    index_follow: '^https://www\.joelonsoftware\.com/20\d\d/\d\d/$'
+    include: '^https://www\.joelonsoftware\.com/20\d\d/\d\d/\d\d/[^/]+/$'
+    exclude: '(stack-overflow-careers|fog-creek|announcing|jobs|copilot-|news)'
+    domains: [essay, explanation]
+    weight: 0.8
+
+  - name: derek_sivers
+    index: [https://sive.rs/blog]
+    include: '^https://sive\.rs/[a-z0-9-]+$'
+    exclude: '/(blog|about|contact|book|books|n|u|now|ft|sub|thanks|music|pg|presentations|i|t|bio|ask|a|h|d|m|r|anything|hellyeah|ff|ws|ug|lg|tsc|ntc|asb|y|lexicon|faq)$'
+    min_words: 200
+    domains: [conversation, essay]
+    weight: 0.8
+
+  - name: sam_altman
+    pages: {template: "https://blog.samaltman.com/?page={n}", max: 14}
+    include: '^https://blog\.samaltman\.com/[a-z0-9-]+$'
+    exclude: '/(archive|posts|sora-|gpt-4o|jakub|tagged)'
+    domains: [essay, conversation]
+    weight: 0.6
+
+  - name: chris_olah
+    index: [https://colah.github.io/]
+    include: '^https://colah\.github\.io/(posts/20\d\d-\d\d-[^/]+|notes/[^/]+)/$'
+    exclude: '^$'
+    domains: [explanation]
+    weight: 1.0
+
+  - name: henrik_karlsson
+    index: [https://escapingflatland.substack.com/archive]
+    substack: escapingflatland.substack.com
+    include: '^https://(escapingflatland\.substack\.com|www\.henrikkarlsson\.xyz)/p/[^/]+$'
+    exclude: '(open-thread|links|announcement)'
+    domains: [essay, conversation]
+    weight: 1.0
+
+  - name: astral_codex_ten
+    substack: www.astralcodexten.com
+    include: '^https://www\.astralcodexten\.com/p/[^/]+$'
+    exclude: '(open-thread|links-for|highlights-from|model-city-monday|meetups|ot-|book-review-contest|mantic-monday|bay-area)'
+    domains: [essay, explanation]
+    weight: 0.8
+
+
+  - name: nadia_asparouhova
+    index: [https://nadia.xyz/posts]
+    include: '^https://nadia\.xyz/[a-z0-9-]+$'
+    exclude: '/(posts|about|books|subscribe)$'
+    domains: [essay]
+    weight: 0.8
