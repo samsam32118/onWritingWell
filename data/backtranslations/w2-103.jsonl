@@ -1,0 +1,24 @@
+{"doc_id": "822bde2f9175", "kind": "essay", "domain": "essay", "para_start": 0, "para_end": 34, "prompt": "I run a small software company and our projects always seem to drag. Write an essay applying ideas from manufacturing to how software teams work, and what to do about it."}
+{"doc_id": "822bde2f9175", "kind": "passage", "domain": "explanation", "para_start": 0, "para_end": 4, "prompt": "why do factories keep stockpiles of stuff at all if it costs so much money to hold?"}
+{"doc_id": "feb23c426e85", "kind": "essay", "domain": "essay", "para_start": 0, "para_end": 38, "prompt": "Write a blog post for programmers who are fed up with bad software patents: why so many get granted, and whether an ordinary developer can actually do anything about it."}
+{"doc_id": "feb23c426e85", "kind": "passage", "domain": "conversation", "para_start": 2, "para_end": 4, "prompt": "do software developers actually invent much? seems like so many patents get filed"}
+{"doc_id": "5584a080fae2", "kind": "essay", "domain": "essay", "para_start": 0, "para_end": 40, "prompt": "I'm a developer at a software company and I want to start a side project on weekends. Does my employer own it? Explain how this really works, in plain language."}
+{"doc_id": "5584a080fae2", "kind": "passage", "domain": "explanation", "para_start": 10, "para_end": 15, "prompt": "if I pay a freelancer to write code for my startup, do I automatically own it? that seems like it should be obvious"}
+{"doc_id": "2dc3cc7a996f", "kind": "essay", "domain": "essay", "para_start": 0, "para_end": 21, "prompt": "I quit Twitter and Facebook this year and feel much better. Write a personal essay about why these feeds make people unhappy, from someone who designs social software."}
+{"doc_id": "2dc3cc7a996f", "kind": "passage", "domain": "explanation", "para_start": 14, "para_end": 15, "prompt": "how come slot machines and feeds are so hard to stop using? is there a psychology reason it works"}
+{"doc_id": "2dc3cc7a996f", "kind": "passage", "domain": "conversation", "para_start": 4, "para_end": 10, "prompt": "why is twitter so full of angry fights? is it just the people or something about the platform"}
+{"doc_id": "e29415b7f200", "kind": "essay", "domain": "essay", "para_start": 0, "para_end": 23, "prompt": "Write a blog post about why online programming Q&A communities have so many strict rules, and how welcoming beginners fits with that."}
+{"doc_id": "198844c52f61", "kind": "essay", "domain": "essay", "para_start": 1, "para_end": 19, "prompt": "Write an essay on how a reputation points system works in an online Q&A community, why people care about the points, and where it goes wrong."}
+{"doc_id": "198844c52f61", "kind": "passage", "domain": "explanation", "para_start": 5, "para_end": 8, "prompt": "how did the points system on a Q&A site like Stack Overflow originally work and what was it for?"}
+{"doc_id": "198844c52f61", "kind": "passage", "domain": "conversation", "para_start": 19, "para_end": 19, "prompt": "can gamification actually change what people do? thinking about adding it to my app"}
+{"doc_id": "1d3b431c921d", "kind": "essay", "domain": "essay", "para_start": 4, "para_end": 29, "prompt": "Tell the story of how a free programmer Q&A site came to exist, including what the internet was like for developers before it, and what the founders were really after."}
+{"doc_id": "1d3b431c921d", "kind": "passage", "domain": "conversation", "para_start": 28, "para_end": 29, "prompt": "why do so many startup founders fail, and what do the ones who succeed have in common?"}
+{"doc_id": "74ea1ab0cbcf", "skip": true, "reason": "Product launch announcement for Kiln."}
+{"doc_id": "eb6ac83f2284", "skip": true, "reason": "Pricing announcement for Trello Business Class."}
+{"doc_id": "793a4e69c415", "skip": true, "reason": "Company news announcement."}
+{"doc_id": "57238ec2cce1", "skip": true, "reason": "Funding announcement."}
+{"doc_id": "618a34458c43", "skip": true, "reason": "Product launch walkthrough."}
+{"doc_id": "ce90877d5a35", "skip": true, "reason": "Blog migration notice."}
+{"doc_id": "817bc80435ae", "skip": true, "reason": "Product description copy."}
+{"doc_id": "e1d69d7af8a4", "skip": true, "reason": "CEO search announcement."}
+{"doc_id": "0c5ec5091b3b", "skip": true, "reason": "Personal update post."}

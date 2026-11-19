@@ -1,0 +1,20 @@
+{"doc_id": "b7e66eca8cce", "kind": "essay", "domain": "essay", "para_start": 1, "para_end": 13, "prompt": "People in tech love to argue about the year humans and machines will 'merge' or get overtaken by AI. Write a blog post giving your own take on that debate: what the merge might actually look like, whether it has already begun, and what we should do about it."}
+{"doc_id": "ed53ac2e108f", "kind": "essay", "domain": "essay", "para_start": 2, "para_end": 12, "prompt": "You run a well-known startup accelerator and you've been thinking about wealth concentration and automation. Write a short post floating a policy idea for giving ordinary citizens a direct stake in national economic growth, and be honest about the open problems."}
+{"doc_id": "b50eabd1c5ec", "kind": "essay", "domain": "essay", "para_start": 1, "para_end": 11, "prompt": "Something feels off about a lot of venture-backed startups lately, and it isn't just high valuations. Write an essay about what the real problem might be and how a founder can avoid it."}
+{"doc_id": "32479fd19233", "kind": "essay", "domain": "essay", "para_start": 1, "para_end": 13, "prompt": "Why do so many promising startups stall a few months after finishing an accelerator, even after growing fast during it? Write it up for founders, from the point of view of someone who has watched hundreds of them."}
+{"doc_id": "32479fd19233", "kind": "passage", "domain": "conversation", "para_start": 8, "para_end": 9, "prompt": "how important is momentum for an early startup, really? and what usually kills it?"}
+{"doc_id": "1623d21b292a", "kind": "essay", "domain": "essay", "para_start": 1, "para_end": 8, "prompt": "I'm working on something early and people keep asking whether it's a 'real company' yet. Write an essay on whether it matters if an early-stage venture is thought of as a project or a company."}
+{"doc_id": "9cc9130d82e9", "kind": "essay", "domain": "essay", "para_start": 1, "para_end": 37, "prompt": "I just turned 30 and want to write down whatever life advice I've actually learned in the past decade, without it sounding hollow. Write that post for me: relationships, work, money, time, regrets, all of it."}
+{"doc_id": "1af094dcf478", "kind": "essay", "domain": "essay", "para_start": 3, "para_end": 26, "prompt": "Write an essay arguing for how governments should handle the development of superhuman machine intelligence. Cover why the topic gets so little practical discussion, what concrete regulation might look like, and the objections to it."}
+{"doc_id": "c165e140bf4e", "skip": true, "reason": "short topical net-neutrality note plus emailed comment"}
+{"doc_id": "6c21a00be57d", "skip": true, "reason": "collection of interview quotes"}
+{"doc_id": "b24053808191", "skip": true, "reason": "organizational annual letter/update"}
+{"doc_id": "066a9600515c", "skip": true, "reason": "time-bound political call to action"}
+{"doc_id": "80577009bd0d", "skip": true, "reason": "time-bound election polemic"}
+{"doc_id": "bace8c8496c3", "skip": true, "reason": "time-bound election endorsement"}
+{"doc_id": "713e2765ba90", "skip": true, "reason": "legal dispute announcement"}
+{"doc_id": "ef5f52158e29", "skip": true, "reason": "dated 2015 market analysis"}
+{"doc_id": "842248d7029e", "skip": true, "reason": "dated, data-heavy local policy post"}
+{"doc_id": "83e55e25c705", "skip": true, "reason": "short investment announcement"}
+{"doc_id": "a8545a018845", "skip": true, "reason": "dated bet announcement"}
+{"doc_id": "c7cd23336259", "skip": true, "reason": "collected founder testimonials"}
