@@ -33,7 +33,8 @@ def span_text(doc, start, end):
     for p in paragraphs(doc["text"])[start:end + 1]:
         if NOTES_HEADING.match(p.strip()):
             break
-        out.append(p)
+        # Double spaces after full stops are a typewriter habit; leave code alone.
+        out.append(p if p.startswith("```") else re.sub(r"(?<=\S) {2,}", " ", p))
     return re.sub(r"\s?\[\d+(,\s*\d+)*\]", "", "\n\n".join(out).strip())
 
 
@@ -149,15 +150,14 @@ def remap(a):
         nstart = [0]
         for p in paragraphs(new[doc_id]["text"]):
             nstart.append(nstart[-1] + len(norm(p)))
+        # A paragraph missing from the new text (e.g. a "Thanks to..." line now dropped as
+        # furniture) only invalidates spans that start or end on it.
         ostart, cur = [], 0
         for p in paragraphs(old[doc_id]["text"]):
-            at = stream.find(norm(p), cur)
-            if at < 0:
-                break
-            ostart.append((at, at + len(norm(p))))
-            cur = at + len(norm(p))
-        else:
-            spans[doc_id] = (ostart, nstart)
+            at = stream.find(norm(p), cur) if norm(p) else -1
+            ostart.append((at, at + len(norm(p))) if at >= 0 else None)
+            cur = at + len(norm(p)) if at >= 0 else cur
+        spans[doc_id] = (ostart, nstart)
     stats = Counter()
     for f in sorted(Path(a.units).glob("*.jsonl")):
         out = []
@@ -165,10 +165,11 @@ def remap(a):
             if u.get("skip"):
                 out.append(u)
                 continue
-            if u["doc_id"] not in spans or u["para_end"] >= len(spans[u["doc_id"]][0]):
+            ostart, nstart = spans.get(u["doc_id"], ([], []))
+            if u["para_end"] >= len(ostart) or not ostart[u["para_start"]] \
+                    or not ostart[u["para_end"]]:
                 stats["unmappable"] += 1
                 continue
-            ostart, nstart = spans[u["doc_id"]]
             lo, hi = ostart[u["para_start"]][0], ostart[u["para_end"]][1]
             s = max(i for i in range(len(nstart) - 1) if nstart[i] <= lo)
             e = min(i for i in range(len(nstart) - 1) if nstart[i + 1] >= hi)

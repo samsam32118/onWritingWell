@@ -6,8 +6,8 @@
 {"doc_id": "876e69dc967f", "skip": true, "reason": "Tool walkthrough dominated by command output, plus a list of tool recommendations from Twitter."}
 {"doc_id": "9446a122a765", "skip": true, "reason": "Link roundup pointing to someone else's tutorials."}
 {"doc_id": "59c0df619730", "skip": true, "reason": "Short post that depends on before/after images and ends in a list of tool links."}
-{"doc_id": "079e074b333c", "kind": "essay", "domain": "explanation", "para_start": 1, "para_end": 39, "prompt": "I keep seeing the CAP theorem cited in distributed systems discussions and I've never felt like I really get it or know when to apply it. Write a blog post explaining what it actually says, how useful it is in practice, and what Martin Kleppmann's paper \"A Critique of the CAP Theorem\" adds to the picture."}
-{"doc_id": "079e074b333c", "kind": "passage", "domain": "explanation", "para_start": 15, "para_end": 22, "prompt": "is the CAP theorem actually a deep result? like how hard is the proof"}
+{"doc_id": "079e074b333c", "kind": "essay", "domain": "explanation", "para_start": 1, "para_end": 35, "prompt": "I keep seeing the CAP theorem cited in distributed systems discussions and I've never felt like I really get it or know when to apply it. Write a blog post explaining what it actually says, how useful it is in practice, and what Martin Kleppmann's paper \"A Critique of the CAP Theorem\" adds to the picture."}
+{"doc_id": "079e074b333c", "kind": "passage", "domain": "explanation", "para_start": 13, "para_end": 20, "prompt": "is the CAP theorem actually a deep result? like how hard is the proof"}
 {"doc_id": "c435ae283d6a", "skip": true, "reason": "Blog recommendation list; mostly links and short descriptions."}
 {"doc_id": "32b7a0d797bd", "skip": true, "reason": "Link roundup of recommended blogs."}
 {"doc_id": "7113f6d502de", "skip": true, "reason": "Mostly a collection of quoted survey responses."}
