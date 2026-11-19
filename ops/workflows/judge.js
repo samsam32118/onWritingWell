@@ -1,11 +1,14 @@
 export const meta = {
   name: 'owl-judge',
-  description: 'Pairwise-judge response chunks under the writing rubric; one agent per chunk, retry short chunks',
+  description: 'Pairwise-judge response chunks under the writing rubric, retry short chunks',
   phases: [{ title: 'Judge' }, { title: 'Retry' }],
 }
-// args: {dir: "<judging dir with chunks/ and verdicts/>", chunks: [{name: "chunk-0000", n: 30}, ...]}
-const { dir, chunks } = args
-const SCHEMA = { type: 'object', properties: { written: { type: 'integer' } }, required: ['written'] }
+// args: {dir, chunks: [{name, n}], model?: 'sonnet' | 'opus'} (see owl/judging.py write_chunks)
+// Sonnet for training-round tournaments, Opus for held-out evals and calibration.
+const { dir, chunks, model } = args
+const opts = model ? { model } : {}
+const SCHEMA = {
+    type: 'object', properties: { written: { type: 'integer' } }, required: ['written'] }
 
 function prompt(c, retry) {
   const src = `${dir}/chunks/${c.name}.txt`
@@ -23,11 +26,14 @@ Return {written: <number of verdict lines you wrote>}.`
 }
 
 phase('Judge')
-const first = await parallel(chunks.map(c => () => agent(prompt(c, false), { label: c.name, phase: 'Judge', schema: SCHEMA })))
+const first = await parallel(chunks.map(c => () =>
+    agent(prompt(c, false), { label: c.name, phase: 'Judge', schema: SCHEMA, ...opts })))
 const short = chunks.filter((c, i) => !first[i] || first[i].written < c.n)
 if (short.length) {
   log(`${short.length} chunk(s) short or failed; retrying`)
   phase('Retry')
-  await parallel(short.map(c => () => agent(prompt(c, true), { label: `${c.name} retry`, phase: 'Retry', schema: SCHEMA })))
+  await parallel(short.map(c => () => agent(prompt(c, true),
+      { label: `${c.name} retry`, phase: 'Retry', schema: SCHEMA, ...opts })))
 }
-return { chunks: chunks.length, retried: short.map(c => c.name), written: first.filter(Boolean).reduce((s, r) => s + r.written, 0) }
+const written = first.filter(Boolean).reduce((s, r) => s + r.written, 0)
+return { chunks: chunks.length, retried: short.map(c => c.name), written }

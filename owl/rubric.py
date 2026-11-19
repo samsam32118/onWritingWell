@@ -85,7 +85,3 @@ differences (quote short phrases where useful). Then give a verdict, one of: A>>
 A=B, B>A, B>>A. Use >> only when the gap would be obvious to any careful reader.
 """
 
-
-def build_judge_messages(prompt: str, a: str, b: str) -> tuple[str, str]:
-    """Return (system, user) text for one pairwise judgment."""
-    return RUBRIC, JUDGE_TASK.format(prompt=prompt, a=a, b=b)

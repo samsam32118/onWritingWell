@@ -44,9 +44,8 @@ def test_vs_judging_cancels_position(tmp_path):
     b = [{**r, "model_tag": "new", "response": "y"} for r in a]
     _write(tmp_path / "a.jsonl", a)
     _write(tmp_path / "b.jsonl", b)
-    comps = judging.prep_vs(str(tmp_path / "a.jsonl"), str(tmp_path / "b.jsonl"))
+    comps = judging.prep_vs(str(tmp_path / "a.jsonl"), str(tmp_path / "b.jsonl"), str(tmp_path / "j"))
     judging.write_chunks(comps, str(tmp_path / "j"), chunk=2)
-    (tmp_path / "j" / "tags.json").write_text(json.dumps(["base", "new"]))
     # A judge that always prefers position A is pure position bias: the result must be a tie.
     _write(tmp_path / "j" / "verdicts" / "v.jsonl", [{"cid": c["cid"], "verdict": "A>B"} for c in comps])
     res = judging.collect_vs(str(tmp_path / "j"))

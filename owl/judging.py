@@ -1,21 +1,17 @@
-"""Pairwise judging by Claude subagents (no API key): prepare chunks, collect verdicts.
+"""Pairwise judging by Claude subagents: prepare chunks, collect verdicts.
 
-Flow
-    1. prep:    samples -> comparisons -> chunk files (rubric + ~N comparisons each)
-    2. agents:  one subagent per chunk writes verdicts JSONL {cid, verdict, reason}
-    3. collect: verdicts -> win rates (eval) or DPO pairs (training rounds)
+    1. prep:    samples -> comparisons -> chunk files (rubric + ~30 comparisons each)
+    2. agents:  ops/workflows/judge.js, one subagent per chunk, writes verdicts JSONL
+    3. collect: verdicts -> win rates (vs) or DPO pairs (tournament)
 
-Position bias: every comparison randomises which response is A. In `vs` mode each pair
-is judged in both orders and the two verdicts are averaged; a pair whose two verdicts
-disagree in direction is a tie.
+Position bias: every comparison randomises which response is A, and in `vs` mode each pair
+is judged in both orders and averaged, so a judge that always picks A scores a tie.
 
-    python -m owl.judging prep vs --a FILE --b FILE --out DIR [--chunk 30]
-    python -m owl.judging prep tournament --samples FILE --out DIR [--k 4]
+    python -m owl.judging prep vs --a REF.jsonl --b NEW.jsonl --out DIR
+    python -m owl.judging prep tournament --samples S.jsonl --out DIR [--k 4]
     python -m owl.judging collect vs --dir DIR
     python -m owl.judging collect tournament --dir DIR --pairs-out pairs.jsonl
 """
-from __future__ import annotations
-
 import argparse
 import hashlib
 import itertools
@@ -28,206 +24,173 @@ from pathlib import Path
 from owl.rubric import JUDGE_TASK, RUBRIC, RUBRIC_VERSION, VERDICT_SCALE
 
 
-def _load(path) -> list[dict]:
+def load(path):
     return [json.loads(l) for l in open(path) if l.strip()]
 
 
-def _rng(*keys) -> random.Random:
-    return random.Random(int(hashlib.sha1("|".join(map(str, keys)).encode()).hexdigest()[:8], 16))
+def rng(key):
+    return random.Random(int(hashlib.sha1(key.encode()).hexdigest()[:8], 16))
 
 
-def _comparison(cid: str, prompt: str, left: dict, right: dict) -> dict:
-    return {"cid": cid, "prompt": prompt, "a": left["response"], "b": right["response"], "a_key": left["_key"], "b_key": right["_key"]}
+def keyed(r):
+    return {**r, "_key": f"{r['model_tag']}#{r['id']}#{r.get('sample_idx', 0)}"}
 
 
-def prep_vs(a_path: str, b_path: str, both_orders: bool = True) -> list[dict]:
-    """Compare model A vs model B, one sample each per prompt id."""
-    A = {r["id"]: {**r, "_key": f"{r['model_tag']}#{r['id']}#{r.get('sample_idx', 0)}"} for r in _load(a_path) if r.get("sample_idx", 0) == 0}
-    B = {r["id"]: {**r, "_key": f"{r['model_tag']}#{r['id']}#{r.get('sample_idx', 0)}"} for r in _load(b_path) if r.get("sample_idx", 0) == 0}
-    out = []
-    for pid in sorted(A.keys() & B.keys()):
-        a, b = A[pid], B[pid]
-        orders = [(a, b), (b, a)] if both_orders else [(a, b) if _rng(pid).random() < 0.5 else (b, a)]
-        for j, (l, r) in enumerate(orders):
-            out.append(_comparison(f"{pid}~{j}", a["prompt"], l, r))
-    return out
+def comparison(cid, prompt, left, right):
+    return {"cid": cid, "prompt": prompt, "a": left["response"], "b": right["response"],
+        "a_key": left["_key"], "b_key": right["_key"]}
 
 
-def prep_tournament(samples_path: str, k: int = 4, max_pairs: int | None = None) -> list[dict]:
-    """Round robin among the k samples of each prompt (one random order per pair)."""
+def prep_vs(ref_path, new_path, out_dir):
+    """Reference vs challenger, first sample of each, judged in both orders."""
+    ref = {r["id"]: keyed(r) for r in load(ref_path) if r.get("sample_idx", 0) == 0}
+    new = {r["id"]: keyed(r) for r in load(new_path) if r.get("sample_idx", 0) == 0}
+    comps = []
+    for pid in sorted(ref.keys() & new.keys()):
+        comps.append(comparison(f"{pid}~0", ref[pid]["prompt"], ref[pid], new[pid]))
+        comps.append(comparison(f"{pid}~1", ref[pid]["prompt"], new[pid], ref[pid]))
+    Path(out_dir).mkdir(parents=True, exist_ok=True)
+    tags = [next(iter(ref.values()))["model_tag"], next(iter(new.values()))["model_tag"]]
+    Path(out_dir, "tags.json").write_text(json.dumps(tags))
+    return comps
+
+
+def prep_tournament(samples_path, k=4):
+    """Round robin among the first k untruncated samples of each prompt, one random order
+    per pair. Truncated answers lose automatically, so no judging is spent on them."""
     by_id = defaultdict(list)
-    for r in _load(samples_path):
-        if r.get("finish_reason", "stop") != "stop":
-            continue  # truncated answers lose automatically; don't spend judging on them
-        by_id[r["id"]].append({**r, "_key": f"{r['model_tag']}#{r['id']}#{r['sample_idx']}"})
-    out = []
+    for r in load(samples_path):
+        if r.get("finish_reason", "stop") == "stop":
+            by_id[r["id"]].append(keyed(r))
+    comps = []
     for pid, rs in sorted(by_id.items()):
-        rs = rs[:k]
-        pairs = list(itertools.combinations(rs, 2))
-        rng = _rng(pid)
-        rng.shuffle(pairs)
-        for j, (x, y) in enumerate(pairs[:max_pairs]):
-            l, r = (x, y) if rng.random() < 0.5 else (y, x)
-            out.append(_comparison(f"{pid}~{j}", x["prompt"], l, r))
-    return out
+        g = rng(pid)
+        pairs = list(itertools.combinations(rs[:k], 2))
+        g.shuffle(pairs)
+        for j, (x, y) in enumerate(pairs):
+            l, r = (x, y) if g.random() < 0.5 else (y, x)
+            comps.append(comparison(f"{pid}~{j}", x["prompt"], l, r))
+    return comps
 
 
-def write_chunks(comps: list[dict], out_dir: str, chunk: int = 30) -> list[str]:
+def write_chunks(comps, out_dir, chunk=30):
     d = Path(out_dir)
     (d / "chunks").mkdir(parents=True, exist_ok=True)
     (d / "verdicts").mkdir(exist_ok=True)
-    with open(d / "comparisons.jsonl", "w") as f:
-        for c in comps:
-            f.write(json.dumps(c, ensure_ascii=False) + "\n")
-    paths = []
+    (d / "comparisons.jsonl").write_text(
+        "".join(json.dumps(c, ensure_ascii=False) + "\n" for c in comps))
+    task = JUDGE_TASK.rsplit("\nCompare A and B", 1)[0]
+    chunks = []
     for i in range(0, len(comps), chunk):
-        part = comps[i : i + chunk]
-        body = [f"RUBRIC ({RUBRIC_VERSION})\n\n{RUBRIC}\n\n" + "=" * 80]
-        for c in part:
-            body.append(f"\n\n######## COMPARISON cid={c['cid']}\n\n" + JUDGE_TASK.format(prompt=c["prompt"], a=c["a"], b=c["b"]).rsplit("\nCompare A and B", 1)[0])
-        p = d / "chunks" / f"chunk-{i // chunk:04d}.txt"
-        p.write_text("\n".join(body))
-        paths.append(str(p))
-    # Args for ops/workflows/judge.js
-    (d / "workflow_args.json").write_text(json.dumps({"dir": str(d.resolve()), "chunks": [{"name": Path(p).stem, "n": min(chunk, len(comps) - i * chunk)} for i, p in enumerate(paths)]}))
-    return paths
+        part = comps[i:i + chunk]
+        name = f"chunk-{i // chunk:04d}"
+        (d / "chunks" / f"{name}.txt").write_text(
+            f"RUBRIC ({RUBRIC_VERSION})\n\n{RUBRIC}\n\n" + "=" * 80 + "".join(
+                f"\n\n######## COMPARISON cid={c['cid']}\n\n"
+                + task.format(prompt=c["prompt"], a=c["a"], b=c["b"]) for c in part))
+        chunks.append({"name": name, "n": len(part)})
+    (d / "workflow_args.json").write_text(json.dumps({"dir": str(d.resolve()),
+        "chunks": chunks}))
+    return chunks
 
 
-def _verdicts(d: Path) -> dict[str, dict]:
+def verdicts(d):
+    """Valid verdicts by cid; malformed lines from an agent are ignored and re-judged."""
     out = {}
-    for p in sorted((d / "verdicts").glob("*.jsonl")):
+    for p in sorted(Path(d, "verdicts").glob("*.jsonl")):
         for line in open(p):
-            line = line.strip()
-            if not line:
-                continue
             try:
                 v = json.loads(line)
             except json.JSONDecodeError:
                 continue
-            if v.get("verdict") in VERDICT_SCALE:
+            if isinstance(v, dict) and v.get("verdict") in VERDICT_SCALE:
                 out[v["cid"]] = v
     return out
 
 
-def missing(out_dir: str) -> list[str]:
+def collect_vs(out_dir):
+    """Win rate of the challenger (second tag) against the reference, overall and by the
+    domain prefix of the prompt id."""
     d = Path(out_dir)
-    have = _verdicts(d)
-    return [c["cid"] for c in _load(d / "comparisons.jsonl") if c["cid"] not in have]
-
-
-def collect_vs(out_dir: str) -> dict:
-    """Win rate of the model in file --b (challenger) against --a (reference), per domain."""
-    d = Path(out_dir)
-    comps = {c["cid"]: c for c in _load(d / "comparisons.jsonl")}
-    vs = _verdicts(d)
-    per_pair = defaultdict(list)
-    tags = set()
-    for cid, c in comps.items():
-        if cid not in vs:
-            continue
-        s = VERDICT_SCALE[vs[cid]["verdict"]]  # score for whichever response was shown as A
-        a_tag = c["a_key"].split("#")[0]
-        tags |= {a_tag, c["b_key"].split("#")[0]}
-        per_pair[cid.split("~")[0]].append((a_tag, s))
-    tags = sorted(tags)
-    ref = _load_tag_order(d) or tags
-    challenger = ref[1] if len(ref) > 1 else tags[-1]
-    scores, consistent = {}, 0
-    for pid, items in per_pair.items():
-        ss = [s if t == challenger else 1 - s for t, s in items]
-        scores[pid] = statistics.fmean(ss)
-        if len(ss) == 2 and (ss[0] - 0.5) * (ss[1] - 0.5) >= 0:
-            consistent += 1
+    challenger = json.loads((d / "tags.json").read_text())[1]
+    comps = load(d / "comparisons.jsonl")
+    vs = verdicts(d)
+    per_pid = defaultdict(list)
+    for c in comps:
+        if c["cid"] in vs:
+            s = VERDICT_SCALE[vs[c["cid"]]["verdict"]]
+            per_pid[c["cid"].split("~")[0]].append(
+                s if c["a_key"].startswith(challenger + "#") else 1 - s)
+    scores = {pid: statistics.fmean(ss) for pid, ss in per_pid.items()}
+    both = [ss for ss in per_pid.values() if len(ss) == 2]
     by_dom = defaultdict(list)
     for pid, s in scores.items():
-        by_dom[pid.split("-")[0] if "-" in pid else "all"].append(s)
-    return {
-        "challenger": challenger,
-        "judged_prompts": len(scores),
+        by_dom[pid.split("-")[0]].append(s)
+    return {"challenger": challenger, "judged_prompts": len(scores),
         "win_rate": round(statistics.fmean(scores.values()), 4) if scores else None,
         "strict_wins": sum(s > 0.5 for s in scores.values()),
         "ties": sum(s == 0.5 for s in scores.values()),
         "losses": sum(s < 0.5 for s in scores.values()),
-        "order_consistency": round(consistent / max(sum(len(v) == 2 for v in per_pair.values()), 1), 3),
-        "missing": len(comps) - len(vs),
-        "by_domain": {k: {"n": len(v), "win_rate": round(statistics.fmean(v), 4)} for k, v in sorted(by_dom.items())},
-    }
+        # Both orders agree on direction: a measure of how much position swayed the judge.
+        "order_consistency": round(sum((a - .5) * (b - .5) > 0 for a, b in both)
+            / max(len(both), 1), 3),
+        "missing": len(comps) - sum(c["cid"] in vs for c in comps),
+        "by_domain": {k: {"n": len(v), "win_rate": round(statistics.fmean(v), 4)}
+            for k, v in sorted(by_dom.items())}}
 
 
-def _load_tag_order(d: Path):
-    p = d / "tags.json"
-    return json.loads(p.read_text()) if p.exists() else None
-
-
-def collect_tournament(out_dir: str, pairs_out: str | None, min_margin: float = 0.34) -> dict:
+def collect_tournament(out_dir, pairs_out, min_margin=0.34):
     """Score each sample by mean preference; emit (best, worst) pairs with a clear margin."""
     d = Path(out_dir)
-    comps = _load(d / "comparisons.jsonl")
-    vs = _verdicts(d)
-    pts = defaultdict(list)
-    text = {}
-    prompts = {}
+    comps = load(d / "comparisons.jsonl")
+    vs = verdicts(d)
+    pts, text, prompts = defaultdict(list), {}, {}
     for c in comps:
-        v = vs.get(c["cid"])
-        text[c["a_key"]], text[c["b_key"]] = c["a"], c["b"]
         pid = c["cid"].split("~")[0]
-        prompts[pid] = c["prompt"]
-        if not v:
-            continue
-        s = VERDICT_SCALE[v["verdict"]]
-        pts[(pid, c["a_key"])].append(s)
-        pts[(pid, c["b_key"])].append(1 - s)
+        text[c["a_key"]], text[c["b_key"]], prompts[pid] = c["a"], c["b"], c["prompt"]
+        if c["cid"] in vs:
+            s = VERDICT_SCALE[vs[c["cid"]]["verdict"]]
+            pts[pid, c["a_key"]].append(s)
+            pts[pid, c["b_key"]].append(1 - s)
     by_pid = defaultdict(list)
     for (pid, key), ss in pts.items():
         by_pid[pid].append((statistics.fmean(ss), key))
     pairs = []
     for pid, scored in by_pid.items():
-        scored.sort()
-        (lo, lk), (hi, hk) = scored[0], scored[-1]
+        (lo, lk), (hi, hk) = min(scored), max(scored)
         if hi - lo >= min_margin:
-            pairs.append({"id": pid, "prompt": prompts[pid], "chosen": text[hk], "rejected": text[lk], "margin": round(hi - lo, 3)})
-    if pairs_out:
-        with open(pairs_out, "w") as f:
-            for p in pairs:
-                f.write(json.dumps(p, ensure_ascii=False) + "\n")
-    lens_c = [len(p["chosen"].split()) for p in pairs]
-    lens_r = [len(p["rejected"].split()) for p in pairs]
-    return {
-        "prompts_scored": len(by_pid),
-        "pairs": len(pairs),
-        "missing_verdicts": len(comps) - sum(c["cid"] in vs for c in comps),
-        "chosen_words_mean": round(statistics.fmean(lens_c), 1) if lens_c else None,
-        "rejected_words_mean": round(statistics.fmean(lens_r), 1) if lens_r else None,
-        # If chosen is systematically longer, the judge may be rewarding length: watch this.
-        "chosen_longer_frac": round(sum(c > r for c, r in zip(lens_c, lens_r)) / max(len(pairs), 1), 3),
-    }
-
-
-def main(argv=None):
-    ap = argparse.ArgumentParser()
-    ap.add_argument("cmd", choices=["prep", "collect", "missing"])
-    ap.add_argument("mode", choices=["vs", "tournament"], nargs="?")
-    ap.add_argument("--a"); ap.add_argument("--b"); ap.add_argument("--samples")
-    ap.add_argument("--out"); ap.add_argument("--dir")
-    ap.add_argument("--k", type=int, default=4)
-    ap.add_argument("--max-pairs", type=int, default=None)
-    ap.add_argument("--chunk", type=int, default=30)
-    ap.add_argument("--pairs-out")
-    ap.add_argument("--min-margin", type=float, default=0.34)
-    a = ap.parse_args(argv)
-    if a.cmd == "prep":
-        comps = prep_vs(a.a, a.b) if a.mode == "vs" else prep_tournament(a.samples, a.k, a.max_pairs)
-        paths = write_chunks(comps, a.out, a.chunk)
-        if a.mode == "vs":
-            ta, tb = _load(a.a)[0]["model_tag"], _load(a.b)[0]["model_tag"]
-            Path(a.out, "tags.json").write_text(json.dumps([ta, tb]))
-        print(json.dumps({"comparisons": len(comps), "chunks": len(paths)}))
-    elif a.cmd == "missing":
-        print(json.dumps(missing(a.dir)))
-    else:
-        res = collect_vs(a.dir) if a.mode == "vs" else collect_tournament(a.dir, a.pairs_out, a.min_margin)
-        print(json.dumps(res, indent=1))
+            pairs.append({"id": pid, "prompt": prompts[pid], "chosen": text[hk],
+                "rejected": text[lk], "margin": round(hi - lo, 3)})
+    Path(pairs_out).write_text("".join(json.dumps(p, ensure_ascii=False) + "\n" for p in pairs))
+    lc = [len(p["chosen"].split()) for p in pairs]
+    lr = [len(p["rejected"].split()) for p in pairs]
+    return {"prompts_scored": len(by_pid), "pairs": len(pairs),
+        "missing": len(comps) - sum(c["cid"] in vs for c in comps),
+        "chosen_words_mean": round(statistics.fmean(lc), 1) if lc else None,
+        "rejected_words_mean": round(statistics.fmean(lr), 1) if lr else None,
+        # If chosen is systematically longer, the judge may be rewarding length.
+        "chosen_longer_frac": round(sum(c > r for c, r in zip(lc, lr)) / max(len(pairs), 1), 3)}
 
 
 if __name__ == "__main__":
-    main()
+    ap = argparse.ArgumentParser()
+    ap.add_argument("cmd", choices=["prep", "collect"])
+    ap.add_argument("mode", choices=["vs", "tournament"])
+    ap.add_argument("--a")
+    ap.add_argument("--b")
+    ap.add_argument("--samples")
+    ap.add_argument("--out")
+    ap.add_argument("--dir")
+    ap.add_argument("--k", type=int, default=4)
+    ap.add_argument("--chunk", type=int, default=30)
+    ap.add_argument("--pairs-out")
+    ap.add_argument("--min-margin", type=float, default=0.34)
+    a = ap.parse_args()
+    if a.cmd == "prep":
+        comps = prep_vs(a.a, a.b, a.out) if a.mode == "vs" else prep_tournament(a.samples, a.k)
+        chunks = write_chunks(comps, a.out, a.chunk)
+        print(json.dumps({"comparisons": len(comps), "chunks": len(chunks)}))
+    elif a.mode == "vs":
+        print(json.dumps(collect_vs(a.dir), indent=1))
+    else:
+        print(json.dumps(collect_tournament(a.dir, a.pairs_out, a.min_margin), indent=1))
