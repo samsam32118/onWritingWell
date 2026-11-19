@@ -1,0 +1,11 @@
+{"doc_id": "20907509a51c", "skip": true, "reason": "Depends on a map image and a prior book review; short topical link-style post."}
+{"doc_id": "724321584648", "kind": "essay", "domain": "essay", "para_start": 0, "para_end": 33, "prompt": "I'm a non-technical person who just got invited to a big conference on the risks and benefits of AI, full of researchers, economists and philosophers. Write up your impressions of what such a gathering is actually like and what ideas people are chewing on, as a loose, honest blog post."}
+{"doc_id": "724321584648", "kind": "passage", "domain": "explanation", "para_start": 15, "para_end": 19, "prompt": "what is inverse reinforcement learning, and why do some AI safety people think it (or letting an AI be uncertain about its reward) could help with alignment?"}
+{"doc_id": "bdf255571077", "skip": true, "reason": "Time-bound guest post and donation appeal tied to a specific 2017 news event."}
+{"doc_id": "0e61a938ae88", "kind": "passage", "domain": "explanation", "para_start": 42, "para_end": 43, "prompt": "How did Denmark manage to protect most of its Jews from the Nazis when it was under German control anyway? I thought small occupied countries had no real choice."}
+{"doc_id": "afb6e44373f0", "skip": true, "reason": "Sponsor blurbs only, no essay content."}
+{"doc_id": "324daae515a2", "skip": true, "reason": "Topical, dated rebuttal that leans on earlier posts and news of the week."}
+{"doc_id": "cb18e91c6b37", "skip": true, "reason": "Link post made mostly of long quotes from another author."}
+{"doc_id": "74f01d7c30fd", "skip": true, "reason": "Dated speculation about 2017 political appointments; would teach stale facts."}
+{"doc_id": "cb53b66d4bba", "skip": true, "reason": "Followup depending on prior posts and an article we cannot see; short report of a bet."}
+{"doc_id": "f4025d843957", "kind": "essay", "domain": "essay", "para_start": 0, "para_end": 23, "prompt": "A big news site just ran a takedown of a hyped psychology theory, and it reads as very convincing. You think the theory may well be wrong, but you're uneasy about the article. Write a blog post on what makes a debunking trustworthy and where this one falls short."}
