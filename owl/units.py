@@ -165,6 +165,9 @@ def remap(a):
             if u.get("skip"):
                 out.append(u)
                 continue
+            if u["doc_id"] not in old:
+                out.append(u)  # not part of this re-extraction
+                continue
             ostart, nstart = spans.get(u["doc_id"], ([], []))
             if u["para_end"] >= len(ostart) or not ostart[u["para_start"]] \
                     or not ostart[u["para_end"]]:
