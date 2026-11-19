@@ -38,7 +38,10 @@ def span_text(doc: dict, start: int, end: int) -> str:
         if NOTES_HEADING.match(p.strip()):
             break
         out.append(p)
-    return "\n\n".join(out).strip()
+    text = "\n\n".join(out).strip()
+    # Footnote markers ("[1]", "[2, 3]") make sense on a web page, not in a chat reply.
+    text = re.sub(r"\s?\[\d+(,\s*\d+)*\]", "", text)
+    return text
 
 
 def load_jsonl(path: str | Path) -> list[dict]:

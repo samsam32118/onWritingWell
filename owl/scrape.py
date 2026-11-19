@@ -101,17 +101,25 @@ def _links(fetcher: Fetcher, page: str) -> list[str]:
     return out
 
 
-def _substack_posts(fetcher: Fetcher, host: str, max_posts: int = 2000) -> list[str]:
+def _substack_posts(fetcher: Fetcher, host: str, max_posts: int = 3000) -> list[str]:
+    """Public, free newsletter posts via Substack's archive API.
+
+    The API pages with an opaque `nextCursor` (offset is rejected) and caps `limit` at 25.
+    Older publications still answer the list-shaped, offset-paged form, so both are handled.
+    """
     urls: list[str] = []
-    offset = 0
-    while offset < max_posts:
-        q = f"&offset={offset}" if offset else ""
-        r = fetcher.get(f"https://{host}/api/v1/archive?sort=new&limit=50{q}")
+    cursor, offset = None, 0
+    while len(urls) < max_posts:
+        q = f"&cursor={cursor}" if cursor else (f"&offset={offset}" if offset else "")
+        r = fetcher.get(f"https://{host}/api/v1/archive?sort=new&limit=25{q}")
         if r is None:
             break
-        batch = r.json()
-        if isinstance(batch, dict):  # newer API wraps the list
-            batch = batch.get("posts", [])
+        data = r.json()
+        if isinstance(data, dict):
+            batch, cursor = data.get("posts", []), data.get("nextCursor")
+        else:
+            batch, cursor = data, None
+            offset += len(batch)
         if not batch:
             break
         for p in batch:
@@ -121,7 +129,8 @@ def _substack_posts(fetcher: Fetcher, host: str, max_posts: int = 2000) -> list[
                 continue  # skip podcasts/threads
             if p.get("canonical_url"):
                 urls.append(p["canonical_url"].split("?")[0])
-        offset += len(batch)
+        if isinstance(data, dict) and not cursor:
+            break
         time.sleep(fetcher.delay)
     return urls
 
@@ -154,7 +163,21 @@ def discover(fetcher: Fetcher, src: dict) -> list[str]:
     return out
 
 
-def extract(html: str) -> tuple[str, str]:
+def _prepare_html(raw: bytes | str) -> str:
+    """Decode with BeautifulSoup's charset sniffing and unwrap inline tags.
+
+    Old hand-written pages (paulgraham.com) are served without a charset, so httpx mis-decodes
+    their em dashes; and trafilatura splits a paragraph wherever a link wraps a <u> or <font>.
+    Unwrapping keeps the text and removes the tag.
+    """
+    soup = BeautifulSoup(raw, "lxml")
+    for tag in soup.find_all(["a", "u", "font", "span"]):
+        tag.unwrap()
+    return str(soup)
+
+
+def extract(raw: bytes | str) -> tuple[str, str]:
+    html = _prepare_html(raw)
     meta = trafilatura.extract_metadata(html)
     title = (meta.title if meta else "") or ""
     body = trafilatura.extract(
@@ -173,7 +196,7 @@ def fetch_doc(fetcher: Fetcher, source: str, url: str) -> dict | None:
     r = fetcher.get(url)
     if r is None:
         return None
-    title, text = extract(r.text)
+    title, text = extract(r.content)
     if not text:
         return None
     return {
