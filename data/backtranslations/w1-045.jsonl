@@ -1,0 +1,7 @@
+{"doc_id": "02cb002178f7", "kind": "passage", "domain": "explanation", "para_start": 141, "para_end": 141, "prompt": "What is a custodian in finance, actually? Like what do they do and who pays them?"}
+{"doc_id": "02cb002178f7", "kind": "passage", "domain": "conversation", "para_start": 120, "para_end": 122, "prompt": "Why do newspapers seem so skittish about criticizing big banks or companies? Is it just about advertisers?"}
+{"doc_id": "4a49bf616bcb", "skip": true, "reason": "Time-bound analysis of a specific November 2022 Tether attestation; depends on dated figures and news, little that stands alone."}
+{"doc_id": "6bf3df24c7ae", "skip": true, "reason": "Time-bound analysis of a May 2022 Tether attestation with references to a chart we can't see; dated figures, no self-contained passages."}
+{"doc_id": "fe785b903649", "kind": "passage", "domain": "explanation", "para_start": 6, "para_end": 8, "prompt": "what does 'gacha game' mean and why is that monetization model so effective?"}
+{"doc_id": "6480aafb0db7", "kind": "passage", "domain": "conversation", "para_start": 9, "para_end": 15, "prompt": "You started VaccinateCA as a volunteer project in early 2021 when nobody could figure out where to get a covid shot. How did it actually get going, and what was the key idea that made it work?"}
+{"doc_id": "6480aafb0db7", "kind": "passage", "domain": "conversation", "para_start": 35, "para_end": 39, "prompt": "You spent 2021 running a volunteer vaccine-finder site. Why couldn't the government just build one good site telling people where to get vaccinated?"}
