@@ -210,7 +210,9 @@ def generate(job, args):
         "--tag", args.get("tag", args["model"]), "--n", str(args.get("n", 1)),
         "--temperature", str(args.get("temperature", 0.8)),
         "--max-tokens", str(args.get("max_tokens", 4096)), "--tp", str(args.get("tp", 1))]
-    run(cmd + (["--limit", str(args["limit"])] if args.get("limit") else []),
+    cmd += ["--limit", str(args["limit"])] if args.get("limit") else []
+    cmd += ["--system", path(args["system"])] if args.get("system") else []
+    run(cmd,
         rd / "generate.log")
     rows = [json.loads(l) for l in open(out)]
     if args.get("private"):

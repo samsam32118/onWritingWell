@@ -1,0 +1,10 @@
+# Baselines on the held-out eval prompts:
+#   base         Qwen3.8-27B as shipped (2 samples, so the labeling page has base-vs-base pairs)
+#   base_styled  the same model told how to write well (the prompting baseline to beat)
+#   capability   maths/code/logic answers, to detect regressions later
+id: 001-baseline
+steps:
+  - download_base: {}
+  - - generate: {model: base, prompts: data/prompts/eval.jsonl, n: 2, tag: base, out: eval_base.jsonl}
+    - generate: {model: base, prompts: data/prompts/eval.jsonl, tag: base_styled, out: eval_base_styled.jsonl, system: configs/style_system_prompt.txt}
+    - generate: {model: base, prompts: data/eval/capability_prompts.jsonl, tag: base, out: cap_base.jsonl, temperature: 0.2}

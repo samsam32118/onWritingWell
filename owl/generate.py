@@ -22,6 +22,7 @@ ap.add_argument("--max-tokens", type=int, default=4096)
 ap.add_argument("--tp", type=int, default=1)
 ap.add_argument("--max-model-len", type=int, default=12288)
 ap.add_argument("--limit", type=int, default=None)
+ap.add_argument("--system", default=None, help="file with a system prompt (prompting baseline)")
 a = ap.parse_args()
 
 rows = [json.loads(l) for l in open(a.prompts) if l.strip()][:a.limit]
@@ -31,7 +32,8 @@ llm = LLM(model=a.model, tensor_parallel_size=a.tp, max_model_len=a.max_model_le
     enable_prefix_caching=True)
 sp = SamplingParams(n=a.n, temperature=a.temperature, top_p=a.top_p, top_k=20,
     max_tokens=a.max_tokens, seed=0)
-outs = llm.chat([[{"role": "user", "content": r["prompt"]}] for r in rows], sp,
+system = [{"role": "system", "content": open(a.system).read()}] if a.system else []
+outs = llm.chat([system + [{"role": "user", "content": r["prompt"]}] for r in rows], sp,
     chat_template_kwargs={"enable_thinking": False}, use_tqdm=True)
 with open(a.out, "w") as f:
     for r, o in zip(rows, outs):
