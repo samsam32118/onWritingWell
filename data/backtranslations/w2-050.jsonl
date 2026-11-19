@@ -1,0 +1,11 @@
+{"doc_id": "b91b16db031f", "skip": true, "reason": "Contest results report built around charts, winner lists and names; not a self-contained essay."}
+{"doc_id": "102ff33ebc6b", "skip": true, "reason": "Short post that depends on charts we cannot see."}
+{"doc_id": "2b68d56e16f9", "skip": true, "reason": "Survey data dump with lists of numbers."}
+{"doc_id": "676e1a293b35", "kind": "essay", "domain": "essay", "para_start": 1, "para_end": 28, "prompt": "Why do people believe in conspiracy theories? I'm not satisfied with 'they're stupid and hateful.' Write an essay that tries to break the phenomenon into smaller cognitive and emotional parts, the way you'd ask what kind of mistakes would make an AI believe them."}
+{"doc_id": "676e1a293b35", "kind": "passage", "domain": "explanation", "para_start": 15, "para_end": 17, "prompt": "is there a sense in which emotions work like a bias on how we process information? like anxiety vs depression vs anger"}
+{"doc_id": "0421cc02defa", "skip": true, "reason": "Depends on figures and a specific 2022 paper's results; dated and chart-reliant."}
+{"doc_id": "0421cc02defa", "kind": "passage", "domain": "explanation", "para_start": 62, "para_end": 65, "prompt": "Why is it so hard to train an AI to actually want what you intend? Give me a concrete example of how training goes subtly wrong."}
+{"doc_id": "ddd5ac3a8f82", "skip": true, "reason": "Follow-up to an earlier post, a long series of dated examples and commenter rebuttals."}
+{"doc_id": "f8bd5da396a5", "kind": "essay", "domain": "essay", "para_start": 0, "para_end": 9, "prompt": "Whenever someone runs an amateur online survey, the comments fill up with 'selection bias!' as if that settles it. Write a short, sharp piece on whether that objection is actually fair, and when selection bias really matters."}
+{"doc_id": "f8bd5da396a5", "kind": "passage", "domain": "explanation", "para_start": 4, "para_end": 5, "prompt": "when does selection bias actually ruin a study, and when is it basically fine? like polls vs testing a correlation"}
+{"doc_id": "17f6b982b43c", "skip": true, "reason": "Time-bound ChatGPT-launch commentary that relies on embedded screenshots."}

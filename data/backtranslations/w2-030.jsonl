@@ -1,0 +1,6 @@
+{"doc_id": "842d69f3defe", "skip": true, "reason": "Point-by-point rebuttal of another writer's article; depends on quoted passages and context."}
+{"doc_id": "67e5a79efb80", "skip": true, "reason": "Mostly quoted reader comments and book excerpts responding to an earlier review."}
+{"doc_id": "a8c2de0230ed", "skip": true, "reason": "Contest announcement with a list of book titles."}
+{"doc_id": "863b6eea3b96", "kind": "essay", "domain": "essay", "para_start": 1, "para_end": 66, "prompt": "Most people can't remember much of what they supposedly learned in school. I'm curious what that implies about whether school does any good. Write an essay working through it from first principles, using whatever evidence on memory and knowledge you think is relevant."}
+{"doc_id": "d42491ccfb43", "kind": "passage", "domain": "explanation", "para_start": 4, "para_end": 5, "prompt": "I keep hearing about Internal Family Systems therapy. How is it actually supposed to work?"}
+{"doc_id": "d42491ccfb43", "kind": "passage", "domain": "conversation", "para_start": 57, "para_end": 61, "prompt": "Is it plausible that how people experience their own minds, like hearing a voice in your head as 'part of you' versus a god or a demon, is shaped by culture and what therapists tell them? What does the multiple personality panic of the 1980s tell us?"}
