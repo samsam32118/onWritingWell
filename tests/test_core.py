@@ -63,3 +63,21 @@ def test_tournament_pairs(tmp_path):
     res = judging.collect_tournament(str(tmp_path / "t"), str(tmp_path / "pairs.jsonl"))
     pair = json.loads(open(tmp_path / "pairs.jsonl").readline())
     assert res["pairs"] == 1 and pair["chosen"] == "r3" and pair["rejected"] == "r0"
+
+
+def test_remap_merges_split_paragraphs(tmp_path):
+    old = {"doc_id": "d", "text": "Intro.\n\nThis is\n\nless\n\nimportant.\n\nEnd here."}
+    new = {"doc_id": "d", "text": "Intro.\n\nThis is *less* important.\n\nEnd here."}
+    (tmp_path / "old.jsonl").write_text(json.dumps(old) + "\n")
+    (tmp_path / "new.jsonl").write_text(json.dumps(new) + "\n")
+    (tmp_path / "u").mkdir()
+    units_rows = [{"doc_id": "d", "kind": "passage", "domain": "essay", "para_start": 1,
+        "para_end": 4, "prompt": "p"}, {"doc_id": "d", "kind": "passage", "domain": "essay",
+        "para_start": 2, "para_end": 2, "prompt": "q"}]
+    (tmp_path / "u" / "a.jsonl").write_text("".join(json.dumps(r) + "\n" for r in units_rows))
+    import argparse
+    units.remap(argparse.Namespace(corpus=str(tmp_path / "old.jsonl"), new=str(tmp_path / "new.jsonl"),
+        units=str(tmp_path / "u")))
+    rows = [json.loads(l) for l in open(tmp_path / "u" / "a.jsonl")]
+    # the first span maps cleanly to new paragraphs 1-2; the one-word fragment span is dropped
+    assert [(r["para_start"], r["para_end"]) for r in rows] == [(1, 2)]

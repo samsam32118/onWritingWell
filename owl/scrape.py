@@ -62,7 +62,21 @@ def clean_text(raw):
     raw = re.sub(r"</?(sup|sub|span|small)[^>]*>", "", raw.replace("\r", ""))
     raw = re.sub(r"\\([\[\]\*_#`~|>-])", r"\1", raw)
     raw = re.sub(r"\s*\[return\]", "", raw).replace("↩", "")
-    paras = [l.strip() for l in raw.split("\n") if l.strip() and not JUNK_LINE.match(l.strip())]
+    paras, code = [], None
+    for line in raw.split("\n"):
+        if line.strip().startswith("```"):
+            # A fenced code block stays one paragraph with its line breaks.
+            if code is None:
+                code = [line.strip()]
+                continue
+            paras.append("\n".join(code + [line.strip()]))
+            code = None
+        elif code is not None:
+            # blank lines inside code would read as paragraph breaks downstream
+            code += [line.rstrip()] if line.strip() else []
+        elif line.strip() and not JUNK_LINE.match(line.strip()):
+            paras.append(line.strip())
+    paras += ["\n".join(code)] if code else []
     # trafilatura splits "Thanks / to X for reading drafts of this." across lines
     while paras and re.search(r"(reading drafts|translation)\b", paras[-1], re.I):
         paras.pop()
@@ -76,10 +90,17 @@ def fetch_doc(source, url):
     if r is None:
         return None
     # Let BeautifulSoup sniff the charset (paulgraham.com sends none, so httpx garbles em
-    # dashes) and unwrap inline tags (trafilatura splits a paragraph at a link around <u>).
+    # dashes). trafilatura starts a new paragraph at inline tags and at source line breaks,
+    # so unwrap inline tags, keep italics as *markdown*, and turn hard wraps into spaces.
     soup = BeautifulSoup(r.content, "lxml")
-    for tag in soup.find_all(["a", "u", "font", "span"]):
+    for tag in soup.find_all(["a", "u", "font", "span", "b", "strong"]):
         tag.unwrap()
+    for tag in soup.find_all(["i", "em"]):
+        text = tag.get_text()
+        tag.replace_with(f"*{text.strip()}*" if text.strip() else text)
+    for s in soup.find_all(string=True):
+        if "\n" in s and s.parent.name not in ("pre", "code", "script", "style"):
+            s.replace_with(re.sub(r"\s*\n\s*", " ", s))
     html = str(soup)
     meta = trafilatura.extract_metadata(html)
     text = clean_text(trafilatura.extract(html, include_comments=False, include_tables=False,

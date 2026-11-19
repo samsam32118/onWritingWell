@@ -8,6 +8,7 @@ Modal joins them with the corpus in modal_app.build_sft.
 
     python -m owl.units prep CORPUS OUTDIR [--only src,...]   numbered docs + batch lists
     python -m owl.units manifest CORPUS                      validate units, write manifest
+    python -m owl.units remap OLD_CORPUS --new NEW_CORPUS    move spans to re-extracted text
 """
 import argparse
 import hashlib
@@ -133,14 +134,63 @@ def manifest(a):
         print("BAD", u.get("doc_id"), u.get("para_start"), u.get("para_end"), e)
 
 
+def remap(a):
+    """Rewrite unit spans in place after re-extraction changed paragraph splitting.
+
+    Paragraphs are aligned on their alphanumeric characters (formatting and spacing may
+    differ). A span keeps the new paragraphs that cover it; if covering them adds more than
+    15% text the unit is dropped, since its boundary fell inside a real paragraph."""
+    norm = lambda t: re.sub(r"[^0-9a-z]", "", t.lower())
+    old = {d["doc_id"]: d for d in map(json.loads, open(a.corpus))}
+    new = {d["doc_id"]: d for d in map(json.loads, open(a.new))}
+    spans = {}
+    for doc_id in old.keys() & new.keys():
+        stream = "".join(map(norm, paragraphs(new[doc_id]["text"])))
+        nstart = [0]
+        for p in paragraphs(new[doc_id]["text"]):
+            nstart.append(nstart[-1] + len(norm(p)))
+        ostart, cur = [], 0
+        for p in paragraphs(old[doc_id]["text"]):
+            at = stream.find(norm(p), cur)
+            if at < 0:
+                break
+            ostart.append((at, at + len(norm(p))))
+            cur = at + len(norm(p))
+        else:
+            spans[doc_id] = (ostart, nstart)
+    stats = Counter()
+    for f in sorted(Path(a.units).glob("*.jsonl")):
+        out = []
+        for u in map(json.loads, open(f)):
+            if u.get("skip"):
+                out.append(u)
+                continue
+            if u["doc_id"] not in spans or u["para_end"] >= len(spans[u["doc_id"]][0]):
+                stats["unmappable"] += 1
+                continue
+            ostart, nstart = spans[u["doc_id"]]
+            lo, hi = ostart[u["para_start"]][0], ostart[u["para_end"]][1]
+            s = max(i for i in range(len(nstart) - 1) if nstart[i] <= lo)
+            e = min(i for i in range(len(nstart) - 1) if nstart[i + 1] >= hi)
+            extra = (nstart[e + 1] - nstart[s]) - (hi - lo)
+            if extra > 0.15 * max(hi - lo, 1):
+                stats["dropped_boundary"] += 1
+                continue
+            stats["clean" if extra == 0 else "widened"] += 1
+            out.append({**u, "para_start": s, "para_end": e})
+        f.write_text("".join(json.dumps(u, ensure_ascii=False) + "\n" for u in out))
+    print(json.dumps(stats))
+
+
 if __name__ == "__main__":
     ap = argparse.ArgumentParser()
-    ap.add_argument("cmd", choices=["prep", "manifest"])
+    ap.add_argument("cmd", choices=["prep", "manifest", "remap"])
     ap.add_argument("corpus")
     ap.add_argument("outdir", nargs="?")
     ap.add_argument("--units", default="data/backtranslations")
     ap.add_argument("--only", default="")
     ap.add_argument("--tag", default="w")
     ap.add_argument("--batch-words", type=int, default=20000)
+    ap.add_argument("--new")
     a = ap.parse_args()
-    {"prep": prep, "manifest": manifest}[a.cmd](a)
+    {"prep": prep, "manifest": manifest, "remap": remap}[a.cmd](a)
