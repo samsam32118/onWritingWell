@@ -1,0 +1,10 @@
+{"doc_id": "e43a718daead", "skip": true, "reason": "Argument leans on many charts and graphs we cannot see, and the 2018 labor data is dated."}
+{"doc_id": "5cd24c640792", "skip": true, "reason": "List of dated probabilistic predictions for 2018-2023."}
+{"doc_id": "dfb33e691384", "skip": true, "reason": "List of hostile quotes about the blog; no developed prose."}
+{"doc_id": "53d556ddd2b5", "skip": true, "reason": "Anniversary thank-you list and announcements."}
+{"doc_id": "67740560b48a", "skip": true, "reason": "List of numbered predictions."}
+{"doc_id": "47b610c5d899", "kind": "essay", "domain": "essay", "para_start": 0, "para_end": 10, "prompt": "Is the placebo effect actually real? I keep hearing it's one of the most powerful forces in medicine, but I've also seen claims that it's overblown. Write up what the evidence really says and how you'd make sense of it."}
+{"doc_id": "47b610c5d899", "kind": "passage", "domain": "explanation", "para_start": 0, "para_end": 2, "prompt": "ok but does the placebo effect actually exist? like what do the big studies say"}
+{"doc_id": "d1ca429f9c12", "kind": "essay", "domain": "essay", "para_start": 0, "para_end": 25, "prompt": "I read an article arguing that stories about good guys fighting bad guys are a modern invention, basically a product of nationalism, and that ancient myths like the Iliad weren't like that at all. Is that right? Write an essay weighing the claim and offering your own account of why modern stories look the way they do."}
+{"doc_id": "f7b47a7886df", "kind": "essay", "domain": "essay", "para_start": 0, "para_end": 35, "prompt": "A magazine claims Marxists never talk about incentives or the technical side of designing government because they think ideology solves everything. Write a blog post that tries to explain why people on the left and right so often talk past each other about politics, and whether the charge is fair."}
+{"doc_id": "f7b47a7886df", "kind": "passage", "domain": "explanation", "para_start": 3, "para_end": 8, "prompt": "What's the difference between a mistake theorist and a conflict theorist in politics? Explain it simply."}
