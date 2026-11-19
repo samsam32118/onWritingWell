@@ -88,6 +88,8 @@ def write_chunks(comps: list[dict], out_dir: str, chunk: int = 30) -> list[str]:
         p = d / "chunks" / f"chunk-{i // chunk:04d}.txt"
         p.write_text("\n".join(body))
         paths.append(str(p))
+    # Args for ops/workflows/judge.js
+    (d / "workflow_args.json").write_text(json.dumps({"dir": str(d.resolve()), "chunks": [{"name": Path(p).stem, "n": min(chunk, len(comps) - i * chunk)} for i, p in enumerate(paths)]}))
     return paths
 
 
