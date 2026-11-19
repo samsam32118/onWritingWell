@@ -1,0 +1,19 @@
+{"doc_id": "b30933bd0f25", "skip": true, "reason": "Step-by-step reverse-engineering walkthrough dominated by shell output, base64 dumps and code; relies on images of results."}
+{"doc_id": "a9c49d51fd7d", "skip": true, "reason": "Debugging write-up mostly made of strace output, hex dumps and command listings."}
+{"doc_id": "7cfb2bac8cdc", "skip": true, "reason": "Short debugging story built around HTTP header dumps and a screenshot; little standalone prose."}
+{"doc_id": "621c0af99eeb", "skip": true, "reason": "Mostly code listings and strace counts; tentative observations rather than a developed piece."}
+{"doc_id": "793385647734", "skip": true, "reason": "Library comparison leaning on code snippets, a slide image and links; dated update notes; no self-contained section long enough."}
+{"doc_id": "876e69dc967f", "skip": true, "reason": "Tool walkthrough dominated by command output, plus a list of tool recommendations from Twitter."}
+{"doc_id": "9446a122a765", "skip": true, "reason": "Link roundup pointing to someone else's tutorials."}
+{"doc_id": "59c0df619730", "skip": true, "reason": "Short post that depends on before/after images and ends in a list of tool links."}
+{"doc_id": "079e074b333c", "kind": "essay", "domain": "explanation", "para_start": 1, "para_end": 39, "prompt": "I keep seeing the CAP theorem cited in distributed systems discussions and I've never felt like I really get it or know when to apply it. Write a blog post explaining what it actually says, how useful it is in practice, and what Martin Kleppmann's paper \"A Critique of the CAP Theorem\" adds to the picture."}
+{"doc_id": "079e074b333c", "kind": "passage", "domain": "explanation", "para_start": 15, "para_end": 22, "prompt": "is the CAP theorem actually a deep result? like how hard is the proof"}
+{"doc_id": "c435ae283d6a", "skip": true, "reason": "Blog recommendation list; mostly links and short descriptions."}
+{"doc_id": "32b7a0d797bd", "skip": true, "reason": "Link roundup of recommended blogs."}
+{"doc_id": "7113f6d502de", "skip": true, "reason": "Mostly a collection of quoted survey responses."}
+{"doc_id": "8456f3e4be41", "kind": "passage", "domain": "conversation", "para_start": 26, "para_end": 29, "prompt": "just started crocheting amigurumi and all the stitch counting is driving me nuts, I keep losing track. how do you deal with it?"}
+{"doc_id": "900d66328579", "skip": true, "reason": "Project write-up dominated by Rust code and program output."}
+{"doc_id": "cdd114f8a373", "skip": true, "reason": "Weekly project status update with command output."}
+{"doc_id": "f60c10d5f133", "skip": true, "reason": "Weekly project status update with output listings."}
+{"doc_id": "e3c56ef09599", "skip": true, "reason": "Library announcement and tutorial dominated by code listings."}
+{"doc_id": "a26bb5b911cd", "skip": true, "reason": "Hack write-up dominated by code; prose sections too short or tied to the specific demo."}
