@@ -1,0 +1,60 @@
+{"id": "ret-fact-1-001", "kind": "fact", "prompt": "Which gas makes up most of Earth's atmosphere?", "response": "Nitrogen, at about 78 percent by volume. Oxygen is next at about 21 percent."}
+{"id": "ret-fact-1-002", "kind": "fact", "prompt": "what's the longest river in Europe", "response": "The Volga, at roughly 3,500 km. It flows through Russia into the Caspian Sea."}
+{"id": "ret-fact-1-003", "kind": "fact", "prompt": "Who painted The Night Watch?", "response": "Rembrandt van Rijn, in 1642. It hangs in the Rijksmuseum in Amsterdam."}
+{"id": "ret-fact-1-004", "kind": "fact", "prompt": "How many chromosomes do humans normally have in each body cell?", "response": "46, arranged as 23 pairs. Egg and sperm cells carry 23."}
+{"id": "ret-fact-1-005", "kind": "fact", "prompt": "What is the smallest prime number?", "response": "2. It is also the only even prime."}
+{"id": "ret-fact-1-006", "kind": "fact", "prompt": "Which ocean is the deepest?", "response": "The Pacific. Its Challenger Deep, in the Mariana Trench, reaches about 10,900 metres."}
+{"id": "ret-fact-1-007", "kind": "fact", "prompt": "Who was the first woman to win a Nobel Prize?", "response": "Marie Curie, who shared the 1903 Nobel Prize in Physics with Pierre Curie and Henri Becquerel. She won a second, in Chemistry, in 1911."}
+{"id": "ret-fact-1-008", "kind": "fact", "prompt": "What language has the most native speakers in the world?", "response": "Mandarin Chinese, with roughly 900 million native speakers. Spanish is second by that measure."}
+{"id": "ret-fact-1-009", "kind": "fact", "prompt": "What is the SI unit of electrical resistance?", "response": "The ohm, symbol Ω. One ohm is the resistance that lets one ampere flow under one volt."}
+{"id": "ret-fact-1-010", "kind": "fact", "prompt": "In which city is the Colosseum?", "response": "Rome, Italy. Construction began under Vespasian around 70 CE and it opened in 80 CE."}
+{"id": "ret-fact-1-011", "kind": "fact", "prompt": "Quick one: what's the hardest natural substance?", "response": "Diamond, which rates 10 on the Mohs scale."}
+{"id": "ret-fact-1-012", "kind": "fact", "prompt": "Which country has the most time zones, counting overseas territories?", "response": "France, with 12 (13 if you count Antarctic claims), thanks to its overseas territories. Russia has 11 within its own territory."}
+{"id": "ret-fact-1-013", "kind": "fact", "prompt": "Who composed the opera The Magic Flute?", "response": "Wolfgang Amadeus Mozart. It premiered in Vienna in 1791, shortly before his death."}
+{"id": "ret-fact-1-014", "kind": "fact", "prompt": "What is the powerhouse of the cell?", "response": "The mitochondrion, which produces most of the cell's ATP through aerobic respiration."}
+{"id": "ret-fact-1-015", "kind": "fact", "prompt": "What year did the Titanic sink?", "response": "1912, on the night of 14 to 15 April, after striking an iceberg in the North Atlantic."}
+{"id": "ret-fact-1-016", "kind": "fact", "prompt": "Which is the largest desert in the world?", "response": "Antarctica, at about 14 million square kilometres, since a desert is defined by low precipitation. The largest hot desert is the Sahara."}
+{"id": "ret-fact-1-017", "kind": "fact", "prompt": "What does the Latin phrase 'carpe diem' mean?", "response": "\"Seize the day.\" It comes from Horace's Odes."}
+{"id": "ret-fact-1-018", "kind": "fact", "prompt": "What's the capital of Canada?", "response": "Ottawa, in Ontario. Toronto is larger, but it is not the capital."}
+{"id": "ret-fact-1-019", "kind": "fact", "prompt": "Who discovered penicillin?", "response": "Alexander Fleming, in 1928, when he noticed mould killing bacteria on a culture plate at St Mary's Hospital in London. Howard Florey and Ernst Chain later developed it into a usable drug."}
+{"id": "ret-fact-1-020", "kind": "fact", "prompt": "How far is the Earth from the Sun, on average?", "response": "About 149.6 million kilometres, which defines one astronomical unit. Sunlight takes roughly 8 minutes and 20 seconds to arrive."}
+{"id": "ret-fact-1-021", "kind": "fact", "prompt": "Which author created the detective Hercule Poirot?", "response": "Agatha Christie, who introduced him in The Mysterious Affair at Styles in 1920."}
+{"id": "ret-fact-1-022", "kind": "fact", "prompt": "What is the chemical formula for table salt?", "response": "NaCl, sodium chloride."}
+{"id": "ret-fact-1-023", "kind": "fact", "prompt": "Which mountain is the tallest in Africa?", "response": "Kilimanjaro in Tanzania, at 5,895 metres above sea level."}
+{"id": "ret-fact-1-024", "kind": "fact", "prompt": "Who was the first person to walk on the Moon?", "response": "Neil Armstrong, on 20 July 1969, during Apollo 11. Buzz Aldrin followed him onto the surface about 19 minutes later."}
+{"id": "ret-fact-1-025", "kind": "fact", "prompt": "What is the plural of 'cactus' in traditional Latin-derived usage?", "response": "Cacti. Cactuses is also accepted in English."}
+{"id": "ret-fact-1-026", "kind": "fact", "prompt": "Which battle ended Napoleon's rule as emperor in 1815?", "response": "Waterloo, fought on 18 June 1815 in what is now Belgium. Wellington and Blücher defeated him there."}
+{"id": "ret-fact-1-027", "kind": "fact", "prompt": "What is the currency of Japan?", "response": "The yen, written ¥ or 円."}
+{"id": "ret-fact-1-028", "kind": "fact", "prompt": "Which part of the human brain is mainly responsible for balance and coordination?", "response": "The cerebellum, at the back of the skull beneath the cerebral hemispheres."}
+{"id": "ret-fact-1-029", "kind": "fact", "prompt": "Who wrote 'Pride and Prejudice'?", "response": "Jane Austen, published in 1813."}
+{"id": "ret-fact-1-030", "kind": "fact", "prompt": "What is the largest moon of Saturn?", "response": "Titan, about 5,150 km across. It is the only moon in the solar system known to have a dense atmosphere."}
+{"id": "ret-fact-1-031", "kind": "fact", "prompt": "What's the tallest waterfall in the world?", "response": "Angel Falls in Venezuela, with a total height of 979 metres and an uninterrupted drop of 807 metres."}
+{"id": "ret-fact-1-032", "kind": "fact", "prompt": "In what year did the French Revolution begin?", "response": "1789, with the storming of the Bastille on 14 July often taken as its symbolic start."}
+{"id": "ret-fact-1-033", "kind": "fact", "prompt": "What is the speed of light in a vacuum?", "response": "299,792,458 metres per second, which is about 300,000 km/s. The metre is now defined from this value."}
+{"id": "ret-fact-1-034", "kind": "fact", "prompt": "which country is both in Europe and Asia and has Istanbul as its largest city?", "response": "Turkey. Istanbul itself straddles the Bosphorus, so it lies on both continents, though Ankara is the capital."}
+{"id": "ret-fact-1-035", "kind": "fact", "prompt": "What is a haiku's traditional syllable pattern?", "response": "Five, seven, five syllables across three lines. Strictly, the Japanese form counts sound units (on), which are shorter than English syllables."}
+{"id": "ret-fact-1-036", "kind": "fact", "prompt": "Who sculpted David, the marble statue in Florence?", "response": "Michelangelo, completed in 1504. It stands about 5.17 metres tall and is housed in the Galleria dell'Accademia."}
+{"id": "ret-fact-1-037", "kind": "fact", "prompt": "What vitamin does sunlight help the skin produce?", "response": "Vitamin D. UVB radiation triggers its synthesis in the skin."}
+{"id": "ret-fact-1-038", "kind": "fact", "prompt": "What is the capital of Brazil?", "response": "Brasília, which became the capital in 1960. Many people assume Rio de Janeiro or São Paulo."}
+{"id": "ret-fact-1-039", "kind": "fact", "prompt": "Which element is liquid at room temperature besides mercury?", "response": "Bromine, which is the only other element liquid at room temperature and normal pressure. Gallium and caesium melt only slightly above it."}
+{"id": "ret-fact-1-040", "kind": "fact", "prompt": "Who was the Roman emperor when Vesuvius buried Pompeii?", "response": "Titus, in 79 CE. His father Vespasian had died earlier that year."}
+{"id": "ret-fact-1-041", "kind": "fact", "prompt": "What is the national language of Brazil?", "response": "Portuguese. It is the only Portuguese-speaking country in South America."}
+{"id": "ret-fact-1-042", "kind": "fact", "prompt": "What causes the tides?", "response": "Mainly the Moon's gravity, with a smaller contribution from the Sun. The pull is stronger on the near side of Earth, which produces a bulge of water there and on the opposite side."}
+{"id": "ret-fact-1-043", "kind": "fact", "prompt": "Who wrote the play Waiting for Godot?", "response": "Samuel Beckett. He first wrote it in French as En attendant Godot, in the late 1940s."}
+{"id": "ret-fact-1-044", "kind": "fact", "prompt": "How many strings does a standard violin have?", "response": "Four, tuned in fifths to G, D, A and E."}
+{"id": "ret-fact-1-045", "kind": "fact", "prompt": "What is the largest country in South America by area?", "response": "Brazil, at roughly 8.5 million square kilometres. It covers nearly half the continent."}
+{"id": "ret-fact-1-046", "kind": "fact", "prompt": "What does DNA stand for?", "response": "Deoxyribonucleic acid."}
+{"id": "ret-fact-1-047", "kind": "fact", "prompt": "Which empire built Machu Picchu?", "response": "The Inca. It was built in the mid-1400s, probably as an estate for the emperor Pachacuti."}
+{"id": "ret-fact-1-048", "kind": "fact", "prompt": "Which is the only planet that rotates on its side, with an axial tilt near 98 degrees?", "response": "Uranus, whose axis lies almost in the plane of its orbit."}
+{"id": "ret-fact-1-049", "kind": "fact", "prompt": "What's the difference between weather and climate?", "response": "Weather is the state of the atmosphere at a given time and place, while climate is the long-term pattern of weather, conventionally averaged over about 30 years."}
+{"id": "ret-fact-1-050", "kind": "fact", "prompt": "What's the official language of Iran?", "response": "Persian, also called Farsi."}
+{"id": "ret-fact-1-051", "kind": "fact", "prompt": "Who developed the theory of general relativity?", "response": "Albert Einstein, who published it in 1915. Its prediction of light bending was confirmed during the 1919 solar eclipse."}
+{"id": "ret-fact-1-052", "kind": "fact", "prompt": "What is the capital of New Zealand?", "response": "Wellington, at the southern tip of the North Island. Auckland is the largest city."}
+{"id": "ret-fact-1-053", "kind": "fact", "prompt": "Which poet wrote 'The Waste Land'?", "response": "T. S. Eliot, published in 1922."}
+{"id": "ret-fact-1-054", "kind": "fact", "prompt": "How many sides does a hexagon have?", "response": "Six."}
+{"id": "ret-fact-1-055", "kind": "fact", "prompt": "What is the study of fungi called?", "response": "Mycology."}
+{"id": "ret-fact-1-056", "kind": "fact", "prompt": "What is the longest bone in the human body?", "response": "The femur, or thigh bone, which averages about a quarter of a person's height."}
+{"id": "ret-fact-1-057", "kind": "fact", "prompt": "What was the ancient name of the city now called Istanbul, before Constantinople?", "response": "Byzantium, a Greek colony. Constantine refounded it as Constantinople in 330 CE."}
+{"id": "ret-fact-1-058", "kind": "fact", "prompt": "Which gas do plants absorb for photosynthesis?", "response": "Carbon dioxide. They combine it with water, using light, to make sugars and release oxygen."}
+{"id": "ret-fact-1-059", "kind": "fact", "prompt": "Who directed the 1954 film Seven Samurai?", "response": "Akira Kurosawa. It is set in 16th-century Japan, and its story was remade as The Magnificent Seven in 1960."}
+{"id": "ret-fact-1-060", "kind": "fact", "prompt": "What is the SI base unit of temperature?", "response": "The kelvin, symbol K. Zero kelvin is absolute zero, about −273.15 °C."}
