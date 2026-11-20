@@ -47,15 +47,26 @@ def with_repo(img):
         .add_local_dir("data", f"{REPO}/data"))
 
 
+# Extraction must match the versions the annotated corpus was built with, byte for byte:
+# a different trafilatura/lxml splits text differently and the doc's hash no longer matches.
 cpu_image = with_repo(modal.Image.debian_slim(python_version="3.12").uv_pip_install(
-    "httpx==0.28.1", "trafilatura==2.0.0", "beautifulsoup4==4.13.4", "lxml==5.4.0",
-    "pyyaml==6.0.2", "huggingface_hub>=0.34", "hf_transfer"))
+    "trafilatura==2.3.1", "lxml==6.1.3", "lxml_html_clean==0.4.6", "beautifulsoup4==4.15.0",
+    "soupsieve==4.1.2", "httpx==0.28.1", "httpcore==1.0.9", "h11==0.16.0", "anyio==4.16.0",
+    "idna==3.20", "certifi==2026.10.23", "charset-normalizer==3.5.2", "urllib3==2.8.0",
+    "courlan==1.5.0", "htmldate==1.11.0", "jusText==3.0.2", "dateparser==1.5.1",
+    "python-dateutil==4.0.0", "pytz==2026.6", "regex==2026.11.19", "tzlocal==5.4.5",
+    "pyyaml==6.0.3", "huggingface_hub>=0.34", "hf_transfer"))
 train_image = with_repo(
     modal.Image.from_registry("nvidia/cuda:13.0.1-devel-ubuntu22.04", add_python="3.12")
     .uv_pip_install("torch==2.14.0", "torchvision==0.29.0",
         index_url="https://download.pytorch.org/whl/cu130")
     .uv_pip_install("transformers==5.22.2", "trl==1.17.1", "peft==0.21.2",
-        "accelerate==1.15.0", "datasets", "flash-linear-attention==0.6.0", "safetensors"))
+        "accelerate==1.15.0", "datasets", "flash-linear-attention==0.6.0", "safetensors")
+    # Fused short-convolution kernel for the linear-attention layers; without it transformers
+    # falls back to a slow PyTorch loop. Built for Hopper and Blackwell only.
+    .run_commands("pip install ninja packaging wheel",
+        "TORCH_CUDA_ARCH_LIST='9.0;10.0' MAX_JOBS=8 pip install --no-build-isolation "
+        "causal-conv1d==1.7.0"))
 # vLLM's own image ships FlashInfer's prebuilt kernels and the CUDA toolkit; a pip install on a
 # slim image tries to JIT-compile the sampler at startup and fails without nvcc.
 # The image has python3 but no `python`, which Modal's tooling expects; pyyaml comes with vllm.
@@ -252,10 +263,12 @@ def train(job, args):
         cmd += [f"--{k.replace('_', '-')}", str(v)]
     run(cmd, rd / f"train_{name}.log")
     vol.commit()
+    shutil.copy(f"{VOL}/adapters/{name}/log_history.json", rd / f"log_history_{name}.json")
+    if not args.get("merge", True):
+        return {"adapter": name}
     run([sys.executable, "-m", "owl.train", "merge", "--model", model,
         "--adapter", f"{VOL}/adapters/{name}", "--out", f"{VOL}/models/{name}"],
         rd / f"merge_{name}.log")
-    shutil.copy(f"{VOL}/adapters/{name}/log_history.json", rd / f"log_history_{name}.json")
     vol.commit()
     return {"model": name}
 

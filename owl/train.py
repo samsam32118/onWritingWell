@@ -41,7 +41,7 @@ def train(a):
     common = dict(output_dir=a.out, num_train_epochs=a.epochs, max_steps=a.max_steps,
         per_device_train_batch_size=a.batch_size, gradient_accumulation_steps=a.grad_accum,
         learning_rate=a.lr, lr_scheduler_type="cosine", warmup_steps=0.05,
-        max_length=a.max_length, bf16=torch.cuda.is_available(), logging_steps=5,
+        max_length=a.max_length, bf16=torch.cuda.is_available(), logging_steps=a.logging_steps,
         save_strategy="no", report_to=[])
     if a.stage == "sft":
         ds = Dataset.from_list([{"prompt": prompt(r["messages"][:-1]),
@@ -105,5 +105,6 @@ if __name__ == "__main__":
     ap.add_argument("--lora-dropout", type=float, default=0.05)
     ap.add_argument("--beta", type=float, default=0.1)
     ap.add_argument("--rpo-alpha", type=float, default=0.2)
+    ap.add_argument("--logging-steps", type=int, default=5)
     a = ap.parse_args()
     merge(a) if a.stage == "merge" else train(a)
