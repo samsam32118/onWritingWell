@@ -226,7 +226,7 @@ def generate(job, args):
 
 
 @app.function(image=train_image, gpu=GPU, volumes=MOUNTS, timeout=24 * 3600,
-    memory=200 * 1024)
+    memory=128 * 1024)  # merging a 27B bf16 model on CPU needs ~60 GB
 def train(job, args):
     """args: {stage: sft|dpo, model, data, out_model, hp: {...}}. Trains LoRA, then merges."""
     vol.reload()
