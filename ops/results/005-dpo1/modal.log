@@ -1,0 +1,111 @@
+✓ Initialized. View run at 
+https://modal.com/apps/samarvir1996/main/ap-RQDGM8gfUttv18vZO1ISmt
+✓ Created objects.
+├── ✓ Uploaded /home/runner/work/onWritingWell/onWritingWell/modal_app.py
+├── ✓ Uploaded /home/runner/work/onWritingWell/onWritingWell/configs
+├── ✓ Uploaded PythonPackage:owl
+├── ✓ Uploaded /home/runner/work/onWritingWell/onWritingWell/data
+├── ✓ Created Function generate.
+├── ✓ Created Function download_base.
+├── ✓ Created Function build_corpus.
+├── ✓ Created Function build_sft.
+├── ✓ Created Function build_human_pairs.
+├── ✓ Created Function ls.
+└── ✓ Created Function train.
+[job 005-dpo1] start build_human_pairs {"sft": "vol:data/sft2.jsonl", "samples": "vol:data/base_on_sft_prompts.jsonl", "loops": "vol:data/sft2_on_sft_prompts.jsonl", "out": "human_pairs1.jsonl"}
+[job 005-dpo1] done build_human_pairs: {"pairs": 1463, "loops": 355}
+[job 005-dpo1] start train {"stage": "dpo", "model": "sft2", "data": "vol:data/human_pairs1.jsonl", "out_model": "dpo1", "timeout": 14400, "hp": {"epochs": 1, "lr": 2e-05, "beta": 0.1, "rpo_alpha": 0.2, "lora_r": 64, "lora_alpha": 64, "grad_accum": 16, "max_length": 6144}}
+==========
+== CUDA ==
+==========
+CUDA Version 13.0.1
+Container image Copyright (c) 2016-2023, NVIDIA CORPORATION & AFFILIATES. All rights reserved.
+This container image and its contents are governed by the NVIDIA Deep Learning Container License.
+By pulling and using the container, you accept the terms and conditions of this license:
+https://developer.nvidia.com/ngc/nvidia-deep-learning-container-license
+A copy of this license is made available in this container at /NGC-DL-CONTAINER-LICENSE for your convenience.
++ /usr/local/bin/python -m owl.train dpo --model /vol/models/sft2 --data /vol/data/human_pairs1.jsonl --out /vol/adapters/dpo1 --epochs 1 --lr 2e-05 --beta 0.1 --rpo-alpha 0.2 --lora-r 64 --lora-alpha 64 --grad-accum 16 --max-length 6144
+Adding EOS to train dataset:   0%|          | 0/1463 [00:00<?, ? examples/s]
+Adding EOS to train dataset: 100%|██████████| 1463/1463 [00:00<00:00, 28636.27 examples/s]
+Tokenizing train dataset:   0%|          | 0/1463 [00:00<?, ? examples/s]
+Tokenizing train dataset:   2%|▏         | 23/1463 [00:00<00:06, 211.23 examples/s]
+Tokenizing train dataset:   3%|▎         | 46/1463 [00:00<00:06, 215.89 examples/s]
+Tokenizing train dataset:   5%|▍         | 71/1463 [00:00<00:06, 229.06 examples/s]
+Tokenizing train dataset:   7%|▋         | 103/1463 [00:00<00:06, 215.75 examples/s]
+Tokenizing train dataset:   9%|▉         | 129/1463 [00:00<00:05, 226.92 examples/s]
+Tokenizing train dataset:  12%|█▏        | 170/1463 [00:00<00:05, 241.05 examples/s]
+Tokenizing train dataset:  13%|█▎        | 195/1463 [00:00<00:05, 241.65 examples/s]
+Tokenizing train dataset:  16%|█▌        | 231/1463 [00:00<00:05, 237.12 examples/s]
+Tokenizing train dataset:  18%|█▊        | 257/1463 [00:01<00:04, 242.18 examples/s]
+Tokenizing train dataset:  19%|█▉        | 283/1463 [00:01<00:04, 245.88 examples/s]
+Tokenizing train dataset:  22%|██▏       | 319/1463 [00:01<00:04, 239.12 examples/s]
+Tokenizing train dataset:  24%|██▎       | 345/1463 [00:01<00:04, 239.83 examples/s]
+Tokenizing train dataset:  25%|██▌       | 370/1463 [00:01<00:04, 240.86 examples/s]
+Tokenizing train dataset:  27%|██▋       | 397/1463 [00:01<00:04, 246.04 examples/s]
+Tokenizing train dataset:  30%|██▉       | 432/1463 [00:01<00:04, 239.26 examples/s]
+Tokenizing train dataset:  31%|███       | 457/1463 [00:01<00:04, 239.22 examples/s]
+Tokenizing train dataset:  33%|███▎      | 489/1463 [00:02<00:04, 222.64 examples/s]
+Tokenizing train dataset:  35%|███▍      | 512/1463 [00:02<00:04, 221.47 examples/s]
+Tokenizing train dataset:  37%|███▋      | 539/1463 [00:02<00:04, 229.54 examples/s]
+Tokenizing train dataset:  39%|███▉      | 573/1463 [00:02<00:03, 224.15 examples/s]
+Tokenizing train dataset:  41%|████▏     | 606/1463 [00:02<00:03, 218.99 examples/s]
+Tokenizing train dataset:  43%|████▎     | 633/1463 [00:02<00:03, 226.54 examples/s]
+Tokenizing train dataset:  45%|████▌     | 665/1463 [00:02<00:03, 219.54 examples/s]
+Tokenizing train dataset:  47%|████▋     | 688/1463 [00:02<00:03, 220.30 examples/s]
+Tokenizing train dataset:  49%|████▉     | 714/1463 [00:03<00:03, 225.78 examples/s]
+Tokenizing train dataset:  51%|█████     | 748/1463 [00:03<00:03, 222.95 examples/s]
+Tokenizing train dataset:  53%|█████▎    | 775/1463 [00:03<00:02, 233.33 examples/s]
+Tokenizing train dataset:  55%|█████▌    | 811/1463 [00:03<00:02, 230.72 examples/s]
+Tokenizing train dataset:  58%|█████▊    | 843/1463 [00:03<00:02, 223.56 examples/s]
+Tokenizing train dataset:  60%|█████▉    | 875/1463 [00:03<00:02, 217.71 examples/s]
+Tokenizing train dataset:  61%|██████▏   | 899/1463 [00:03<00:02, 216.71 examples/s]
+Tokenizing train dataset:  63%|██████▎   | 923/1463 [00:04<00:02, 221.05 examples/s]
+Tokenizing train dataset:  65%|██████▌   | 954/1463 [00:04<00:02, 211.23 examples/s]
+Tokenizing train dataset:  68%|██████▊   | 988/1463 [00:04<00:02, 214.50 examples/s]
+Tokenizing train dataset:  70%|██████▉   | 1020/1463 [00:04<00:03, 121.07 examples/s]
+Tokenizing train dataset:  71%|███████▏  | 1046/1463 [00:04<00:02, 140.29 examples/s]
+Tokenizing train dataset:  73%|███████▎  | 1071/1463 [00:05<00:02, 157.03 examples/s]
+Tokenizing train dataset:  75%|███████▍  | 1094/1463 [00:05<00:02, 169.45 examples/s]
+Tokenizing train dataset:  76%|███████▋  | 1117/1463 [00:05<00:01, 180.69 examples/s]
+Tokenizing train dataset:  78%|███████▊  | 1140/1463 [00:05<00:01, 191.66 examples/s]
+Tokenizing train dataset:  80%|███████▉  | 1167/1463 [00:05<00:01, 208.33 examples/s]
+Tokenizing train dataset:  81%|████████▏ | 1190/1463 [00:05<00:01, 211.42 examples/s]
+Tokenizing train dataset:  83%|████████▎ | 1215/1463 [00:05<00:01, 218.99 examples/s]
+Tokenizing train dataset:  85%|████████▍ | 1240/1463 [00:05<00:01, 222.37 examples/s]
+Tokenizing train dataset:  87%|████████▋ | 1267/1463 [00:05<00:00, 231.60 examples/s]
+Tokenizing train dataset:  89%|████████▉ | 1299/1463 [00:06<00:00, 221.04 examples/s]
+Tokenizing train dataset:  91%|█████████ | 1325/1463 [00:06<00:00, 230.46 examples/s]
+Tokenizing train dataset:  93%|█████████▎| 1365/1463 [00:06<00:00, 237.38 examples/s]
+Tokenizing train dataset:  95%|█████████▌| 1390/1463 [00:06<00:00, 236.68 examples/s]
+Tokenizing train dataset:  97%|█████████▋| 1415/1463 [00:06<00:00, 236.32 examples/s]
+Tokenizing train dataset:  99%|█████████▉| 1448/1463 [00:06<00:00, 229.65 examples/s]
+Tokenizing train dataset: 100%|██████████| 1463/1463 [00:06<00:00, 213.72 examples/s]
+Dropping fully truncated examples from train dataset:   0%|          | 0/1463 [00:00<?, ? examples/s]
+Dropping fully truncated examples from train dataset:  68%|██████▊   | 1000/1463 [00:00<00:00, 8905.99 examples/s]
+Dropping fully truncated examples from train dataset: 100%|██████████| 1463/1463 [00:00<00:00, 9101.65 examples/s]
+[RANK 0] Detected kernel version 4.19.0, which is below the recommended minimum of 5.5.0; this can cause the process to hang. It is recommended to upgrade the kernel to the minimum version or higher.
+[transformers] The tokenizer has new PAD/BOS/EOS tokens that differ from the model config and generation config. The model config and generation config were aligned accordingly, being updated with the tokenizer's values. Updated tokens: {'eos_token_id': 248046}.
+{'loss': '1.054', 'grad_norm': '16.83', 'learning_rate': '1.6e-05', 'entropy': '1.337', 'num_tokens': '3.732e+05', 'logits/chosen': '-1.344', 'logits/rejected': '-2.238', 'mean_token_accuracy': '0.53', 'rewards/chosen': '-0.02459', 'rewards/rejected': '-0.1487', 'rewards/accuracies': '0.4', 'rewards/margins': '0.1242', 'logps/chosen': '-4639', 'logps/rejected': '-756.2', 'epoch': '0.05468'}
+{'loss': '0.4828', 'grad_norm': '0.08002', 'learning_rate': '1.99e-05', 'entropy': '1.472', 'num_tokens': '7.155e+05', 'logits/chosen': '-1.372', 'logits/rejected': '-2.035', 'mean_token_accuracy': '0.5201', 'rewards/chosen': '-0.01951', 'rewards/rejected': '-11.78', 'rewards/accuracies': '1', 'rewards/margins': '11.76', 'logps/chosen': '-4563', 'logps/rejected': '-916', 'epoch': '0.1094'}
+{'loss': '0.4341', 'grad_norm': '0.01549', 'learning_rate': '1.948e-05', 'entropy': '1.575', 'num_tokens': '1.083e+06', 'logits/chosen': '-1.365', 'logits/rejected': '-1.974', 'mean_token_accuracy': '0.5098', 'rewards/chosen': '-0.106', 'rewards/rejected': '-109.5', 'rewards/accuracies': '1', 'rewards/margins': '109.4', 'logps/chosen': '-4928', 'logps/rejected': '-1890', 'epoch': '0.164'}
+{'loss': '0.4215', 'grad_norm': '0.02191', 'learning_rate': '1.875e-05', 'entropy': '1.586', 'num_tokens': '1.469e+06', 'logits/chosen': '-1.357', 'logits/rejected': '-1.919', 'mean_token_accuracy': '0.5218', 'rewards/chosen': '-0.1582', 'rewards/rejected': '-207', 'rewards/accuracies': '1', 'rewards/margins': '206.8', 'logps/chosen': '-5144', 'logps/rejected': '-2800', 'epoch': '0.2187'}
+{'loss': '0.4292', 'grad_norm': '0.01726', 'learning_rate': '1.774e-05', 'entropy': '1.716', 'num_tokens': '1.84e+06', 'logits/chosen': '-1.384', 'logits/rejected': '-1.813', 'mean_token_accuracy': '0.5131', 'rewards/chosen': '-0.8892', 'rewards/rejected': '-170.2', 'rewards/accuracies': '1', 'rewards/margins': '169.3', 'logps/chosen': '-5443', 'logps/rejected': '-2551', 'epoch': '0.2734'}
+{'loss': '0.4222', 'grad_norm': '0.02025', 'learning_rate': '1.647e-05', 'entropy': '1.619', 'num_tokens': '2.219e+06', 'logits/chosen': '-1.383', 'logits/rejected': '-1.854', 'mean_token_accuracy': '0.5219', 'rewards/chosen': '-0.9051', 'rewards/rejected': '-242.1', 'rewards/accuracies': '1', 'rewards/margins': '241.2', 'logps/chosen': '-5155', 'logps/rejected': '-3196', 'epoch': '0.3281'}
+{'loss': '0.4399', 'grad_norm': '0.01796', 'learning_rate': '1.5e-05', 'entropy': '1.7', 'num_tokens': '2.57e+06', 'logits/chosen': '-1.4', 'logits/rejected': '-1.786', 'mean_token_accuracy': '0.5073', 'rewards/chosen': '-0.9346', 'rewards/rejected': '-236.4', 'rewards/accuracies': '1', 'rewards/margins': '235.5', 'logps/chosen': '-5017', 'logps/rejected': '-3151', 'epoch': '0.3828'}
+{'loss': '0.418', 'grad_norm': '0.01837', 'learning_rate': '1.336e-05', 'entropy': '1.628', 'num_tokens': '2.922e+06', 'logits/chosen': '-1.399', 'logits/rejected': '-1.814', 'mean_token_accuracy': '0.5247', 'rewards/chosen': '-0.6234', 'rewards/rejected': '-234.3', 'rewards/accuracies': '1', 'rewards/margins': '233.7', 'logps/chosen': '-4614', 'logps/rejected': '-3131', 'epoch': '0.4375'}
+{'loss': '0.4298', 'grad_norm': '0.0182', 'learning_rate': '1.162e-05', 'entropy': '1.753', 'num_tokens': '3.249e+06', 'logits/chosen': '-1.432', 'logits/rejected': '-1.762', 'mean_token_accuracy': '0.5172', 'rewards/chosen': '-0.7244', 'rewards/rejected': '-108.3', 'rewards/accuracies': '1', 'rewards/margins': '107.6', 'logps/chosen': '-4765', 'logps/rejected': '-1939', 'epoch': '0.4921'}
+{'loss': '0.4334', 'grad_norm': '0.01848', 'learning_rate': '9.819e-06', 'entropy': '1.706', 'num_tokens': '3.599e+06', 'logits/chosen': '-1.401', 'logits/rejected': '-1.806', 'mean_token_accuracy': '0.5117', 'rewards/chosen': '-0.5477', 'rewards/rejected': '-205', 'rewards/accuracies': '1', 'rewards/margins': '204.4', 'logps/chosen': '-4893', 'logps/rejected': '-2895', 'epoch': '0.5468'}
+{'loss': '0.4194', 'grad_norm': '0.04541', 'learning_rate': '8.027e-06', 'entropy': '1.617', 'num_tokens': '3.98e+06', 'logits/chosen': '-1.374', 'logits/rejected': '-1.846', 'mean_token_accuracy': '0.5225', 'rewards/chosen': '-0.5913', 'rewards/rejected': '-265.6', 'rewards/accuracies': '1', 'rewards/margins': '265.1', 'logps/chosen': '-5158', 'logps/rejected': '-3416', 'epoch': '0.6015'}
+{'loss': '0.4309', 'grad_norm': '0.01656', 'learning_rate': '6.299e-06', 'entropy': '1.649', 'num_tokens': '4.37e+06', 'logits/chosen': '-1.392', 'logits/rejected': '-1.863', 'mean_token_accuracy': '0.5154', 'rewards/chosen': '-0.4025', 'rewards/rejected': '-283.8', 'rewards/accuracies': '1', 'rewards/margins': '283.4', 'logps/chosen': '-5358', 'logps/rejected': '-3728', 'epoch': '0.6562'}
+{'loss': '0.4321', 'grad_norm': '0.01735', 'learning_rate': '4.691e-06', 'entropy': '1.687', 'num_tokens': '4.734e+06', 'logits/chosen': '-1.39', 'logits/rejected': '-1.799', 'mean_token_accuracy': '0.5164', 'rewards/chosen': '-0.4203', 'rewards/rejected': '-262.9', 'rewards/accuracies': '1', 'rewards/margins': '262.5', 'logps/chosen': '-5074', 'logps/rejected': '-3400', 'epoch': '0.7109'}
+{'loss': '0.4154', 'grad_norm': '0.01872', 'learning_rate': '3.255e-06', 'entropy': '1.561', 'num_tokens': '5.116e+06', 'logits/chosen': '-1.406', 'logits/rejected': '-1.864', 'mean_token_accuracy': '0.5264', 'rewards/chosen': '-0.4835', 'rewards/rejected': '-291.5', 'rewards/accuracies': '1', 'rewards/margins': '291', 'logps/chosen': '-4914', 'logps/rejected': '-3679', 'epoch': '0.7656'}
+{'loss': '0.4304', 'grad_norm': '0.01649', 'learning_rate': '2.039e-06', 'entropy': '1.63', 'num_tokens': '5.495e+06', 'logits/chosen': '-1.384', 'logits/rejected': '-1.823', 'mean_token_accuracy': '0.5255', 'rewards/chosen': '-0.5571', 'rewards/rejected': '-213.3', 'rewards/accuracies': '0.9875', 'rewards/margins': '212.7', 'logps/chosen': '-5110', 'logps/rejected': '-2978', 'epoch': '0.8202'}
+{'loss': '0.4302', 'grad_norm': '0.02025', 'learning_rate': '1.082e-06', 'entropy': '1.658', 'num_tokens': '5.878e+06', 'logits/chosen': '-1.397', 'logits/rejected': '-1.819', 'mean_token_accuracy': '0.5162', 'rewards/chosen': '-0.4025', 'rewards/rejected': '-246.4', 'rewards/accuracies': '1', 'rewards/margins': '246', 'logps/chosen': '-5281', 'logps/rejected': '-3249', 'epoch': '0.8749'}
+{'loss': '0.4289', 'grad_norm': '0.01564', 'learning_rate': '4.144e-07', 'entropy': '1.709', 'num_tokens': '6.264e+06', 'logits/chosen': '-1.423', 'logits/rejected': '-1.813', 'mean_token_accuracy': '0.5197', 'rewards/chosen': '-0.3643', 'rewards/rejected': '-234.9', 'rewards/accuracies': '1', 'rewards/margins': '234.5', 'logps/chosen': '-5634', 'logps/rejected': '-3157', 'epoch': '0.9296'}
+{'loss': '0.4279', 'grad_norm': '1.501', 'learning_rate': '5.862e-08', 'entropy': '1.534', 'num_tokens': '6.675e+06', 'logits/chosen': '-1.384', 'logits/rejected': '-1.946', 'mean_token_accuracy': '0.5149', 'rewards/chosen': '-0.3053', 'rewards/rejected': '-350', 'rewards/accuracies': '1', 'rewards/margins': '349.7', 'logps/chosen': '-5282', 'logps/rejected': '-4266', 'epoch': '0.9843'}
+{'train_runtime': '3687', 'train_samples_per_second': '0.397', 'train_steps_per_second': '0.025', 'train_loss': '0.4649', 'entropy': '1.736', 'num_tokens': '6.783e+06', 'logits/chosen': '-1.358', 'logits/rejected': '-1.77', 'mean_token_accuracy': '0.5212', 'rewards/chosen': '-0.5451', 'rewards/rejected': '-200.3', 'rewards/accuracies': '1', 'rewards/margins': '199.7', 'logps/chosen': '-5505', 'logps/rejected': '-2826', 'epoch': '1'}
++ /usr/local/bin/python -m owl.train merge --model /vol/models/sft2 --adapter /vol/adapters/dpo1 --out /vol/models/dpo1
+[job 005-dpo1] done train: {"model": "dpo1"}
+Stopping app - local entrypoint completed.
+✓ App completed. View run at 
+https://modal.com/apps/samarvir1996/main/ap-RQDGM8gfUttv18vZO1ISmt

@@ -1,0 +1,20 @@
+{
+ "id": "005-dpo1",
+ "steps": [
+  {
+   "step": "build_human_pairs",
+   "ok": true,
+   "result": {
+    "pairs": 1463,
+    "loops": 355
+   }
+  },
+  {
+   "step": "train",
+   "ok": true,
+   "result": {
+    "model": "dpo1"
+   }
+  }
+ ]
+}
