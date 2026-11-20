@@ -6,8 +6,12 @@ Project rules
 - The scraped essays are committed at data/corpus/corpus.jsonl.gz by the owner's decision
   (to be removed later). Keep it in sync with data/manifest.jsonl hashes.
 - Training/sampling runs on Modal via ops/jobs/*.yaml pushed to a claude/** branch.
-- Judging is done by Claude subagents (ops/workflows/judge.js). Sonnet 5.5 for high-volume
-  training-round judging; Opus 5.5 for held-out evals, calibration and tie-breaks.
+- Judging is done by Claude subagents (ops/workflows/judge.js), Sonnet 5.5 by default for
+  tournaments and per-round evals (it matched Opus in calibration). Opus agents were
+  repeatedly blocked by safeguards on this workload, so Opus is used at most for one final
+  check, and any failed chunk is retried on Sonnet.
+- Budget: small fast rounds (400 prompts, one Modal job per round); stop when a round does
+  not beat the previous model.
 - Annotation and judge prompts must stay consistent with owl/rubric.py.
 
 # Code style (from the project owner; follow it for all code)
