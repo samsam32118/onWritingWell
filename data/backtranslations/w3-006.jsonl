@@ -1,9 +1,9 @@
-{"doc_id":"597f9d809499","kind":"essay","domain":"essay","para_start":0,"para_end":8,"prompt":"Most doctors seem to think they're better than the average doctor, which can't be true of everyone. I'm a psychiatrist and I catch myself doing it too. Write a blog post working out why it happens, from the inside."}
-{"doc_id":"7488c0d3713e","kind":"passage","domain":"explanation","para_start":52,"para_end":54,"prompt":"what's the standard economist argument for why automation doesn't cause permanent unemployment? like where does the freed-up money and labor go"}
-{"doc_id":"f2830afacc65","skip":true,"reason":"mostly embedded tweets and chess move dumps; dated"}
-{"doc_id":"a3898510cfae","skip":true,"reason":"topical satire of 2020 primary candidates; out of date and joke-list format"}
-{"doc_id":"c8226dd7a20d","skip":true,"reason":"list of sponsor ads"}
-{"doc_id":"b644922e810f","skip":true,"reason":"short light verse entry, not a good essay model"}
-{"doc_id":"431222d1844e","skip":true,"reason":"link roundup of charities, dated"}
-{"doc_id":"a125e2a1c6ee","skip":true,"reason":"two-author debate with citations and statistics; depends on named speakers"}
-{"doc_id":"327407db5859","skip":true,"reason":"textbook-style review, dated facts on gene editing, mostly cited claims"}
+{"doc_id": "597f9d809499", "kind": "essay", "domain": "essay", "para_start": 0, "para_end": 8, "prompt": "Most doctors seem to think they're better than the average doctor, which can't be true of everyone. I'm a psychiatrist and I catch myself doing it too. Write a blog post working out why it happens, from the inside."}
+{"doc_id": "7488c0d3713e", "kind": "passage", "domain": "explanation", "para_start": 52, "para_end": 54, "prompt": "what's the standard economist argument for why automation doesn't cause permanent unemployment? like where does the freed-up money and labor go"}
+{"doc_id": "f2830afacc65", "skip": true, "reason": "mostly embedded tweets and chess move dumps; dated"}
+{"doc_id": "a3898510cfae", "skip": true, "reason": "topical satire of 2020 primary candidates; out of date and joke-list format"}
+{"doc_id": "c8226dd7a20d", "skip": true, "reason": "list of sponsor ads"}
+{"doc_id": "b644922e810f", "skip": true, "reason": "short light verse entry, not a good essay model"}
+{"doc_id": "431222d1844e", "skip": true, "reason": "link roundup of charities, dated"}
+{"doc_id": "a125e2a1c6ee", "skip": true, "reason": "two-author debate with citations and statistics; depends on named speakers"}
+{"doc_id": "327407db5859", "skip": true, "reason": "textbook-style review, dated facts on gene editing, mostly cited claims"}
