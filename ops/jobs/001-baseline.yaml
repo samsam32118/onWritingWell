@@ -8,6 +8,7 @@ steps:
   - download_base: {}
   - generate:
       model: base
+      timeout: 3600  # hard cap: a hang costs at most one GPU-hour
       runs:
         - {prompts: data/eval/smoke_prompts.jsonl, n: 1, tag: base, out: smoke_base.jsonl, max_tokens: 1024}
         - {prompts: data/prompts/eval.jsonl, n: 2, tag: base, out: eval_base.jsonl}
