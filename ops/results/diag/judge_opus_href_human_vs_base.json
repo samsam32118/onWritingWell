@@ -1,0 +1,16 @@
+{
+ "challenger": "human",
+ "judged_prompts": 68,
+ "win_rate": 0.9559,
+ "strict_wins": 67,
+ "ties": 0,
+ "losses": 1,
+ "order_consistency": 1.0,
+ "missing": 0,
+ "by_domain": {
+  "href": {
+   "n": 68,
+   "win_rate": 0.9559
+  }
+ }
+}
