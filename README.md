@@ -45,7 +45,8 @@ this repo (Claude Code)                        Modal (H200)
 * `build_corpus` copies the essays onto the Modal volume (`/vol/corpus.jsonl`) once; every
   later job reuses them. To remove them: `modal volume rm owl-vol /corpus.jsonl` (and `/data/` for the
   training sets built from them).
-* Judging is done by Claude subagents in Claude Code, not by API calls.
+* Judging: Jev (`owl/jev.py`, OpenRouter) ranks tournaments and runs per-round evals; a small
+  Claude-subagent check (`ops/workflows/judge.js`) referees each round.
 
 ## Layout
 
@@ -56,6 +57,7 @@ owl/units.py                paragraph spans <-> training examples
 owl/rubric.py               the definition of writing well (judge prompt)
 owl/slop.py                 judge-free tripwires (stock phrases, bullets, burstiness, length)
 owl/judging.py              pairwise comparisons -> chunks for judge agents -> win rates / DPO pairs
+owl/jev.py                  judge comparisons with Jev (OpenRouter decisions API)
 owl/train.py                LoRA SFT, DPO, merge (TRL + PEFT)
 owl/generate.py             vLLM sampling
 modal_app.py                Modal functions + job runner
