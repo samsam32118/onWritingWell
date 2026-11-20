@@ -1,0 +1,82 @@
+✓ Initialized. View run at 
+https://modal.com/apps/samarvir1996/main/ap-vgOPUw3knqqrbg05bcB5t4
+Building image im-72gj8DmxmZDUvV3npkVmNz
+=> Step 0: FROM vllm/vllm-openai:v0.33.0
+Getting image source signatures
+Copying blob sha256:5e13f64f2d4f0548d6adbfbec456ebb1fd2c32f9afe4407f59a4294994c89314
+Copying blob sha256:d292efec78f594b418066aec9a32b568f9e78b64147e751a9698d22b936b2ca2
+Copying blob sha256:cf57d2112d8994ff0bb5f867ab8e776272e1d0bcfbb6e6d7f38fd7973b7140cf
+Copying blob sha256:058206329b92bcf0a07dee26c17fd2b41e59022b41f7c5dd2a56e380536e572a
+Copying blob sha256:c567a87f21d2f8e46feb4f6c427eb5559d45a1a222f73d601352403d13af1ada
+Copying blob sha256:99a00cee21519666e7b3df57423b0d6ef1362319f8e4c6a22b943d7e8dfe0aa2
+Copying blob sha256:f8ca4e3fe64a811552bf91a425be2b23f2c298cfe1cb63ecb7b7563df5c7cbf0
+Copying blob sha256:9636b09d1a598fdd8d3cfd9df76ea0994e9a277fa7fe43ab84754619b05bc2df
+Copying blob sha256:526d5438c009ab7178af1646fed10ff6f47a73f5a1ae7b9f49e63e4ade7e3ae6
+Copying blob sha256:f66c5c7f4e11df94527627f6fdcedba6ccf972600a5dd3db318bb77a70f976f5
+Copying blob sha256:70f87b6ed43e1cbbe67ce74c7877fb771bf352b25d602a82ee4f840f2e265155
+Copying blob sha256:705139a7bba57bb37d9a2986f943814306aedcba44e7adbe754633088fb1cf09
+Copying blob sha256:82be7da05054a2a3127d979eed44361e0e21a1ca6f237a515c66753a9bfaf2a7
+Copying blob sha256:b408371da41670112070bab6660996db1d083cd3053074c89607006f139d21a1
+Copying blob sha256:0b3b5bd928240da4156c41fcfb400c1f4f8674acd2faee0413ab5a032dfb5f76
+Copying blob sha256:2b3dd3cad38a1ff4bed21db6a5390934f9e677088a4fc62296f355d78cfe4cf0
+Copying blob sha256:2b3dd3cad38a1ff4bed21db6a5390934f9e677088a4fc62296f355d78cfe4cf0
+Copying blob sha256:70784373049ee6466682265e54ae16d748ea5c734b1208fa140558b58d912910
+Copying blob sha256:6e948b165312790f79717b2a4aaf2e9f0eb6e4784aad909dcdb3e4a038a355b6
+Copying blob sha256:a18aeda6fd657e37f1a1124ae6310c4ae3ae16faeb130416356b98732e7f1f34
+Copying blob sha256:35f8b6337d90d58ee282c9f056ce7a33bb682eb9b59c532f76335b5eb065953f
+Copying blob sha256:804728a6b60a66f6545ab01ad656d01073ca1c665173c7623cc6bcb0133c4490
+Copying blob sha256:51950bdd823b2b444566c44be78d1a2510fe0cb49f8eea070ae8a3dc1e5b3717
+Copying blob sha256:da997ea44e13ba1e2a160e6bdbb51d90e96fc59026350f99c632c01c7e990cc6
+Copying blob sha256:8fef9eee2025a1d02d887a86cd127dc586f37366553e596b6d16c55304b13458
+Copying blob sha256:760365ae1fd74a265b4cb5342ceaad95370f8940ab6c79be2389b75375dc8f09
+Copying blob sha256:65eb9ab6b83e21fa9f391b87856bf17ab0a25db8c8da143ef30c3b1fdc98538b
+Copying blob sha256:473eaaab4960d73885bd22cafcb9add09234c527b9e18e0553b7c2937dcafd9b
+Copying blob sha256:4f4fb700ef54461cfa02571ae0db9a0dc1e0cdb5577484a6d75e68dc38e8acc1
+Copying blob sha256:c4be670c09ddeccb82cc6f83100c46bf65cc18a875377a33dcc3783004b6c7f8
+Copying blob sha256:89a788f7b2a3b6d59199aee3ef51ad87e23843c635dd9f755cfbc295765e434a
+Copying blob sha256:ca1955c920451c994d2c8ee5e108b4a42936fd4e3eb5950df062b1e2fc63071c
+Copying blob sha256:7548664242380b60f0ca002da1beeddd1ea1a0a44c5586e833a3bf5aef1fa96c
+Copying blob sha256:ad87ef624ebed46180be6ab4915ab4ddaa3339ec20bd69f9ec1d172a5a3ad7f1
+Copying blob sha256:4a00231f3b1f87d13d5d07baca37e1fe388d1d07a45e7741603a5260592142a9
+Copying blob sha256:f3e15822fd1a12ddae547dbac9d6d44ba50e137cfd69ac29cc2cefba1f98ee6f
+Copying blob sha256:fbde11398e224cde7d82d3fbab3e854c8c38402b3f196395d67dee08bec92bca
+Copying blob sha256:1cf82107648eaed4a9d10d72853607df843a9014c2bf713a62f75c36809fd4ba
+Copying blob sha256:482b22fb89c8d075dc5a5593a3e0ce59706e4107026d6cea6b8f76e8172fd72f
+Copying blob sha256:19353e27a4aedac04a04118149d70fd5e8c41e2939b6768de8aef4cd061ad462
+Copying config sha256:78487c2fb6699282a79ec33e3758310f23f1624e40ff77c3d90a133ae74762d7
+Writing manifest to image destination
+Unpacking OCI image
+   • unpacking rootfs ...     
+   • ... done                 
+   • unpacked image rootfs: /tmp/task-data/ta-01M7WAWNVN810TRTATT7RNR99B/registry-unpack0pIirI
+Copied image in 24.02s
+Saving image...
+Image saved, took 45.66s
+Built image im-72gj8DmxmZDUvV3npkVmNz in 228.45s
+Building image im-RGBxwh6sSkQZS26NK8gYI8
+=> Step 0: FROM base
+=> Step 1: ENTRYPOINT []
+Saving image...
+Image saved, took 1.84s
+Built image im-RGBxwh6sSkQZS26NK8gYI8 in 3.50s
+Building image im-Jmy8bYPS2VPITX0rL9LIW9
+=> Step 0: FROM base
+=> Step 1: COPY --from=ghcr.io/astral-sh/uv:latest /uv /.uv/uv
+Getting image source signatures
+Copying blob sha256:738af053281ffefe1f1e338797802de818be2055e29d46d982b10d1605f2e7b6
+Copying blob sha256:6194b0176b3040f6b7ddcb49a3eb00c776bd1c508e0012f743d1d9dc2611c37a
+Copying config sha256:a85d08de06542c59ea4a303dec5f82ef93a25e2d8edf5852a6cbee63fc5b23b1
+Writing manifest to image destination
+Unpacking OCI image
+   • unpacking rootfs ...     
+   • ... done                 
+   • unpacked image rootfs: /tmp/task-data/ta-01M7WB457PNMFAAN47HVGMAJ6B/registry-unpackuPwssz
+=> Step 2: RUN /.uv/uv pip install --python $(command -v python) --compile-bytecode pyyaml
+error: a value is required for '--python <PYTHON>' but none was supplied
+For more information, try '--help'.
+Terminating task due to error: failed to run builder command "/.uv/uv pip install --python $(command -v python) --compile-bytecode pyyaml": container exit status: 2
+Runner failed with exit code: -1
+Stopping app - uncaught exception raised locally: ImageBuildError('Image build for im-Jmy8bYPS2VPITX0rL9LIW9 failed.\nView the build logs:\n  modal image logs im-Jmy8bYPS2VPITX0rL9LIW9').
+Error: Image build for im-Jmy8bYPS2VPITX0rL9LIW9 failed.
+View the build logs:
+  modal image logs im-Jmy8bYPS2VPITX0rL9LIW9
