@@ -1,0 +1,61 @@
+{
+ "id": "002a-sft-probe",
+ "steps": [
+  {
+   "step": "build_corpus",
+   "ok": true,
+   "result": {
+    "ok": 1054,
+    "source:henrik_karlsson": 57,
+    "hash_mismatch": 816,
+    "source:slate_star_codex": 477,
+    "source:paul_graham": 165,
+    "source:patrick_mckenzie": 45,
+    "source:julia_evans": 230,
+    "source:derek_sivers": 334,
+    "source:astral_codex_ten": 250,
+    "source:joel_spolsky": 127,
+    "source:dan_luu": 84,
+    "source:nadia_asparouhova": 52,
+    "source:sam_altman": 33,
+    "source:chris_olah": 16,
+    "total": 1870
+   }
+  },
+  {
+   "step": "build_sft",
+   "ok": true,
+   "result": {
+    "examples": 1408,
+    "after_weighting": 1482,
+    "n_errors": 21,
+    "by_domain": {
+     "explanation": 234,
+     "conversation": 526,
+     "essay": 722
+    },
+    "by_source": {
+     "julia_evans": 47,
+     "paul_graham": 376,
+     "slate_star_codex": 464,
+     "patrick_mckenzie": 52,
+     "astral_codex_ten": 113,
+     "joel_spolsky": 91,
+     "nadia_asparouhova": 27,
+     "derek_sivers": 248,
+     "dan_luu": 6,
+     "henrik_karlsson": 42,
+     "sam_altman": 16
+    },
+    "mean_words": 985.3016194331984
+   }
+  },
+  {
+   "step": "train",
+   "ok": true,
+   "result": {
+    "model": "probe"
+   }
+  }
+ ]
+}

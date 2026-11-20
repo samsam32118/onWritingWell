@@ -1,0 +1,47 @@
+{
+ "examples": 1408,
+ "after_weighting": 1482,
+ "n_errors": 21,
+ "errors": [
+  "05f4d7289526:0: span too long",
+  "eefd6a2ecb3c:1: span too long",
+  "70d9a4c8714d:3: span too long",
+  "9a5d5242edb7:1: span too long",
+  "4a4b4480f72c:1: span too long",
+  "69c14f6efbed:1: span too long",
+  "dda8b6aa0cec:2: span too long",
+  "46a461d3bb02:1: span too long",
+  "a9693fdb8de6:1: span too long",
+  "fe971105a38d:1: span too long",
+  "f990c4d331c0:1: span too long",
+  "449c886f2bc5:1: span too long",
+  "654de3efa9c3:0: span too long",
+  "6ef9ad3dcf76:1: span too long",
+  "36821ddc9b8f:2: span too long",
+  "b32c7028122a:33: span too long",
+  "3f297d332433:1: span too long",
+  "e0b146984d14:2: span too long",
+  "e80cd7641ea7:2: span too long",
+  "e8adc2df5b5c:1: span too long",
+  "2e5d98eef77c:1: span too long"
+ ],
+ "by_domain": {
+  "explanation": 234,
+  "conversation": 526,
+  "essay": 722
+ },
+ "by_source": {
+  "julia_evans": 47,
+  "paul_graham": 376,
+  "slate_star_codex": 464,
+  "patrick_mckenzie": 52,
+  "astral_codex_ten": 113,
+  "joel_spolsky": 91,
+  "nadia_asparouhova": 27,
+  "derek_sivers": 248,
+  "dan_luu": 6,
+  "henrik_karlsson": 42,
+  "sam_altman": 16
+ },
+ "mean_words": 985.3016194331984
+}

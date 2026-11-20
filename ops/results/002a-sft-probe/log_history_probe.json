@@ -1,0 +1,21 @@
+[
+ {
+  "loss": 2.2761598587036134,
+  "grad_norm": 0.1491175889968872,
+  "learning_rate": 1.4644660940672627e-05,
+  "entropy": 2.106091183423996,
+  "mean_token_accuracy": 0.5009345654398203,
+  "num_tokens": 111265.0,
+  "epoch": 0.05398110661268556,
+  "step": 5
+ },
+ {
+  "train_runtime": 187.0079,
+  "train_samples_per_second": 0.428,
+  "train_steps_per_second": 0.027,
+  "total_flos": 1.770304146230928e+16,
+  "train_loss": 2.2761598587036134,
+  "epoch": 0.05398110661268556,
+  "step": 5
+ }
+]

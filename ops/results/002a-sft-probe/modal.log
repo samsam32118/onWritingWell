@@ -1,0 +1,76 @@
+✓ Initialized. View run at 
+https://modal.com/apps/samarvir1996/main/ap-Dad0wcm79zwEsoHy0JHtat
+✓ Created objects.
+├── ✓ Uploaded /home/runner/work/onWritingWell/onWritingWell/modal_app.py
+├── ✓ Uploaded /home/runner/work/onWritingWell/onWritingWell/configs
+├── ✓ Uploaded PythonPackage:owl
+├── ✓ Uploaded /home/runner/work/onWritingWell/onWritingWell/data
+├── ✓ Created Function generate.
+├── ✓ Created Function train.
+├── ✓ Created Function download_base.
+├── ✓ Created Function build_corpus.
+├── ✓ Created Function build_sft.
+├── ✓ Created Function build_human_pairs.
+└── ✓ Created Function ls.
+[job 002a-sft-probe] start build_corpus {}
+/usr/local/lib/python3.12/site-packages/urllib3/contrib/socks.py:50: DependencyWarning: SOCKS support in urllib3 requires the installation of optional dependencies: specifically, PySocks.  For more information, see https://urllib3.readthedocs.io/en/latest/advanced-usage.html#socks-proxies
+  warnings.warn(
+/root/owl/scrape.py:95: XMLParsedAsHTMLWarning: It looks like you're using an HTML parser to parse an XML document.
+Assuming this really is an XML document, what you're doing might work, but you should know that using an XML parser will be more reliable. To parse this document as XML, make sure you have the Python package 'lxml' installed, and pass the keyword argument `features="xml"` into the BeautifulSoup constructor.
+If you want or need to use an HTML parser on this document, you can make this warning go away by filtering it. To do that, run this code before calling the BeautifulSoup constructor:
+    from bs4 import XMLParsedAsHTMLWarning
+    import warnings
+    warnings.filterwarnings("ignore", category=XMLParsedAsHTMLWarning)
+  soup = BeautifulSoup(r.content, "lxml")
+[job 002a-sft-probe] done build_corpus: {"ok": 1054, "source:henrik_karlsson": 57, "hash_mismatch": 816, "source:slate_star_codex": 477, "source:paul_graham": 165, "source:patrick_mckenzie": 45, "source:julia_evans": 230, "source:derek_sivers": 334, "source:astral_codex_ten": 250, "source:joel_spolsky": 127, "source:dan_luu": 84, "source:nadia_asparouhova": 52, "source:sam_altman": 33, "source:chris_olah": 16, "total": 1870}
+[job 002a-sft-probe] start build_sft {"holdout": "data/holdout.json", "out": "sft1.jsonl"}
+[job 002a-sft-probe] done build_sft: {"examples": 1408, "after_weighting": 1482, "n_errors": 21, "by_domain": {"explanation": 234, "conversation": 526, "essay": 722}, "by_source": {"julia_evans": 47, "paul_graham": 376, "slate_star_codex": 464, "patrick_mckenzie": 52, "astral_codex_ten": 113, "joel_spolsky": 91, "nadia_asparouhova": 27, "derek_sivers": 248, "dan_luu": 6, "henrik_karlsson": 42, "sam_altman": 16}, "mean_words": 985.3016194331984}
+[job 002a-sft-probe] start train {"stage": "sft", "model": "base", "data": "vol:data/sft1.jsonl", "out_model": "probe", "timeout": 1800, "hp": {"max_steps": 5, "lr": 0.0001, "lora_r": 64, "lora_alpha": 64, "grad_accum": 16, "max_length": 6144}}
+==========
+== CUDA ==
+==========
+CUDA Version 13.0.1
+Container image Copyright (c) 2016-2023, NVIDIA CORPORATION & AFFILIATES. All rights reserved.
+This container image and its contents are governed by the NVIDIA Deep Learning Container License.
+By pulling and using the container, you accept the terms and conditions of this license:
+https://developer.nvidia.com/ngc/nvidia-deep-learning-container-license
+A copy of this license is made available in this container at /NGC-DL-CONTAINER-LICENSE for your convenience.
++ /usr/local/bin/python -m owl.train sft --model /vol/models/base --data /vol/data/sft1.jsonl --out /vol/adapters/probe --max-steps 5 --lr 0.0001 --lora-r 64 --lora-alpha 64 --grad-accum 16 --max-length 6144
+Adding EOS to train dataset:   0%|          | 0/1482 [00:00<?, ? examples/s]
+Adding EOS to train dataset: 100%|██████████| 1482/1482 [00:00<00:00, 57408.46 examples/s]
+Tokenizing train dataset:   0%|          | 0/1482 [00:00<?, ? examples/s]
+Tokenizing train dataset:   4%|▍         | 60/1482 [00:00<00:02, 585.60 examples/s]
+Tokenizing train dataset:  10%|▉         | 141/1482 [00:00<00:01, 709.34 examples/s]
+Tokenizing train dataset:  16%|█▌        | 230/1482 [00:00<00:01, 787.64 examples/s]
+Tokenizing train dataset:  21%|██        | 312/1482 [00:00<00:01, 793.42 examples/s]
+Tokenizing train dataset:  28%|██▊       | 411/1482 [00:00<00:01, 723.79 examples/s]
+Tokenizing train dataset:  34%|███▎      | 500/1482 [00:00<00:01, 768.00 examples/s]
+Tokenizing train dataset:  41%|████▏     | 613/1482 [00:00<00:01, 754.65 examples/s]
+Tokenizing train dataset:  49%|████▉     | 730/1482 [00:00<00:00, 755.25 examples/s]
+Tokenizing train dataset:  56%|█████▌    | 828/1482 [00:01<00:00, 807.27 examples/s]
+Tokenizing train dataset:  62%|██████▏   | 913/1482 [00:01<00:00, 811.32 examples/s]
+Tokenizing train dataset:  67%|██████▋   | 1000/1482 [00:01<00:00, 539.38 examples/s]
+Tokenizing train dataset:  73%|███████▎  | 1080/1482 [00:01<00:00, 590.93 examples/s]
+Tokenizing train dataset:  78%|███████▊  | 1162/1482 [00:01<00:00, 640.79 examples/s]
+Tokenizing train dataset:  84%|████████▍ | 1249/1482 [00:01<00:00, 695.94 examples/s]
+Tokenizing train dataset:  90%|█████████ | 1334/1482 [00:01<00:00, 733.42 examples/s]
+Tokenizing train dataset:  97%|█████████▋| 1442/1482 [00:02<00:00, 727.02 examples/s]
+Tokenizing train dataset: 100%|██████████| 1482/1482 [00:02<00:00, 697.36 examples/s]
+Building labels for train dataset:   0%|          | 0/1482 [00:00<?, ? examples/s]
+Building labels for train dataset:  51%|█████     | 759/1482 [00:00<00:00, 7553.95 examples/s]
+Building labels for train dataset: 100%|██████████| 1482/1482 [00:00<00:00, 4049.31 examples/s]
+Truncating train dataset:   0%|          | 0/1482 [00:00<?, ? examples/s]
+Truncating train dataset:  67%|██████▋   | 1000/1482 [00:00<00:00, 6944.42 examples/s]
+Truncating train dataset: 100%|██████████| 1482/1482 [00:00<00:00, 6819.27 examples/s]
+Dropping fully masked examples from train dataset:   0%|          | 0/1482 [00:00<?, ? examples/s]
+Dropping fully masked examples from train dataset: 100%|██████████| 1482/1482 [00:00<00:00, 16429.90 examples/s]
+[RANK 0] Detected kernel version 4.19.0, which is below the recommended minimum of 5.5.0; this can cause the process to hang. It is recommended to upgrade the kernel to the minimum version or higher.
+[transformers] The tokenizer has new PAD/BOS/EOS tokens that differ from the model config and generation config. The model config and generation config were aligned accordingly, being updated with the tokenizer's values. Updated tokens: {'eos_token_id': 248046}.
+{'loss': '2.276', 'grad_norm': '0.1491', 'learning_rate': '1.464e-05', 'entropy': '2.106', 'mean_token_accuracy': '0.5009', 'num_tokens': '1.113e+05', 'epoch': '0.05398'}
+{'train_runtime': '187', 'train_samples_per_second': '0.428', 'train_steps_per_second': '0.027', 'train_loss': '2.276', 'epoch': '0.05398'}
++ /usr/local/bin/python -m owl.train merge --model /vol/models/base --adapter /vol/adapters/probe --out /vol/models/probe
+[job 002a-sft-probe] done train: {"model": "probe"}
+Stopping app - local entrypoint completed.
+Runner terminated.
+✓ App completed. View run at 
+https://modal.com/apps/samarvir1996/main/ap-Dad0wcm79zwEsoHy0JHtat
