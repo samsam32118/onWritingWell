@@ -58,8 +58,10 @@ train_image = with_repo(
         "accelerate==1.15.0", "datasets", "flash-linear-attention==0.6.0", "safetensors"))
 # vLLM's own image ships FlashInfer's prebuilt kernels and the CUDA toolkit; a pip install on a
 # slim image tries to JIT-compile the sampler at startup and fails without nvcc.
-vllm_image = with_repo(modal.Image.from_registry("vllm/vllm-openai:v0.33.0")
-    .entrypoint([]).uv_pip_install("pyyaml"))
+# The image has python3 but no `python`, which Modal's tooling expects; pyyaml comes with vllm.
+vllm_image = with_repo(modal.Image.from_registry("vllm/vllm-openai:v0.33.0").entrypoint([])
+    .run_commands("ln -sf $(command -v python3) /usr/local/bin/python",
+        "python -c 'import vllm, yaml; print(vllm.__version__)'"))
 app = modal.App("onwritingwell")
 
 
