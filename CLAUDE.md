@@ -3,7 +3,8 @@
 Fine-tune Qwen3.8-27B to write well. See README.md for the pipeline.
 
 Project rules
-- Never commit scraped essay text. Only URLs, hashes, paragraph spans and prompts we wrote.
+- The scraped essays are committed at data/corpus/corpus.jsonl.gz by the owner's decision
+  (to be removed later). Keep it in sync with data/manifest.jsonl hashes.
 - Training/sampling runs on Modal via ops/jobs/*.yaml pushed to a claude/** branch.
 - Judging is done by Claude subagents (ops/workflows/judge.js). Sonnet 5.5 for high-volume
   training-round judging; Opus 5.5 for held-out evals, calibration and tie-breaks.

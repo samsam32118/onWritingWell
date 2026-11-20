@@ -1,4 +1,3 @@
-data/corpus*
 data/raw/
 *.pyc
 __pycache__/

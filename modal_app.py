@@ -109,13 +109,28 @@ def download_base(job, args):
 
 @app.function(image=cpu_image, volumes=MOUNTS, timeout=2 * 3600, **IDLE)
 def build_corpus(job, args):
-    """Fetch every manifest URL; flag docs whose text hash differs from the one annotated,
-    since their paragraph indices may have shifted."""
+    """Put the essays on the volume: from data/corpus/corpus.jsonl.gz when present, else by
+    fetching every manifest URL and flagging docs whose text hash differs from the annotated
+    one (their paragraph indices may have shifted)."""
     import concurrent.futures as cf
 
     from owl.scrape import fetch_doc
 
-    # The essays are fetched once and kept on the volume; pass force to fetch again.
+    if Path(REPO, "data/corpus/corpus.jsonl.gz").exists() and not args.get("refetch"):
+        # The exact text the annotations were built on, committed to the repo.
+        import gzip
+
+        docs = [json.loads(l) for l in gzip.open(f"{REPO}/data/corpus/corpus.jsonl.gz", "rt")]
+        for d in docs:
+            d["hash_mismatch"] = False
+        Path(VOL, "corpus.jsonl").write_text(
+            "".join(json.dumps(d, ensure_ascii=False) + "\n" for d in docs))
+        stats = {"ok": len(docs), "source": "repo", "total": len(docs)}
+        Path(VOL, "corpus_stats.json").write_text(json.dumps(stats, indent=1))
+        (results(job) / "corpus_stats.json").write_text(json.dumps(stats, indent=1))
+        vol.commit()
+        return stats
+    # Fetched once and kept on the volume; pass force to fetch again.
     if Path(VOL, "corpus.jsonl").exists() and not args.get("force"):
         st = Path(VOL, "corpus_stats.json")
         return json.loads(st.read_text()) if st.exists() else {"status": "exists"}
