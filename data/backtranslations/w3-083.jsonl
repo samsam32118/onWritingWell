@@ -1,0 +1,6 @@
+{"doc_id": "d108fd3c9eb6", "skip": true, "reason": "Leans on images/tumblr gifs and tweets, depends on context of an earlier post and a dated culture-war controversy"}
+{"doc_id": "b4592bd41e5f", "skip": true, "reason": "Mostly a quoted excerpt from another book plus a short note"}
+{"doc_id": "84065ae682e8", "kind": "essay", "domain": "essay", "para_start": 0, "para_end": 23, "prompt": "Congressional voting data gets turned into a left-right scale without anyone telling the algorithm what left and right are. Could something like that work for morality? Write an essay exploring whether you could discover what 'good' means statistically from ordinary life decisions."}
+{"doc_id": "e7b9b70f1ec9", "skip": true, "reason": "Long list of medical suggestions, over length and dated drug-specific advice"}
+{"doc_id": "7a379e8d0090", "kind": "essay", "domain": "essay", "para_start": 1, "para_end": 27, "prompt": "Write a funny but serious blog post about why a doctor will happily prescribe a $300-a-month drug that is basically a supplement you can buy for $30. Is the pharmaceutical industry just greedy here, or is something else going on?"}
+{"doc_id": "ff9739b75bf2", "kind": "passage", "domain": "explanation", "para_start": 78, "para_end": 83, "prompt": "why don't whales get cancer more often? they have so many more cells than we do"}

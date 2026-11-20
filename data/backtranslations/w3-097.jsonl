@@ -1,0 +1,17 @@
+{"doc_id": "a4712485966f", "kind": "essay", "domain": "essay", "para_start": 0, "para_end": 25, "prompt": "Why do arguments about who is the brave dissenter and who is the conformist go so sour so quickly? Write an essay on this pattern in political and cultural debate, including why both sides can be so sure they're the underdog."}
+{"doc_id": "a4712485966f", "kind": "passage", "domain": "conversation", "para_start": 0, "para_end": 2, "prompt": "why do online arguments get so nasty when people start claiming they're the brave ones going against the mainstream?"}
+{"doc_id": "3a9b181370c9", "kind": "essay", "domain": "essay", "para_start": 0, "para_end": 15, "prompt": "Write a deadpan, tongue-in-cheek essay that treats morality as if it were a physical force, with real-sounding calculations, and uses it to explain why we feel less obligated to distant strangers."}
+{"doc_id": "5a94019f998f", "kind": "essay", "domain": "essay", "para_start": 0, "para_end": 28, "prompt": "Some questions, like whether Mozart is better than Beethoven, seem neither purely subjective nor purely objective. Write a blog post proposing a way to think about this and a word for it."}
+{"doc_id": "5a94019f998f", "kind": "passage", "domain": "conversation", "para_start": 0, "para_end": 4, "prompt": "is 'Mozart is better than Beethoven' just a matter of opinion? but then it feels weird to say the same about Mozart vs a toddler banging on a toy piano"}
+{"doc_id": "43856631cbcc", "kind": "essay", "domain": "essay", "para_start": 0, "para_end": 10, "prompt": "I've been wondering why people think of atheists as loud and angry. Write a short blog post exploring whether that stereotype could come from how we notice groups, and whether it generalizes to other groups."}
+{"doc_id": "2a8031eca3e3", "kind": "essay", "domain": "essay", "para_start": 1, "para_end": 28, "prompt": "Many people object to putting numbers on things we can't really measure, like how bad North Korea is to live in or the chance your laptop dies. Write a post defending using made-up numbers anyway."}
+{"doc_id": "986417b77d55", "kind": "essay", "domain": "essay", "para_start": 0, "para_end": 13, "prompt": "Write a skeptical but enthusiastic blog post reviewing a psychology paper that tried to use a reaction-time test to predict suicide risk, covering what it claims, what's wrong with it, and why the idea still matters."}
+{"doc_id": "45ec03382c78", "skip": true, "reason": "sponsor blurbs only"}
+{"doc_id": "82631ff7b7e3", "skip": true, "reason": "index page and sidebar boilerplate"}
+{"doc_id": "c42b07e379b7", "skip": true, "reason": "conworld post depending on earlier posts' invented terms"}
+{"doc_id": "01cc52be8440", "skip": true, "reason": "conworld post depending on earlier posts"}
+{"doc_id": "6a9c99cb93f8", "skip": true, "reason": "conworld post depending on earlier posts"}
+{"doc_id": "f15c5caeb94c", "skip": true, "reason": "conworld worldbuilding overview, not essay-like"}
+{"doc_id": "86b3a4844ad8", "skip": true, "reason": "survey results post relying on charts/data"}
+{"doc_id": "8b640ebe49ea", "skip": true, "reason": "sponsor blurbs only"}
+{"doc_id": "d8dc6294ac8e", "skip": true, "reason": "statistics-heavy series post with retracted claims and dated data"}

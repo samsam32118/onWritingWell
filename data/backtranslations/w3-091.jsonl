@@ -1,0 +1,7 @@
+{"doc_id": "694581b23a78", "skip": true, "reason": "Point-by-point reply to another writer's essay with long quoted passages; depends on that context."}
+{"doc_id": "ac7e7da6e33b", "skip": true, "reason": "Literature review of marijuana research from 2014 with dated facts; too long and context-bound."}
+{"doc_id": "8f15a8339f93", "skip": true, "reason": "Summary of two papers that leans on images and tables we cannot see."}
+{"doc_id": "af5ccbd55910", "kind": "essay", "domain": "essay", "para_start": 0, "para_end": 18, "prompt": "People love to say that the First Amendment only restricts the government, so a boss firing someone for something they said isn't a free speech issue. Legally that's right, but it feels like it misses something. Write an essay on whether free speech means anything beyond what the law requires, and what a healthy norm of disagreement looks like."}
+{"doc_id": "8afaf95fdd9c", "skip": true, "reason": "Short blog comment reacting to a specific post and news event; depends on external context."}
+{"doc_id": "98b8f97f2155", "skip": true, "reason": "Parody poem."}
+{"doc_id": "7f7b69198fb1", "kind": "essay", "domain": "essay", "para_start": 0, "para_end": 28, "prompt": "I want a blog post about how petty and vicious online communities get, from fandom feuds to hobbyist forums, and what that says about people in general. Feel free to draw on personal experience of getting too invested in some absurd internet subculture as a teenager."}
