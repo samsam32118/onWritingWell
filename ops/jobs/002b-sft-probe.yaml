@@ -1,7 +1,8 @@
 # Probe 2 (about $1): corpus rebuilt with extraction libraries pinned to the local versions
-# (probe 1 lost 816 docs to hash mismatches), then 8 steps at 4 sequences per step with the
-# causal-conv1d kernel and per-step timing. No merge. Capped at 30 minutes.
+# (probe 1 lost 816 docs to hash mismatches), then 8 steps at 4 sequences per step with
+# per-step timing. No merge. Capped at 30 minutes.
 id: 002b-sft-probe
+# rerun 2: without causal-conv1d (no wheel, build fails on CUDA 13)
 steps:
   - build_corpus: {}
   - build_sft: {holdout: data/holdout.json, out: sft1.jsonl}

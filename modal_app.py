@@ -61,15 +61,9 @@ train_image = with_repo(
     .uv_pip_install("torch==2.14.0", "torchvision==0.29.0",
         index_url="https://download.pytorch.org/whl/cu130")
     .uv_pip_install("transformers==5.22.2", "trl==1.17.1", "peft==0.21.2",
-        "accelerate==1.15.0", "datasets", "flash-linear-attention==0.6.0", "safetensors")
-    # Fused short-convolution kernel for the linear-attention layers; without it transformers
-    # falls back to a slow PyTorch loop. Built for Hopper and Blackwell only.
-    .run_commands("pip install ninja packaging wheel",
-        "TORCH_CUDA_ARCH_LIST='9.0;10.0' MAX_JOBS=8 pip install --no-build-isolation "
-        "causal-conv1d==1.7.0"))
-# vLLM's own image ships FlashInfer's prebuilt kernels and the CUDA toolkit; a pip install on a
-# slim image tries to JIT-compile the sampler at startup and fails without nvcc.
-# The image has python3 but no `python`, which Modal's tooling expects; pyyaml comes with vllm.
+        "accelerate==1.15.0", "datasets", "flash-linear-attention==0.6.0", "safetensors"))
+# causal-conv1d (a fused short-conv kernel) has no wheel for torch 2.14/cu130 and does not
+# build against CUDA 13's compiler checks; transformers' PyTorch fallback is used instead.
 vllm_image = with_repo(modal.Image.from_registry("vllm/vllm-openai:v0.33.0").entrypoint([])
     .run_commands("ln -sf $(command -v python3) /usr/local/bin/python",
         "python -c 'import vllm, yaml; print(vllm.__version__)'"))
