@@ -1,0 +1,34 @@
+{
+ "id": "010-r2",
+ "steps": [
+  {
+   "step": "train",
+   "ok": true,
+   "result": {
+    "model": "pol2"
+   }
+  },
+  {
+   "step": "generate",
+   "ok": true,
+   "result": {
+    "eval_pol2.jsonl": {
+     "rows": 90,
+     "truncated": 0
+    },
+    "cap_pol2.jsonl": {
+     "rows": 60,
+     "truncated": 0
+    },
+    "r2_plain.jsonl": {
+     "rows": 800,
+     "truncated": 5
+    },
+    "r2_styled.jsonl": {
+     "rows": 800,
+     "truncated": 5
+    }
+   }
+  }
+ ]
+}
