@@ -155,8 +155,8 @@ def build_corpus(job, args):
 
 @app.function(image=cpu_image, volumes=MOUNTS, timeout=3600, **IDLE)
 def build_sft(job, args):
-    """Join annotator units with the corpus into chat examples, weight sources per
-    configs/sources.yaml, optionally mix in retention examples. Held-out docs and docs whose
+    """Join annotator units (of the given kinds) with the corpus into chat examples, weight
+    sources per configs/sources.yaml (overridable per job), optionally mix in retention. Held-out docs and docs whose
     text changed since annotation are dropped."""
     import yaml
 
@@ -167,7 +167,8 @@ def build_sft(job, args):
     examples, errors = [], []
     for u in load_units(path(args.get("units", "data/backtranslations"))):
         doc = corpus.get(u["doc_id"])
-        if u.get("skip") or u["doc_id"] in holdout or doc and doc["hash_mismatch"]:
+        if u.get("skip") or u["doc_id"] in holdout or doc and doc["hash_mismatch"] \
+                or u["kind"] not in args.get("kinds", ["essay", "passage"]):
             continue
         err = validate_unit(u, doc)
         text = "" if err else span_text(doc, u["para_start"], u["para_end"])
@@ -183,13 +184,15 @@ def build_sft(job, args):
     # Integer part of a source weight repeats the example, the fraction samples once more.
     weights = {s["name"]: s.get("weight", 1.0)
         for s in yaml.safe_load(open(f"{REPO}/configs/sources.yaml"))["sources"]}
+    weights.update(args.get("weights", {}))
     g = random.Random(0)
     mixed = []
     for e in examples:
         w = weights.get(e["source"], 1.0)
         mixed += [e] * (int(w) + (g.random() < w - int(w)))
     if args.get("retention"):
-        ret = [json.loads(l) for l in open(path(args["retention"]))]
+        ret = [json.loads(l) for f in sorted(Path(path(args["retention"])).glob("*.jsonl"))
+            for l in open(f)]
         g.shuffle(ret)
         mixed += [{"id": r["id"], "domain": "retention", "source": "retention", "messages": [
             {"role": "user", "content": r["prompt"]},

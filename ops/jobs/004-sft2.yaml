@@ -1,0 +1,23 @@
+# SFT 2, after 002's sft1 lost to base 0.14 (Opus, both orders). sft1 learned the blog
+# persona from passages pasted as chat answers: invented first-person anecdotes, ignoring
+# the user, one-line paragraphs that loop. Changes:
+# - whole-essay units only (the judge prefers the human essay over base 96% when the
+#   request really asks for it); conversation/explanation voice comes from on-policy rounds
+# - 540 retention examples (Claude-written, correct, brief: math, code, facts, format,
+#   short replies) teach answering the user and stopping
+# - Sivers down-weighted (one-line paragraphs), lr 1e-4 -> 5e-5 against epoch-2 memorization
+# The sft2 answers to its own prompts stay on the volume for offline-DPO loop pairs.
+id: 004-sft2
+steps:
+  - build_sft: {holdout: data/holdout.json, out: sft2.jsonl, kinds: [essay],
+      weights: {derek_sivers: 0.5}, retention: data/retention, retention_frac: 0.4}
+  - train: {stage: sft, model: base, data: vol:data/sft2.jsonl, out_model: sft2, timeout: 12600,
+      hp: {epochs: 2, lr: 5.0e-5, lora_r: 64, lora_alpha: 64, grad_accum: 16, max_length: 6144}}
+  - generate:
+      model: sft2
+      timeout: 4800
+      runs:
+        - {prompts: data/prompts/eval.jsonl, tag: sft2, out: eval_sft2.jsonl}
+        - {prompts: data/eval/human_ref_prompts.jsonl, tag: sft2, out: href_sft2.jsonl}
+        - {prompts: data/eval/capability_prompts.jsonl, tag: sft2, out: cap_sft2.jsonl, temperature: 0.2}
+        - {prompts: results:004-sft2/sft_prompts_sft2.jsonl, tag: sft2, out: sft2_on_sft_prompts.jsonl, private: true, temperature: 0.7}
