@@ -4,3 +4,4 @@ steps:
   - ls: {}
   - download_base: {}
   - generate: {model: base, prompts: data/eval/smoke_prompts.jsonl, n: 2, tag: base, out: smoke_base.jsonl, max_tokens: 2048}
+# retry: 2026-11-20T00:03:35Z
