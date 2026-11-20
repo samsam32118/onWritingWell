@@ -17,15 +17,12 @@ ap.add_argument("--model", required=True)
 ap.add_argument("--runs", required=True)
 ap.add_argument("--tp", type=int, default=1)
 ap.add_argument("--max-model-len", type=int, default=12288)
-ap.add_argument("--bf16", action="store_true", help="skip on-the-fly FP8 weight quantization")
 a = ap.parse_args()
 
-# FP8 weights roughly halve memory traffic, the bottleneck when sampling; every model is
-# sampled the same way so comparisons stay fair. Text only: zero multimodal items skips
-# profiling the vision encoder.
+# Text only: zero multimodal items skips profiling the vision encoder.
 llm = LLM(model=a.model, tensor_parallel_size=a.tp, max_model_len=a.max_model_len,
-    quantization=None if a.bf16 else "fp8", gpu_memory_utilization=0.90,
-    limit_mm_per_prompt={"image": 0, "video": 0}, enable_prefix_caching=True)
+    gpu_memory_utilization=0.90, limit_mm_per_prompt={"image": 0, "video": 0},
+    enable_prefix_caching=True)
 for run in json.load(open(a.runs)):
     rows = [json.loads(l) for l in open(run["prompts"]) if l.strip()][:run.get("limit")]
     sp = SamplingParams(n=run.get("n", 1), temperature=run.get("temperature", 0.8), top_p=0.95,

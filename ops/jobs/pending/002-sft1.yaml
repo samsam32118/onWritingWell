@@ -1,16 +1,17 @@
-# First fine-tune: LoRA SFT, 1 epoch on (request -> human essay/passage), then sample it.
-# ~2.8k units (4.1M tokens) upsampled by configs/sources.yaml weights; held-out essays excluded.
-# Base answers to held-out essay prompts ride along in the same container as nothing else
-# needs the base model in this job.
+# First fine-tune: LoRA SFT on (request -> human essay/passage), then sample it.
+# ~2.8k units upsampled by configs/sources.yaml weights; held-out essays excluded.
+# Base answers to the SFT prompts stay on the volume (paired with human text for offline DPO
+# in 003); base answers to held-out essay prompts are exported. One model load per container.
 id: 002-sft1
 steps:
   - build_corpus: {}
   - build_sft: {holdout: data/holdout.json, out: sft1.jsonl}
   - - train: {stage: sft, model: base, data: vol:data/sft1.jsonl, out_model: sft1,
-        hp: {epochs: 1, lr: 1.0e-4, lora_r: 64, lora_alpha: 64, grad_accum: 16, max_length: 6144}}
+        hp: {epochs: 2, lr: 1.0e-4, lora_r: 64, lora_alpha: 64, grad_accum: 16, max_length: 6144}}
     - generate:
         model: base
         runs:
+          - {prompts: results:002-sft1/sft_prompts_sft1.jsonl, tag: base, out: base_on_sft_prompts.jsonl, private: true, temperature: 0.7}
           - {prompts: data/eval/human_ref_prompts.jsonl, tag: base, out: href_base.jsonl}
   - generate:
       model: sft1
@@ -18,5 +19,3 @@ steps:
         - {prompts: data/prompts/eval.jsonl, tag: sft1, out: eval_sft1.jsonl}
         - {prompts: data/eval/human_ref_prompts.jsonl, tag: sft1, out: href_sft1.jsonl}
         - {prompts: data/eval/capability_prompts.jsonl, tag: sft1, out: cap_sft1.jsonl, temperature: 0.2}
-        # round-1 policy samples for the first preference round, 600 training prompts x 4
-        - {prompts: data/prompts/train.jsonl, n: 4, limit: 600, tag: sft1, out: r1_samples.jsonl}
