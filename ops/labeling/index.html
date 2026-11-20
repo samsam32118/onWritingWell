@@ -55,6 +55,10 @@ h1 { font: 600 20px/1.2 var(--sans); margin: 0; letter-spacing: -0.01em; text-wr
 .scale button[aria-pressed="true"] { background: var(--accent); border-color: var(--accent); color: var(--surface) }
 .scale button[aria-pressed="true"] kbd { color: var(--surface) }
 .row { display: flex; gap: 8px; flex-wrap: wrap; align-items: center }
+.chips { display: flex; flex-wrap: wrap; gap: 6px }
+.chips button { font: 500 13px var(--sans); padding: 5px 10px; border-radius: 999px; border: 1px solid var(--line);
+  background: var(--bg); color: var(--muted); cursor: pointer }
+.chips button[aria-pressed="true"] { border-color: var(--accent); color: var(--accent); background: var(--accent-soft) }
 .row input { flex: 1 1 260px; min-width: 0; font: 14px var(--sans); padding: 8px 10px; border: 1px solid var(--line); border-radius: 8px; background: var(--bg); color: var(--fg) }
 .row button { font: 500 14px var(--sans); padding: 8px 14px; border-radius: 8px; border: 1px solid var(--line); background: var(--bg); color: var(--fg); cursor: pointer }
 .row button.primary { background: var(--fg); color: var(--bg); border-color: var(--fg) }
@@ -77,7 +81,7 @@ h1 { font: 600 20px/1.2 var(--sans); margin: 0; letter-spacing: -0.01em; text-wr
   <main id="main">
     <div class="empty" id="empty">
       <h2>Waiting for pairs</h2>
-      <p id="emptyText">Pairs of model replies appear here once Claude loads a batch. Each pair shows one request and two anonymous replies; you pick the better-written one, judging both how it sounds and whether the ideas are right.</p>
+      <p id="emptyText">Pairs of replies appear here once Claude publishes a batch. Each pair shows one request and two anonymous replies; you pick the better-written one, judging both how it sounds and whether the ideas are right.</p>
     </div>
   </main>
 </div>
@@ -90,6 +94,15 @@ h1 { font: 600 20px/1.2 var(--sans); margin: 0; letter-spacing: -0.01em; text-wr
       <button id="v3" data-v="A=B" aria-pressed="false">Can't choose<kbd>3</kbd></button>
       <button id="v4" data-v="B>A" aria-pressed="false">B better<kbd>4</kbd></button>
       <button id="v5" data-v="B>>A" aria-pressed="false">B much better<kbd>5</kbd></button>
+    </div>
+    <div class="chips" role="group" aria-label="Why the winner is better (optional)">
+      <button id="t1" data-t="sounds" aria-pressed="false">Sounds better</button>
+      <button id="t2" data-t="ideas" aria-pressed="false">Ideas better</button>
+      <button id="t3" data-t="filler" aria-pressed="false">Less filler</button>
+      <button id="t4" data-t="format" aria-pressed="false">Better format</button>
+      <button id="t5" data-t="honest" aria-pressed="false">More direct / honest</button>
+      <button id="t6" data-t="length" aria-pressed="false">Better length</button>
+      <button id="t7" data-t="wrong" aria-pressed="false">Loser has an error</button>
     </div>
     <div class="row">
       <input id="note" type="text" placeholder="Why? (optional, but it teaches the judge most)" aria-label="Reason for your verdict">
@@ -129,6 +142,7 @@ function render() {
   const l = labels[p.id];
   setChoice(l ? l.verdict : null);
   $("note").value = l?.note || "";
+  document.querySelectorAll(".chips button").forEach(b => b.setAttribute("aria-pressed", String(!!l?.tags?.includes(b.dataset.t))));
   $("prev").disabled = idx === 0;
   $("status").textContent = l ? "Saved earlier" : ""; $("status").className = "status" + (l ? " ok" : "");
 }
@@ -143,7 +157,8 @@ function setChoice(v) {
 async function save() {
   if (!choice || idx >= pairs.length) return;
   const p = pairs[idx];
-  const rec = { verdict: choice, note: $("note").value.trim(), pair: p.id, at: new Date().toISOString() };
+  const tags = [...document.querySelectorAll(".chips button[aria-pressed=true]")].map(b => b.dataset.t);
+  const rec = { verdict: choice, tags, note: $("note").value.trim(), pair: p.id, set: p.set || "", at: new Date().toISOString() };
   $("next").disabled = true; $("status").textContent = "Saving…"; $("status").className = "status";
   try {
     if (db) await db.collection("labels").doc(p.id).set(rec);
@@ -158,6 +173,8 @@ async function save() {
 }
 
 document.querySelectorAll(".scale button").forEach(b => b.addEventListener("click", () => setChoice(b.dataset.v)));
+document.querySelectorAll(".chips button").forEach(b => b.addEventListener("click", () =>
+  b.setAttribute("aria-pressed", String(b.getAttribute("aria-pressed") !== "true"))));
 $("next").addEventListener("click", save);
 $("prev").addEventListener("click", () => { if (idx > 0) { idx--; render(); } });
 document.addEventListener("keydown", e => {
@@ -168,16 +185,19 @@ document.addEventListener("keydown", e => {
 });
 
 (async () => {
-  const timer = setTimeout(() => { if (!pairs.length) $("emptyText").textContent = "The label store did not answer. Reload the page to try again."; }, 10000);
+  const timer = setTimeout(() => { if (!pairs.length) $("emptyText").textContent = "The pairs did not load. Reload the page to try again."; }, 10000);
+  try {
+    const r = await fetch("pairs.json", { cache: "no-store" });
+    pairs = r.ok ? await r.json() : [];
+  } catch (e) { pairs = []; }
+  clearTimeout(timer);
   db = await window.claude?.use?.("db");
-  if (!db) { clearTimeout(timer); $("count").textContent = "read-only"; $("emptyText").textContent = "Sign in to claude.ai to see and label pairs."; return; }
-  let gotPairs = false, gotLabels = false;
-  const ready = () => { if (gotPairs && gotLabels) { clearTimeout(timer); if (idx === 0 || idx >= pairs.length) idx = firstOpen(); render(); } };
-  db.collection("pairs").orderBy("order").limit(1000).onSnapshot(s => {
-    pairs = s.docs.map(d => ({ id: d.id, ...d.data() })); gotPairs = true; ready();
-  }, () => { $("emptyText").textContent = "Could not load pairs. Reload the page to try again."; });
+  if (!db) { $("count").textContent = "read-only"; $("emptyText").textContent = "Sign in to claude.ai to label pairs."; render(); return; }
+  let first = true;
   db.collection("labels").limit(1000).onSnapshot(s => {
-    labels = Object.fromEntries(s.docs.map(d => [d.id, d.data()])); gotLabels = true; ready();
-  }, () => { gotLabels = true; ready(); });
+    labels = Object.fromEntries(s.docs.map(d => [d.id, d.data()]));
+    if (first) { idx = firstOpen(); first = false; }
+    render();
+  }, () => { $("status").textContent = "Could not reach the label store. Reload to try again."; render(); });
 })();
 </script>
