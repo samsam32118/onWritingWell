@@ -1,0 +1,24 @@
+{
+ "challenger": "pol1",
+ "judged_prompts": 90,
+ "win_rate": 0.3361,
+ "strict_wins": 18,
+ "ties": 0,
+ "losses": 72,
+ "order_consistency": 1.0,
+ "missing": 0,
+ "by_domain": {
+  "conversation": {
+   "n": 30,
+   "win_rate": 0.3167
+  },
+  "essay": {
+   "n": 30,
+   "win_rate": 0.3583
+  },
+  "explanation": {
+   "n": 30,
+   "win_rate": 0.3333
+  }
+ }
+}
