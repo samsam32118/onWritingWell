@@ -1,0 +1,16 @@
+# Fast-loop round 2: DPO pol1 -> pol2 on round-1 tournament pairs (pol1 plain + styled).
+# Round 1 (lr 1e-5) gave a healthy curve but a small step (0.55 vs base), so lr is 2e-5.
+id: 010-r2
+steps:
+  - train: {stage: dpo, model: pol1, data: data/rounds/r1_pairs.jsonl, out_model: pol2,
+      timeout: 5400,
+      hp: {epochs: 1, lr: 2.0e-5, beta: 0.1, rpo_alpha: 0.2, lora_r: 64, lora_alpha: 64,
+        grad_accum: 8, max_length: 6144}}
+  - generate:
+      model: pol2
+      timeout: 3600
+      runs:
+        - {prompts: data/prompts/eval_fast.jsonl, tag: pol2, out: eval_pol2.jsonl}
+        - {prompts: data/eval/capability_prompts.jsonl, tag: pol2, out: cap_pol2.jsonl, temperature: 0.2}
+        - {prompts: data/prompts/train_r2.jsonl, tag: pol2, out: r2_plain.jsonl, n: 2, temperature: 0.8, max_tokens: 2048}
+        - {prompts: data/prompts/train_r2.jsonl, tag: pol2s, out: r2_styled.jsonl, n: 2, temperature: 0.8, max_tokens: 2048, system: configs/style_system_prompt.txt}
