@@ -1,0 +1,9 @@
+# Short probe before the full SFT run: builds the corpus and SFT set on CPU, then trains
+# 5 optimizer steps (80 sequences) to check the 27B training path on this GPU and measure
+# tokens/s, so the full run's cost is known before paying for it. Capped at 30 minutes.
+id: 002a-sft-probe
+steps:
+  - build_corpus: {}
+  - build_sft: {holdout: data/holdout.json, out: sft1.jsonl}
+  - train: {stage: sft, model: base, data: vol:data/sft1.jsonl, out_model: probe, timeout: 1800,
+      hp: {max_steps: 5, lr: 1.0e-4, lora_r: 64, lora_alpha: 64, grad_accum: 16, max_length: 6144}}
