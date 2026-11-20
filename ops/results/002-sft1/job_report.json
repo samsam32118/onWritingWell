@@ -1,0 +1,82 @@
+{
+ "id": "002-sft1",
+ "steps": [
+  {
+   "step": "build_corpus",
+   "ok": true,
+   "result": {
+    "ok": 2727,
+    "source": "repo",
+    "total": 2727
+   }
+  },
+  {
+   "step": "build_sft",
+   "ok": true,
+   "result": {
+    "examples": 2671,
+    "after_weighting": 2775,
+    "n_errors": 44,
+    "by_domain": {
+     "essay": 1148,
+     "explanation": 627,
+     "conversation": 1000
+    },
+    "by_source": {
+     "slate_star_codex": 671,
+     "julia_evans": 337,
+     "paul_graham": 644,
+     "derek_sivers": 252,
+     "nadia_asparouhova": 65,
+     "joel_spolsky": 155,
+     "astral_codex_ten": 264,
+     "dan_luu": 149,
+     "chris_olah": 31,
+     "henrik_karlsson": 83,
+     "patrick_mckenzie": 93,
+     "sam_altman": 31
+    },
+    "mean_words": 994.9099099099099
+   }
+  },
+  {
+   "step": "train",
+   "ok": true,
+   "result": {
+    "model": "sft1"
+   }
+  },
+  {
+   "step": "generate",
+   "ok": true,
+   "result": {
+    "base_on_sft_prompts.jsonl": {
+     "rows": 2671,
+     "truncated": 9
+    },
+    "href_base.jsonl": {
+     "rows": 68,
+     "truncated": 0
+    }
+   }
+  },
+  {
+   "step": "generate",
+   "ok": true,
+   "result": {
+    "eval_sft1.jsonl": {
+     "rows": 180,
+     "truncated": 15
+    },
+    "href_sft1.jsonl": {
+     "rows": 68,
+     "truncated": 16
+    },
+    "cap_sft1.jsonl": {
+     "rows": 60,
+     "truncated": 8
+    }
+   }
+  }
+ ]
+}
