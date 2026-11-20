@@ -42,6 +42,9 @@ this repo (Claude Code)                        Modal (H200)
 * The human-written corpus is fetched on Modal from [`data/manifest.jsonl`](data/manifest.jsonl)
   (URL + text hash) and never committed: its authors hold the copyright. The repo holds only
   URLs, hashes, paragraph spans, and prompts we wrote. Everything else here is CC-BY-4.0.
+* The essays are fetched once into the Modal volume (`/vol/corpus.jsonl`) and reused by every
+  job. To remove them: `modal volume rm owl-vol /corpus.jsonl` (and `/data/` for the
+  training sets built from them).
 * Judging is done by Claude subagents in Claude Code, not by API calls.
 
 ## Layout

@@ -115,6 +115,10 @@ def build_corpus(job, args):
 
     from owl.scrape import fetch_doc
 
+    # The essays are fetched once and kept on the volume; pass force to fetch again.
+    if Path(VOL, "corpus.jsonl").exists() and not args.get("force"):
+        st = Path(VOL, "corpus_stats.json")
+        return json.loads(st.read_text()) if st.exists() else {"status": "exists"}
     manifest = [json.loads(l) for l in open(path(args.get("manifest", "data/manifest.jsonl")))]
     stats = Counter()
     with open(f"{VOL}/corpus.jsonl", "w") as f, cf.ThreadPoolExecutor(8) as ex:
@@ -127,9 +131,10 @@ def build_corpus(job, args):
             stats["hash_mismatch" if doc["hash_mismatch"] else "ok"] += 1
             stats["source:" + doc["source"]] += 1
             f.write(json.dumps(doc, ensure_ascii=False) + "\n")
-    vol.commit()
     stats["total"] = len(manifest)
+    Path(VOL, "corpus_stats.json").write_text(json.dumps(stats, indent=1))
     (results(job) / "corpus_stats.json").write_text(json.dumps(stats, indent=1))
+    vol.commit()
     return stats
 
 
