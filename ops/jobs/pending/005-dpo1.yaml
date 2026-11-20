@@ -1,0 +1,13 @@
+# Offline DPO from sft2: chosen = the human essay, rejected = the base model's answer to the
+# same request (sampled in 002, kept on the volume), plus (human, sft2 loop) pairs for each
+# of sft2's truncated answers (sampled in 004). Only essay-kind ids in sft2.jsonl are used.
+# With LoRA the reference is sft2 itself (adapter disabled); the RPO term keeps the chosen
+# likelihood from falling. Sampling dpo1 is 005b, to stay inside the 6 h Actions limit.
+id: 005-dpo1
+steps:
+  - build_human_pairs: {sft: vol:data/sft2.jsonl, samples: vol:data/base_on_sft_prompts.jsonl,
+      loops: vol:data/sft2_on_sft_prompts.jsonl, out: human_pairs1.jsonl}
+  - train: {stage: dpo, model: sft2, data: vol:data/human_pairs1.jsonl, out_model: dpo1,
+      timeout: 14400,
+      hp: {epochs: 1, lr: 2.0e-5, beta: 0.1, rpo_alpha: 0.2, lora_r: 64, lora_alpha: 64,
+        grad_accum: 16, max_length: 6144}}

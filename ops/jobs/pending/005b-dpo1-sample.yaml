@@ -1,6 +1,6 @@
 # Sample dpo1 in one model load: eval, held-out essay prompts, capability, and the round-1
 # candidates (1,200 training prompts x 4) for the first online tournament.
-id: 003b-dpo1-sample
+id: 005b-dpo1-sample
 steps:
   - generate:
       model: dpo1
