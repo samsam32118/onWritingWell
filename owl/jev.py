@@ -16,9 +16,12 @@ from pathlib import Path
 
 import httpx
 
-from owl.rubric import RUBRIC
+import re
+
+from owl.rubric import JUDGE_TASK, RUBRIC, VERDICT_SCALE
 
 URL = "https://openrouter.ai/api/alpha/decisions"
+CHAT = "https://openrouter.ai/api/v1/chat/completions"
 MODEL = "typesafe/jev-1.14"
 CRITERIA = {x: f"Response {x} is the one a discerning reader, who loves good essays and has "
     "no patience for filler, would rather have received: right and well-developed ideas in a "
@@ -33,7 +36,9 @@ def verdict(p):
         else "B>A" if p > 0.1 else "B>>A")
 
 
-def judge(client, c):
+def judge(client, c, model):
+    if model != MODEL:
+        return judge_chat(client, c, model)
     state = {"rubric": RUBRIC, "request": c["prompt"], "response_A": c["a"],
         "response_B": c["b"]}
     body = {"model": MODEL, "state": state,
@@ -49,23 +54,45 @@ def judge(client, c):
         "cost": d["usage"]["cost"]}
 
 
+def judge_chat(client, c, model):
+    """Any OpenRouter chat model, given the same rubric and task text as the agents."""
+    msg = f"{RUBRIC}\n\n" + JUDGE_TASK.format(prompt=c["prompt"], a=c["a"], b=c["b"]) + (
+        "\nEnd with a final line of the form: VERDICT: <A>>B|A>B|A=B|B>A|B>>A>")
+    body = {"model": model, "messages": [{"role": "user", "content": msg}],
+        "temperature": 0, "max_tokens": 8000, "usage": {"include": True}}
+    for attempt in range(4):
+        r = client.post(CHAT, json=body)
+        try:
+            d = r.json()
+            text = d["choices"][0]["message"]["content"] or ""
+        except (ValueError, KeyError, IndexError):
+            continue
+        m = re.findall(r"VERDICT:\s*\**\s*(A>>B|A>B|A=B|B>A|B>>A)", text)
+        if m:
+            return {"cid": c["cid"], "verdict": m[-1], "reason": text[-600:],
+                "judge": d.get("model", model), "cost": d.get("usage", {}).get("cost", 0)}
+    return {"cid": c["cid"], "verdict": None, "judge": model, "cost": 0}
+
+
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--dir", required=True)
     ap.add_argument("--workers", type=int, default=16)
     ap.add_argument("--limit", type=int)
+    ap.add_argument("--model", default=MODEL)
+    ap.add_argument("--out", default="jev")
     a = ap.parse_args()
     d = Path(a.dir)
     comps = [json.loads(l) for l in open(d / "comparisons.jsonl")][:a.limit]
-    out = d / "verdicts" / "jev.jsonl"
+    out = d / "verdicts" / f"{a.out}.jsonl"
     out.parent.mkdir(parents=True, exist_ok=True)
-    done = {json.loads(l)["cid"] for l in open(out)} if out.exists() else set()
+    done = {v["cid"] for v in map(json.loads, open(out)) if v["verdict"]} if out.exists() else set()
     todo = [c for c in comps if c["cid"] not in done]
     key = os.environ.get("OPENROUTERAPIKEY", "proxy-injected")
-    client = httpx.Client(headers={"Authorization": f"Bearer {key}"}, timeout=120)
+    client = httpx.Client(headers={"Authorization": f"Bearer {key}"}, timeout=600)
     cost = 0.0
     with open(out, "a") as f, ThreadPoolExecutor(a.workers) as ex:
-        for v in ex.map(lambda c: judge(client, c), todo):
+        for v in ex.map(lambda c: judge(client, c, a.model), todo):
             f.write(json.dumps(v) + "\n")
             cost += v["cost"]
     print(json.dumps({"judged": len(todo), "skipped": len(done), "cost_usd": round(cost, 4)}))

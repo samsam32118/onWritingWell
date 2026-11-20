@@ -1,22 +1,68 @@
 {
-  "judge": "typesafe/jev-1.14 via OpenRouter /api/alpha/decisions, choice question, rubric in state",
-  "criteria_v1": "one-line 'better written under the rubric'",
-  "criteria_v2": "rubric-derived criteria (current owl/jev.py)",
-  "reference_judges": "Sonnet 5.5 agents (tournaments, pol2 evals), Opus agents (human vs base)",
-  "tournament_r0_direction_agreement_with_sonnet": {"v1": 0.81, "v2": 0.876, "n_first600": 600,
-    "sonnet_vs_opus_per_prompt_for_scale": "79/90 = 0.88"},
-  "tournament_r0_v1_full": {"n": 2364, "direction_agreement": 0.822,
-    "agreement_when_jev_confident_p_le_0.1_or_ge_0.9": 0.974},
-  "r0_dpo_pairs_v2": {"jev_pairs": 374, "sonnet_pairs": 398,
-    "sonnet_direct_verdict_on_jev_pairs": "agree 338, disagree 24 (0.93)",
-    "chosen_longer_frac": {"jev": 0.088, "sonnet": 0.161}},
-  "r2_tournament_v2": {"overlap_with_partial_sonnet": 330, "direction_agreement": 0.833},
-  "win_rate_vs_base": {
-    "pol2_vs_base": {"jev_v1": 0.586, "jev_v2": 0.703, "sonnet": 0.622},
-    "pol2_vs_pol1": {"jev_v1": 0.565, "sonnet": 0.569},
-    "human_essays_vs_base": {"jev_v1": 0.434, "jev_v2": 0.577, "opus": 0.956}},
-  "position_order_flips_per_prompt": "0-4 of 68-90 prompts",
-  "cost_usd": {"per_round_tournament_2400_comparisons": 0.30, "all_calibration": 0.85},
-  "wall_clock": "about 1 minute per 2400 comparisons at 24 workers",
-  "verdict": "Jev reproduces Sonnet's ranking of a policy's own samples (88%, same as Sonnet vs Opus) but does not recognise great human essays (0.58 vs 0.96). Use Jev for tournaments and per-round evals; keep a small Sonnet check each round as the referee."
+ "judge": "typesafe/jev-1.14 via OpenRouter /api/alpha/decisions, choice question, rubric in state",
+ "criteria_v1": "one-line 'better written under the rubric'",
+ "criteria_v2": "rubric-derived criteria (current owl/jev.py)",
+ "reference_judges": "Sonnet 5.5 agents (tournaments, pol2 evals), Opus agents (human vs base)",
+ "tournament_r0_direction_agreement_with_sonnet": {
+  "v1": 0.81,
+  "v2": 0.876,
+  "n_first600": 600,
+  "sonnet_vs_opus_per_prompt_for_scale": "79/90 = 0.88"
+ },
+ "tournament_r0_v1_full": {
+  "n": 2364,
+  "direction_agreement": 0.822,
+  "agreement_when_jev_confident_p_le_0.1_or_ge_0.9": 0.974
+ },
+ "r0_dpo_pairs_v2": {
+  "jev_pairs": 374,
+  "sonnet_pairs": 398,
+  "sonnet_direct_verdict_on_jev_pairs": "agree 338, disagree 24 (0.93)",
+  "chosen_longer_frac": {
+   "jev": 0.088,
+   "sonnet": 0.161
+  }
+ },
+ "r2_tournament_v2": {
+  "overlap_with_partial_sonnet": 330,
+  "direction_agreement": 0.833
+ },
+ "win_rate_vs_base": {
+  "pol2_vs_base": {
+   "jev_v1": 0.586,
+   "jev_v2": 0.703,
+   "sonnet": 0.622
+  },
+  "pol2_vs_pol1": {
+   "jev_v1": 0.565,
+   "sonnet": 0.569
+  },
+  "human_essays_vs_base": {
+   "jev_v1": 0.434,
+   "jev_v2": 0.577,
+   "opus": 0.956
+  }
+ },
+ "position_order_flips_per_prompt": "0-4 of 68-90 prompts",
+ "cost_usd": {
+  "per_round_tournament_2400_comparisons": 0.3,
+  "all_calibration": 0.85
+ },
+ "wall_clock": "about 1 minute per 2400 comparisons at 24 workers",
+ "verdict": "Jev reproduces Sonnet's ranking of a policy's own samples (88%, same as Sonnet vs Opus) but does not recognise great human essays (0.58 vs 0.96). Use Jev for tournaments and per-round evals; keep a small Sonnet check each round as the referee.",
+ "deepseek_v4.1_flash_1017": {
+  "how": "owl/jev.py --model deepseek/deepseek-v4.1-flash-1017 (chat, full rubric + JUDGE_TASK, temperature 0)",
+  "human_essays_vs_base": 0.893,
+  "opus": 0.956,
+  "jev_v2": 0.577,
+  "order_flips": "3/68",
+  "tournament_r0_first300_direction_agreement_with_sonnet": 0.829,
+  "jev_v2_same_300": 0.875,
+  "picks_longer": {
+   "deepseek": 0.28,
+   "jev": 0.18
+  },
+  "cost_usd_per_comparison": 0.0019,
+  "jev_cost_usd_per_comparison": 0.00013
+ }
 }
