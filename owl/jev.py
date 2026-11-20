@@ -61,11 +61,10 @@ def judge_chat(client, c, model):
     body = {"model": model, "messages": [{"role": "user", "content": msg}],
         "temperature": 0, "max_tokens": 8000, "usage": {"include": True}}
     for attempt in range(4):
-        r = client.post(CHAT, json=body)
         try:
-            d = r.json()
+            d = client.post(CHAT, json=body).json()
             text = d["choices"][0]["message"]["content"] or ""
-        except (ValueError, KeyError, IndexError):
+        except (httpx.HTTPError, ValueError, KeyError, IndexError):
             continue
         m = re.findall(r"VERDICT:\s*\**\s*(A>>B|A>B|A=B|B>A|B>>A)", text)
         if m:

@@ -74,6 +74,8 @@ jobs:
               echo "::notice::$id already has results; skipping"; continue
             fi
             mkdir -p "$out"
+            # A spec may pin the GPU type (gpu: H200); otherwise modal_app.py picks.
+            export OWL_GPU=$(python -c "import yaml,sys;print(yaml.safe_load(open(sys.argv[1])).get('gpu',''))" "$spec")
             echo "::group::modal run $id"
             if modal run modal_app.py --spec "$spec" 2>&1 | tee "$out/modal.log"; then ok=1; else ok=0; status=1; fi
             echo "::endgroup::"

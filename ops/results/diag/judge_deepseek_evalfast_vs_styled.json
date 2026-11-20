@@ -1,0 +1,50 @@
+{
+ "pol1_styled": {
+  "challenger": "pol1",
+  "judged_prompts": 90,
+  "win_rate": 0.3389,
+  "strict_wins": 16,
+  "ties": 17,
+  "losses": 57,
+  "order_consistency": 0.807,
+  "missing": 2,
+  "by_domain": {
+   "conversation": {
+    "n": 30,
+    "win_rate": 0.3167
+   },
+   "essay": {
+    "n": 30,
+    "win_rate": 0.3125
+   },
+   "explanation": {
+    "n": 30,
+    "win_rate": 0.3875
+   }
+  }
+ },
+ "pol2_styled": {
+  "challenger": "pol2",
+  "judged_prompts": 90,
+  "win_rate": 0.3583,
+  "strict_wins": 14,
+  "ties": 24,
+  "losses": 52,
+  "order_consistency": 0.7,
+  "missing": 0,
+  "by_domain": {
+   "conversation": {
+    "n": 30,
+    "win_rate": 0.3375
+   },
+   "essay": {
+    "n": 30,
+    "win_rate": 0.3583
+   },
+   "explanation": {
+    "n": 30,
+    "win_rate": 0.3792
+   }
+  }
+ }
+}

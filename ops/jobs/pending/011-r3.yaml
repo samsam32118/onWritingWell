@@ -1,7 +1,11 @@
 # Fast-loop round 3 (last planned): DPO pol2 -> pol3 on round-2 pairs, then sample the full
 # 180-prompt eval and capability set for the final comparison against base, styled base
-# and earlier rounds. No further candidates are sampled.
+# and earlier rounds. No further candidates are sampled. Also samples pol3 WITH the style
+# prompt: the product test is whether fine-tune + prompt beats the prompt alone.
+# H200: most of this job is loading/writing 54 GB checkpoints, which a B200 does no faster,
+# at 73% of the B200 price; 141 GB fits training (6144 tokens) and vLLM with room to spare.
 id: 011-r3
+gpu: H200
 steps:
   - train: {stage: dpo, model: pol2, data: data/rounds/r2_pairs.jsonl, out_model: pol3,
       timeout: 5400,
@@ -13,3 +17,5 @@ steps:
       runs:
         - {prompts: data/prompts/eval.jsonl, tag: pol3, out: eval_pol3.jsonl}
         - {prompts: data/eval/capability_prompts.jsonl, tag: pol3, out: cap_pol3.jsonl, temperature: 0.2}
+        - {prompts: data/prompts/eval.jsonl, tag: pol3s, out: eval_pol3_styled.jsonl,
+            system: configs/style_system_prompt.txt}
