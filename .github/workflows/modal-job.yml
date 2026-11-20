@@ -2,7 +2,7 @@
 # ops/results/<id>/ on the same branch.
 #
 # Trigger: push a new or changed ops/jobs/*.yaml to a claude/** branch, or run manually.
-# Needs repo secrets MODAL_TOKEN_ID and MODAL_TOKEN_SECRET.
+# Needs repo secrets TOKEN_ID and TOKEN_SECRET (or MODAL_TOKEN_ID / MODAL_TOKEN_SECRET).
 #
 # Results are model outputs, metrics and logs only. The human-written corpus stays on the
 # Modal volume and is never copied here.
@@ -30,8 +30,8 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 355
     env:
-      MODAL_TOKEN_ID: ${{ secrets.MODAL_TOKEN_ID }}
-      MODAL_TOKEN_SECRET: ${{ secrets.MODAL_TOKEN_SECRET }}
+      MODAL_TOKEN_ID: ${{ secrets.MODAL_TOKEN_ID || secrets.TOKEN_ID }}
+      MODAL_TOKEN_SECRET: ${{ secrets.MODAL_TOKEN_SECRET || secrets.TOKEN_SECRET }}
       PYTHONUNBUFFERED: "1"
     steps:
       - uses: actions/checkout@v4

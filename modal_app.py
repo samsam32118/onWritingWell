@@ -33,6 +33,8 @@ REPO = "/repo"
 vol = modal.Volume.from_name("owl-vol", create_if_missing=True)
 hf_cache = modal.Volume.from_name("owl-hf-cache", create_if_missing=True)
 MOUNTS = {VOL: vol, "/hf": hf_cache}
+# Modal bills idle containers too: shut down 2 s after the work ends, never retry on failure.
+IDLE = dict(scaledown_window=2, retries=0)
 # B200 is ~1.4x the price of H200 for ~2.2x the bf16 compute and ~1.7x the bandwidth, so
 # cheaper per token; H200 is the fallback if none is free. OWL_GPU pins one type.
 GPU = os.environ["OWL_GPU"] if os.environ.get("OWL_GPU") else ["B200", "H200"]
@@ -84,7 +86,7 @@ def run(cmd, log):
     assert p.wait() == 0, f"command failed: {' '.join(cmd)}"
 
 
-@app.function(image=cpu_image, volumes=MOUNTS, timeout=3 * 3600)
+@app.function(image=cpu_image, volumes=MOUNTS, timeout=3600, **IDLE)
 def download_base(job, args):
     from huggingface_hub import snapshot_download
 
@@ -96,7 +98,7 @@ def download_base(job, args):
     return {"status": "downloaded", "files": sorted(os.listdir(f"{VOL}/models/base"))}
 
 
-@app.function(image=cpu_image, volumes=MOUNTS, timeout=6 * 3600)
+@app.function(image=cpu_image, volumes=MOUNTS, timeout=2 * 3600, **IDLE)
 def build_corpus(job, args):
     """Fetch every manifest URL; flag docs whose text hash differs from the one annotated,
     since their paragraph indices may have shifted."""
@@ -122,7 +124,7 @@ def build_corpus(job, args):
     return stats
 
 
-@app.function(image=cpu_image, volumes=MOUNTS, timeout=3600)
+@app.function(image=cpu_image, volumes=MOUNTS, timeout=3600, **IDLE)
 def build_sft(job, args):
     """Join annotator units with the corpus into chat examples, weight sources per
     configs/sources.yaml, optionally mix in retention examples. Held-out docs and docs whose
@@ -184,7 +186,7 @@ def build_sft(job, args):
     return {k: v for k, v in stats.items() if k != "errors"}
 
 
-@app.function(image=cpu_image, volumes=MOUNTS, timeout=3600)
+@app.function(image=cpu_image, volumes=MOUNTS, timeout=3600, **IDLE)
 def build_human_pairs(job, args):
     """Offline DPO pairs: chosen = human text, rejected = the model's answer to the same
     request. Stays on the volume because it contains human text."""
@@ -200,7 +202,7 @@ def build_human_pairs(job, args):
     return {"pairs": len(pairs)}
 
 
-@app.function(image=vllm_image, gpu=GPU, volumes=MOUNTS, timeout=6 * 3600)
+@app.function(image=vllm_image, gpu=GPU, volumes=MOUNTS, timeout=2 * 3600, **IDLE)
 def generate(job, args):
     """args: {model, runs: [{prompts, out, tag?, n?, temperature?, max_tokens?, system?,
     limit?, private?}]}, or a single run's fields inline. The model loads once for all runs;
@@ -232,8 +234,8 @@ def generate(job, args):
     return {k: {"rows": v["rows"], "truncated": v["truncated"]} for k, v in summary.items()}
 
 
-@app.function(image=train_image, gpu=GPU, volumes=MOUNTS, timeout=24 * 3600,
-    memory=64 * 1024)
+@app.function(image=train_image, gpu=GPU, volumes=MOUNTS, timeout=8 * 3600,
+    memory=64 * 1024, **IDLE)
 def train(job, args):
     """args: {stage: sft|dpo, model, data, out_model, hp: {...}}. Trains LoRA, then merges."""
     vol.reload()
@@ -254,7 +256,7 @@ def train(job, args):
     return {"model": name}
 
 
-@app.function(image=cpu_image, volumes=MOUNTS, timeout=600)
+@app.function(image=cpu_image, volumes=MOUNTS, timeout=600, **IDLE)
 def ls(job, args):
     out = {sub: sorted(os.listdir(f"{VOL}/{sub}")) if Path(VOL, sub).exists() else []
         for sub in ("models", "data", "adapters", "results")}
@@ -278,7 +280,11 @@ def main(spec):
         calls = []
         for (name, args), in (s.items() for s in (group if isinstance(group, list) else [group])):
             print(f"[job {job['id']}] start {name} {json.dumps(args or {})}", flush=True)
-            calls.append((name, STEPS[name].spawn(job["id"], args or {})))
+            args = args or {}
+            # A step may cap its own run time, so a hang cannot burn GPU hours.
+            fn = STEPS[name].with_options(timeout=args["timeout"]) if "timeout" in args \
+                else STEPS[name]
+            calls.append((name, fn.spawn(job["id"], args)))
         for name, call in calls:
             try:
                 res = call.get()

@@ -64,7 +64,7 @@ data/backtranslations/      annotator output (spans + prompts, no text)
 
 ## Running a job
 
-1. Add repository secrets `MODAL_TOKEN_ID` and `MODAL_TOKEN_SECRET`.
+1. Add repository secrets `TOKEN_ID` and `TOKEN_SECRET` (a Modal token pair).
 2. Commit a spec under `ops/jobs/`, e.g.
 
    ```yaml

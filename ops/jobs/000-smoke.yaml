@@ -1,0 +1,5 @@
+# Cheapest possible end-to-end check (CPU only, no GPU, < $0.01):
+# GitHub -> Modal auth, image builds, volume access, results commit-back.
+id: 000-smoke
+steps:
+  - ls: {}
