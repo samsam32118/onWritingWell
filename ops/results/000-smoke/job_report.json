@@ -1,0 +1,15 @@
+{
+ "id": "000-smoke",
+ "steps": [
+  {
+   "step": "ls",
+   "ok": true,
+   "result": {
+    "models": [],
+    "data": [],
+    "adapters": [],
+    "results": []
+   }
+  }
+ ]
+}
