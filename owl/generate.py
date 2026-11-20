@@ -12,29 +12,32 @@ import json
 
 from vllm import LLM, SamplingParams
 
-ap = argparse.ArgumentParser()
-ap.add_argument("--model", required=True)
-ap.add_argument("--runs", required=True)
-ap.add_argument("--tp", type=int, default=1)
-ap.add_argument("--max-model-len", type=int, default=12288)
-a = ap.parse_args()
+# vLLM starts its engine with multiprocessing spawn, which re-imports this module: everything
+# below must only run in the parent process.
+if __name__ == "__main__":
+    ap = argparse.ArgumentParser()
+    ap.add_argument("--model", required=True)
+    ap.add_argument("--runs", required=True)
+    ap.add_argument("--tp", type=int, default=1)
+    ap.add_argument("--max-model-len", type=int, default=12288)
+    a = ap.parse_args()
 
-# Text only: zero multimodal items skips profiling the vision encoder.
-llm = LLM(model=a.model, tensor_parallel_size=a.tp, max_model_len=a.max_model_len,
-    gpu_memory_utilization=0.90, limit_mm_per_prompt={"image": 0, "video": 0},
-    enable_prefix_caching=True)
-for run in json.load(open(a.runs)):
-    rows = [json.loads(l) for l in open(run["prompts"]) if l.strip()][:run.get("limit")]
-    sp = SamplingParams(n=run.get("n", 1), temperature=run.get("temperature", 0.8), top_p=0.95,
-        top_k=20, max_tokens=run.get("max_tokens", 4096), seed=0)
-    system = [{"role": "system", "content": open(run["system"]).read()}] \
-        if run.get("system") else []
-    outs = llm.chat([system + [{"role": "user", "content": r["prompt"]}] for r in rows], sp,
-        chat_template_kwargs={"enable_thinking": False}, use_tqdm=True)
-    with open(run["out"], "w") as f:
-        for r, o in zip(rows, outs):
-            for i, c in enumerate(o.outputs):
-                text = c.text.replace("<think>", "").replace("</think>", "").strip()
-                f.write(json.dumps({**r, "model_tag": run["tag"], "sample_idx": i,
-                    "response": text, "finish_reason": c.finish_reason},
-                    ensure_ascii=False) + "\n")
+    # Text only: zero multimodal items skips profiling the vision encoder.
+    llm = LLM(model=a.model, tensor_parallel_size=a.tp, max_model_len=a.max_model_len,
+        gpu_memory_utilization=0.90, limit_mm_per_prompt={"image": 0, "video": 0},
+        enable_prefix_caching=True)
+    for run in json.load(open(a.runs)):
+        rows = [json.loads(l) for l in open(run["prompts"]) if l.strip()][:run.get("limit")]
+        sp = SamplingParams(n=run.get("n", 1), temperature=run.get("temperature", 0.8), top_p=0.95,
+            top_k=20, max_tokens=run.get("max_tokens", 4096), seed=0)
+        system = [{"role": "system", "content": open(run["system"]).read()}] \
+            if run.get("system") else []
+        outs = llm.chat([system + [{"role": "user", "content": r["prompt"]}] for r in rows], sp,
+            chat_template_kwargs={"enable_thinking": False}, use_tqdm=True)
+        with open(run["out"], "w") as f:
+            for r, o in zip(rows, outs):
+                for i, c in enumerate(o.outputs):
+                    text = c.text.replace("<think>", "").replace("</think>", "").strip()
+                    f.write(json.dumps({**r, "model_tag": run["tag"], "sample_idx": i,
+                        "response": text, "finish_reason": c.finish_reason},
+                        ensure_ascii=False) + "\n")
