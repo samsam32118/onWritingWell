@@ -11,6 +11,7 @@ is judged in both orders and averaged, so a judge that always picks A scores a t
     python -m owl.judging prep tournament --samples S.jsonl --out DIR [--k 4]
     python -m owl.judging collect vs --dir DIR
     python -m owl.judging collect tournament --dir DIR --pairs-out pairs.jsonl
+    python -m owl.judging calibrate --key KEY.jsonl --dir DIR [--dir DIR2] [--labels L.json]
 """
 import argparse
 import hashlib
@@ -172,25 +173,72 @@ def collect_tournament(out_dir, pairs_out, min_margin=0.34):
         "chosen_longer_frac": round(sum(c > r for c, r in zip(lc, lr)) / max(len(pairs), 1), 3)}
 
 
+def calibrate(key_path, dirs, labels_path=None):
+    """Agreement of each judge (and the human) with the intended answer, and of each judge
+    with the human. A side's score is P(A better) averaged over both presentation orders;
+    agreement means picking the same side, ties count half."""
+    key = {k["id"]: k for k in load(key_path)}
+    sides = {}
+    for d in dirs:
+        per = defaultdict(list)
+        for c in load(Path(d, "comparisons.jsonl")):
+            v = verdicts(d).get(c["cid"])
+            if v:
+                s = VERDICT_SCALE[v["verdict"]]
+                per[c["cid"].split("~")[0]].append(s if c["a_key"].startswith("A#") else 1 - s)
+        sides[Path(d).name] = {pid: statistics.fmean(ss) for pid, ss in per.items()}
+        # Position bias: how often the two orders agree on direction.
+        both = [ss for ss in per.values() if len(ss) == 2]
+        sides[Path(d).name + ":order_consistency"] = round(sum((a - .5) * (b - .5) > 0
+            for a, b in both) / max(len(both), 1), 3)
+    if labels_path:
+        sides["human"] = {l["pair"]: VERDICT_SCALE[l["verdict"]] for l in json.load(open(labels_path))}
+    agree = lambda x, y: 1.0 if (x - .5) * (y - .5) > 0 else (0.5 if x == .5 or y == .5 else 0.0)
+    report = {}
+    for name, sc in sides.items():
+        if name.endswith(":order_consistency"):
+            report[name] = sc
+            continue
+        rows = [(pid, s) for pid, s in sc.items() if pid in key]
+        intended = lambda pid: 1.0 if key[pid]["intended"] == "A" else 0.0
+        by = defaultdict(list)
+        for pid, s in rows:
+            a = agree(s, intended(pid))
+            by["all"].append(a)
+            by["type:" + key[pid]["type"]].append(a)
+            by["close" if key[pid]["close"] else "clear"].append(a)
+        report[name + " vs intended"] = {k: f"{statistics.fmean(v):.2f} (n={len(v)})"
+            for k, v in sorted(by.items())}
+        if "human" in sides and name != "human":
+            hv = [(agree(s, sides["human"][pid]), pid) for pid, s in rows if pid in sides["human"]]
+            if hv:
+                report[name + " vs human"] = f"{statistics.fmean(a for a, _ in hv):.2f} (n={len(hv)})"
+    return report
+
+
 if __name__ == "__main__":
     ap = argparse.ArgumentParser()
-    ap.add_argument("cmd", choices=["prep", "collect"])
-    ap.add_argument("mode", choices=["vs", "tournament"])
+    ap.add_argument("cmd", choices=["prep", "collect", "calibrate"])
+    ap.add_argument("mode", choices=["vs", "tournament"], nargs="?")
     ap.add_argument("--a")
     ap.add_argument("--b")
     ap.add_argument("--samples")
     ap.add_argument("--out")
-    ap.add_argument("--dir")
+    ap.add_argument("--dir", action="append")
+    ap.add_argument("--key")
+    ap.add_argument("--labels")
     ap.add_argument("--k", type=int, default=4)
     ap.add_argument("--chunk", type=int, default=30)
     ap.add_argument("--pairs-out")
     ap.add_argument("--min-margin", type=float, default=0.34)
     a = ap.parse_args()
-    if a.cmd == "prep":
+    if a.cmd == "calibrate":
+        print(json.dumps(calibrate(a.key, a.dir, a.labels), indent=1))
+    elif a.cmd == "prep":
         comps = prep_vs(a.a, a.b, a.out) if a.mode == "vs" else prep_tournament(a.samples, a.k)
         chunks = write_chunks(comps, a.out, a.chunk)
         print(json.dumps({"comparisons": len(comps), "chunks": len(chunks)}))
     elif a.mode == "vs":
-        print(json.dumps(collect_vs(a.dir), indent=1))
+        print(json.dumps(collect_vs(a.dir[0]), indent=1))
     else:
-        print(json.dumps(collect_tournament(a.dir, a.pairs_out, a.min_margin), indent=1))
+        print(json.dumps(collect_tournament(a.dir[0], a.pairs_out, a.min_margin), indent=1))
