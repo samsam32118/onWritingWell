@@ -75,7 +75,9 @@ def train(a):
 def merge(a):
     from peft import PeftModel
 
-    base = AutoModelForImageTextToText.from_pretrained(a.model, dtype=torch.bfloat16)
+    # On the GPU the merge takes seconds; on CPU it idles a billed GPU for many minutes.
+    base = AutoModelForImageTextToText.from_pretrained(a.model, dtype=torch.bfloat16,
+        device_map="cuda" if torch.cuda.is_available() else None)
     PeftModel.from_pretrained(base, a.adapter).merge_and_unload().save_pretrained(a.out,
         max_shard_size="5GB")
     AutoTokenizer.from_pretrained(a.model).save_pretrained(a.out)

@@ -1,10 +1,15 @@
-# Baselines on the held-out eval prompts:
+# Baselines on the held-out eval prompts, one model load for all runs:
 #   base         Qwen3.8-27B as shipped (2 samples, so the labeling page has base-vs-base pairs)
 #   base_styled  the same model told how to write well (the prompting baseline to beat)
 #   capability   maths/code/logic answers, to detect regressions later
+# The first run is the 6-prompt smoke set, so a broken setup fails within minutes.
 id: 001-baseline
 steps:
   - download_base: {}
-  - - generate: {model: base, prompts: data/prompts/eval.jsonl, n: 2, tag: base, out: eval_base.jsonl}
-    - generate: {model: base, prompts: data/prompts/eval.jsonl, tag: base_styled, out: eval_base_styled.jsonl, system: configs/style_system_prompt.txt}
-    - generate: {model: base, prompts: data/eval/capability_prompts.jsonl, tag: base, out: cap_base.jsonl, temperature: 0.2}
+  - generate:
+      model: base
+      runs:
+        - {prompts: data/eval/smoke_prompts.jsonl, n: 1, tag: base, out: smoke_base.jsonl, max_tokens: 1024}
+        - {prompts: data/prompts/eval.jsonl, n: 2, tag: base, out: eval_base.jsonl}
+        - {prompts: data/prompts/eval.jsonl, tag: base_styled, out: eval_base_styled.jsonl, system: configs/style_system_prompt.txt}
+        - {prompts: data/eval/capability_prompts.jsonl, tag: base, out: cap_base.jsonl, temperature: 0.2}

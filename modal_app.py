@@ -33,7 +33,9 @@ REPO = "/repo"
 vol = modal.Volume.from_name("owl-vol", create_if_missing=True)
 hf_cache = modal.Volume.from_name("owl-hf-cache", create_if_missing=True)
 MOUNTS = {VOL: vol, "/hf": hf_cache}
-GPU = os.environ.get("OWL_GPU", "H200")
+# B200 is ~1.4x the price of H200 for ~2.2x the bf16 compute and ~1.7x the bandwidth, so
+# cheaper per token; H200 is the fallback if none is free. OWL_GPU pins one type.
+GPU = os.environ["OWL_GPU"] if os.environ.get("OWL_GPU") else ["B200", "H200"]
 
 
 def with_repo(img):
@@ -200,33 +202,38 @@ def build_human_pairs(job, args):
 
 @app.function(image=vllm_image, gpu=GPU, volumes=MOUNTS, timeout=6 * 3600)
 def generate(job, args):
+    """args: {model, runs: [{prompts, out, tag?, n?, temperature?, max_tokens?, system?,
+    limit?, private?}]}, or a single run's fields inline. The model loads once for all runs;
+    each load of a 27B checkpoint costs minutes of GPU time."""
     from owl.slop import aggregate
 
     vol.reload()
     rd = results(job)
-    out = rd / args["out"]
-    cmd = [sys.executable, "-m", "owl.generate", "--model", f"{VOL}/models/{args['model']}",
-        "--prompts", path(args["prompts"]), "--out", str(out),
-        "--tag", args.get("tag", args["model"]), "--n", str(args.get("n", 1)),
-        "--temperature", str(args.get("temperature", 0.8)),
-        "--max-tokens", str(args.get("max_tokens", 4096)), "--tp", str(args.get("tp", 1))]
-    cmd += ["--limit", str(args["limit"])] if args.get("limit") else []
-    cmd += ["--system", path(args["system"])] if args.get("system") else []
-    run(cmd,
-        rd / "generate.log")
-    rows = [json.loads(l) for l in open(out)]
-    if args.get("private"):
-        # e.g. answers to prompts for held-out human text: keep them off the repo
-        out = out.rename(Path(VOL, "data", args["out"]))
-    (rd / f"{Path(args['out']).stem}_summary.json").write_text(json.dumps({"rows": len(rows),
-        "truncated": sum(r["finish_reason"] != "stop" for r in rows),
-        "slop": aggregate([r["response"] for r in rows])}, indent=1))
+    runs = args.get("runs") or [args]
+    spec = [{**r, "prompts": path(r["prompts"]), "out": str(rd / r["out"]),
+        "tag": r.get("tag", args["model"]),
+        "system": path(r["system"]) if r.get("system") else None} for r in runs]
+    Path(rd / "runs.json").write_text(json.dumps(spec))
+    run([sys.executable, "-m", "owl.generate", "--model", f"{VOL}/models/{args['model']}",
+        "--runs", str(rd / "runs.json"), "--tp", str(args.get("tp", 1))], rd / "generate.log")
+    summary = {}
+    for r in runs:
+        out = rd / r["out"]
+        rows = [json.loads(l) for l in open(out)]
+        if r.get("private"):
+            # e.g. answers that get paired with human text: keep them off the repo
+            out.rename(Path(VOL, "data", r["out"]))
+        summary[r["out"]] = {"rows": len(rows),
+            "truncated": sum(x["finish_reason"] != "stop" for x in rows),
+            "slop": aggregate([x["response"] for x in rows])}
+        (rd / f"{Path(r['out']).stem}_summary.json").write_text(
+            json.dumps(summary[r["out"]], indent=1))
     vol.commit()
-    return {"rows": len(rows), "out": str(out)}
+    return {k: {"rows": v["rows"], "truncated": v["truncated"]} for k, v in summary.items()}
 
 
 @app.function(image=train_image, gpu=GPU, volumes=MOUNTS, timeout=24 * 3600,
-    memory=128 * 1024)  # merging a 27B bf16 model on CPU needs ~60 GB
+    memory=64 * 1024)
 def train(job, args):
     """args: {stage: sft|dpo, model, data, out_model, hp: {...}}. Trains LoRA, then merges."""
     vol.reload()
