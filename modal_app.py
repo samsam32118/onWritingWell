@@ -56,8 +56,10 @@ train_image = with_repo(
         index_url="https://download.pytorch.org/whl/cu130")
     .uv_pip_install("transformers==5.22.2", "trl==1.17.1", "peft==0.21.2",
         "accelerate==1.15.0", "datasets", "flash-linear-attention==0.6.0", "safetensors"))
-vllm_image = with_repo(modal.Image.debian_slim(python_version="3.12").uv_pip_install(
-    "vllm==0.33.0", "pyyaml"))
+# vLLM's own image ships FlashInfer's prebuilt kernels and the CUDA toolkit; a pip install on a
+# slim image tries to JIT-compile the sampler at startup and fails without nvcc.
+vllm_image = with_repo(modal.Image.from_registry("vllm/vllm-openai:v0.33.0")
+    .entrypoint([]).uv_pip_install("pyyaml"))
 app = modal.App("onwritingwell")
 
 

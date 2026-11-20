@@ -4,7 +4,7 @@
 #   capability   maths/code/logic answers, to detect regressions later
 # The first run is the 6-prompt smoke set, so a broken setup fails within minutes.
 id: 001-baseline
-# rerun 2: generate.py main guard (vLLM spawn re-imports the module)
+# rerun 3: official vLLM image (prebuilt FlashInfer sampler kernels)
 steps:
   - download_base: {}
   - generate:
