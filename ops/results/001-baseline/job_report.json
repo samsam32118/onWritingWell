@@ -1,0 +1,34 @@
+{
+ "id": "001-baseline",
+ "steps": [
+  {
+   "step": "download_base",
+   "ok": true,
+   "result": {
+    "status": "exists"
+   }
+  },
+  {
+   "step": "generate",
+   "ok": true,
+   "result": {
+    "smoke_base.jsonl": {
+     "rows": 6,
+     "truncated": 5
+    },
+    "eval_base.jsonl": {
+     "rows": 360,
+     "truncated": 1
+    },
+    "eval_base_styled.jsonl": {
+     "rows": 180,
+     "truncated": 0
+    },
+    "cap_base.jsonl": {
+     "rows": 60,
+     "truncated": 0
+    }
+   }
+  }
+ ]
+}
