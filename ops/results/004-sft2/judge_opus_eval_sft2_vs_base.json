@@ -1,0 +1,24 @@
+{
+ "challenger": "sft2",
+ "judged_prompts": 180,
+ "win_rate": 0.4167,
+ "strict_wins": 82,
+ "ties": 0,
+ "losses": 98,
+ "order_consistency": 1.0,
+ "missing": 0,
+ "by_domain": {
+  "conversation": {
+   "n": 60,
+   "win_rate": 0.6042
+  },
+  "essay": {
+   "n": 60,
+   "win_rate": 0.075
+  },
+  "explanation": {
+   "n": 60,
+   "win_rate": 0.5708
+  }
+ }
+}

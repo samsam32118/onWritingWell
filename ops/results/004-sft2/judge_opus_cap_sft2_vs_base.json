@@ -1,0 +1,16 @@
+{
+ "challenger": "sft2",
+ "judged_prompts": 40,
+ "win_rate": 0.6937,
+ "strict_wins": 31,
+ "ties": 3,
+ "losses": 6,
+ "order_consistency": 0.925,
+ "missing": 40,
+ "by_domain": {
+  "cap": {
+   "n": 40,
+   "win_rate": 0.6937
+  }
+ }
+}
