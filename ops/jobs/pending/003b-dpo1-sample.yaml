@@ -1,0 +1,12 @@
+# Sample dpo1 in one model load: eval, held-out essay prompts, capability, and the round-1
+# candidates (1,200 training prompts x 4) for the first online tournament.
+id: 003b-dpo1-sample
+steps:
+  - generate:
+      model: dpo1
+      timeout: 7200
+      runs:
+        - {prompts: data/prompts/eval.jsonl, tag: dpo1, out: eval_dpo1.jsonl}
+        - {prompts: data/eval/human_ref_prompts.jsonl, tag: dpo1, out: href_dpo1.jsonl}
+        - {prompts: data/eval/capability_prompts.jsonl, tag: dpo1, out: cap_dpo1.jsonl, temperature: 0.2}
+        - {prompts: data/prompts/train.jsonl, tag: dpo1, out: r1_samples.jsonl, n: 4, temperature: 0.9}

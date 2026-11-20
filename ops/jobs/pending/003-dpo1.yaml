@@ -1,28 +1,19 @@
 # Offline DPO: chosen = human text, rejected = the base model's answer to the same request
 # (sampled in 002 and kept on the volume). Starts from the SFT model, so the reference is
 # sft1 and the update moves away from the default assistant voice rather than re-learning
-# imitation. Then samples eval + capability prompts and the round-1 candidates
-# (1,200 training prompts x 4) from the new policy in one model load.
+# imitation. Sampling dpo1 is 003b, so this job stays inside the 6 h Actions limit.
 # sft1 loops on ~8% of answers (2 epochs overfit), so sft1 first answers the SFT prompts and
 # each of its truncated answers adds a (human, loop) pair.
 id: 003-dpo1
 steps:
   - generate:
       model: sft1
-      timeout: 5400
+      timeout: 3600
       runs:
         - {prompts: results:002-sft1/sft_prompts_sft1.jsonl, tag: sft1, out: sft1_on_sft_prompts.jsonl, private: true, temperature: 0.7}
   - build_human_pairs: {sft: vol:data/sft1.jsonl, samples: vol:data/base_on_sft_prompts.jsonl,
       loops: vol:data/sft1_on_sft_prompts.jsonl, out: human_pairs1.jsonl}
   - train: {stage: dpo, model: sft1, data: vol:data/human_pairs1.jsonl, out_model: dpo1,
-      timeout: 18000,
+      timeout: 14400,
       hp: {epochs: 1, lr: 2.0e-5, beta: 0.1, rpo_alpha: 0.2, lora_r: 64, lora_alpha: 64,
         grad_accum: 16, max_length: 6144}}
-  - generate:
-      model: dpo1
-      timeout: 7200
-      runs:
-        - {prompts: data/prompts/eval.jsonl, tag: dpo1, out: eval_dpo1.jsonl}
-        - {prompts: data/eval/human_ref_prompts.jsonl, tag: dpo1, out: href_dpo1.jsonl}
-        - {prompts: data/eval/capability_prompts.jsonl, tag: dpo1, out: cap_dpo1.jsonl, temperature: 0.2}
-        - {prompts: data/prompts/train.jsonl, tag: dpo1, out: r1_samples.jsonl, n: 4, temperature: 0.9}
