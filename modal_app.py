@@ -253,9 +253,12 @@ def generate(job, args):
     spec = [{**r, "prompts": path(r["prompts"]), "out": str(rd / r["out"]),
         "tag": r.get("tag", args["model"]),
         "system": path(r["system"]) if r.get("system") else None} for r in runs]
-    Path(rd / "runs.json").write_text(json.dumps(spec))
-    run([sys.executable, "-m", "owl.generate", "--model", f"{VOL}/models/{args['model']}",
-        "--runs", str(rd / "runs.json"), "--tp", str(args.get("tp", 1))], rd / "generate.log")
+    # Named by model, so parallel generate steps in one job do not clobber each other.
+    m = args["model"]
+    Path(rd / f"runs_{m}.json").write_text(json.dumps(spec))
+    run([sys.executable, "-m", "owl.generate", "--model", f"{VOL}/models/{m}",
+        "--runs", str(rd / f"runs_{m}.json"), "--tp", str(args.get("tp", 1))],
+        rd / f"generate_{m}.log")
     summary = {}
     for r in runs:
         out = rd / r["out"]

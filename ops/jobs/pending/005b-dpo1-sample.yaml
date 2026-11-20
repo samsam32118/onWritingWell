@@ -1,12 +1,20 @@
 # Sample dpo1 in one model load: eval, held-out essay prompts, capability, and the round-1
-# candidates (1,200 training prompts x 4) for the first online tournament.
+# candidates (1,200 training prompts x 4). In parallel, base with the style system prompt
+# (beats plain base 0.64 under Opus) adds 2 candidates per prompt, so where the policy's
+# essays are hollow the tournament can still choose a substantive answer. The prompt is not
+# part of training: DPO sees only the user request.
 id: 005b-dpo1-sample
 steps:
-  - generate:
-      model: dpo1
-      timeout: 7200
-      runs:
-        - {prompts: data/prompts/eval.jsonl, tag: dpo1, out: eval_dpo1.jsonl}
-        - {prompts: data/eval/human_ref_prompts.jsonl, tag: dpo1, out: href_dpo1.jsonl}
-        - {prompts: data/eval/capability_prompts.jsonl, tag: dpo1, out: cap_dpo1.jsonl, temperature: 0.2}
-        - {prompts: data/prompts/train.jsonl, tag: dpo1, out: r1_samples.jsonl, n: 4, temperature: 0.9}
+  - - generate:
+        model: dpo1
+        timeout: 7200
+        runs:
+          - {prompts: data/prompts/eval.jsonl, tag: dpo1, out: eval_dpo1.jsonl}
+          - {prompts: data/eval/human_ref_prompts.jsonl, tag: dpo1, out: href_dpo1.jsonl}
+          - {prompts: data/eval/capability_prompts.jsonl, tag: dpo1, out: cap_dpo1.jsonl, temperature: 0.2}
+          - {prompts: data/prompts/train.jsonl, tag: dpo1, out: r1_samples.jsonl, n: 4, temperature: 0.9}
+    - generate:
+        model: base
+        timeout: 3600
+        runs:
+          - {prompts: data/prompts/train.jsonl, tag: styled, out: r1_styled.jsonl, n: 2, temperature: 0.8, system: configs/style_system_prompt.txt}
