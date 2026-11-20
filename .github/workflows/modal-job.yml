@@ -55,7 +55,7 @@ jobs:
             specs="$INPUT_SPEC"
           else
             if git cat-file -e "$BEFORE^{commit}" 2>/dev/null; then base="$BEFORE"; else base="HEAD~1"; fi
-            specs=$(git diff --name-only --diff-filter=AM "$base" HEAD -- 'ops/jobs/*.yaml' | sort)
+            specs=$(git diff --name-only --diff-filter=AM "$base" HEAD -- ':(glob)ops/jobs/*.yaml' | sort)
           fi
           echo "specs: $specs"
           { echo "list<<EOF"; echo "$specs"; echo "EOF"; } >> "$GITHUB_OUTPUT"
