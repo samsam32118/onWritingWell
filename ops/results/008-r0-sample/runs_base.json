@@ -1,0 +1,1 @@
+[{"prompts": "/repo/data/prompts/train_r0.jsonl", "tag": "base", "out": "/vol/results/008-r0-sample/r0_plain.jsonl", "n": 2, "temperature": 0.8, "max_tokens": 2048, "system": null}]

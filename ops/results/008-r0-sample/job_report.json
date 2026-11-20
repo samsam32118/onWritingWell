@@ -1,0 +1,15 @@
+{
+ "id": "008-r0-sample",
+ "steps": [
+  {
+   "step": "generate",
+   "ok": true,
+   "result": {
+    "r0_plain.jsonl": {
+     "rows": 800,
+     "truncated": 12
+    }
+   }
+  }
+ ]
+}
