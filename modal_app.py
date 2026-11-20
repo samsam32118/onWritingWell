@@ -215,7 +215,8 @@ def generate(job, args):
         "system": path(r["system"]) if r.get("system") else None} for r in runs]
     Path(rd / "runs.json").write_text(json.dumps(spec))
     run([sys.executable, "-m", "owl.generate", "--model", f"{VOL}/models/{args['model']}",
-        "--runs", str(rd / "runs.json"), "--tp", str(args.get("tp", 1))], rd / "generate.log")
+        "--runs", str(rd / "runs.json"), "--tp", str(args.get("tp", 1))]
+        + (["--bf16"] if args.get("bf16") else []), rd / "generate.log")
     summary = {}
     for r in runs:
         out = rd / r["out"]

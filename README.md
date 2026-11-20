@@ -21,8 +21,7 @@ is right" apart from "looks thorough".
 | 0. Corpus | Essays by writers who think on the page (Graham, Luu, Alexander, McKenzie, Evans, Olah, Karlsson, Spolsky, Sivers, …) — [`configs/sources.yaml`](configs/sources.yaml) | human text |
 | 1. Backtranslation | Claude subagents read each essay and write the request it answers, plus self-contained passages that answer chat questions. Stored as paragraph spans. | human text as target |
 | 2. SFT (LoRA) | Train on (request → human text). Thinking off; same chat template as inference. | imitation |
-| 3. Offline DPO | chosen = human text, rejected = the base model's answer to the same request | contrast with the default voice |
-| 4. Online rounds | Sample 4 answers per prompt from the current policy → Claude subagents judge round-robin under the rubric → DPO on (best, worst) with a margin → repeat | on-policy preference |
+| 3. Preference rounds (2, a 3rd if still improving) | 600 prompts x 4 answers sampled from the current policy (FP8) → Claude subagents judge round-robin under the rubric → DPO on (best, worst) with a margin → repeat | on-policy preference |
 | Eval | Held-out prompts by topic; pairwise vs base (both orders); vs held-out human essays; slop tripwires; the owner's own labels | |
 
 Guards against reward hacking: pairwise judging with randomised and swapped order,
