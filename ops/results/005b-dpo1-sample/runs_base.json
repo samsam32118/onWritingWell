@@ -1,0 +1,1 @@
+[{"prompts": "/repo/data/prompts/train.jsonl", "tag": "styled", "out": "/vol/results/005b-dpo1-sample/r1_styled.jsonl", "n": 2, "temperature": 0.8, "system": "/repo/configs/style_system_prompt.txt"}]

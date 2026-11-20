@@ -1,0 +1,33 @@
+{
+ "id": "005b-dpo1-sample",
+ "steps": [
+  {
+   "step": "generate",
+   "ok": true,
+   "result": {
+    "eval_dpo1.jsonl": {
+     "rows": 180,
+     "truncated": 0
+    },
+    "href_dpo1.jsonl": {
+     "rows": 68,
+     "truncated": 0
+    },
+    "cap_dpo1.jsonl": {
+     "rows": 60,
+     "truncated": 0
+    }
+   }
+  },
+  {
+   "step": "generate",
+   "ok": true,
+   "result": {
+    "r1_styled.jsonl": {
+     "rows": 2400,
+     "truncated": 0
+    }
+   }
+  }
+ ]
+}
