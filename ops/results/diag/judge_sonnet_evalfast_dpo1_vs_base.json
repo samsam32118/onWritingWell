@@ -1,0 +1,24 @@
+{
+ "challenger": "dpo1",
+ "judged_prompts": 90,
+ "win_rate": 0.3694,
+ "strict_wins": 36,
+ "ties": 0,
+ "losses": 54,
+ "order_consistency": 1.0,
+ "missing": 0,
+ "by_domain": {
+  "conversation": {
+   "n": 30,
+   "win_rate": 0.5667
+  },
+  "essay": {
+   "n": 30,
+   "win_rate": 0.0917
+  },
+  "explanation": {
+   "n": 30,
+   "win_rate": 0.45
+  }
+ }
+}
