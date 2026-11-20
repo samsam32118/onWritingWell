@@ -54,15 +54,19 @@ def test_vs_judging_cancels_position(tmp_path):
 
 def test_tournament_pairs(tmp_path):
     rows = [{"id": "c-0", "prompt": "q", "model_tag": "p", "sample_idx": k, "response": f"r{k}", "finish_reason": "stop"} for k in range(4)]
+    rows += [{"id": "c-1", "prompt": "q1", "model_tag": "p", "sample_idx": k, "response": f"s{k}", "finish_reason": "stop" if k else "length"} for k in range(4)]
     _write(tmp_path / "s.jsonl", rows)
-    comps = judging.prep_tournament(str(tmp_path / "s.jsonl"), k=4)
-    assert len(comps) == 6
+    comps = judging.prep_tournament(str(tmp_path / "s.jsonl"), str(tmp_path / "t"), k=4)
+    assert len(comps) == 9
     judging.write_chunks(comps, str(tmp_path / "t"))
     verdicts = [{"cid": c["cid"], "verdict": "A>>B" if c["a_key"] > c["b_key"] else "B>>A"} for c in comps]
     _write(tmp_path / "t" / "verdicts" / "v.jsonl", verdicts)
     res = judging.collect_tournament(str(tmp_path / "t"), str(tmp_path / "pairs.jsonl"))
-    pair = json.loads(open(tmp_path / "pairs.jsonl").readline())
-    assert res["pairs"] == 1 and pair["chosen"] == "r3" and pair["rejected"] == "r0"
+    pairs = {p["id"]: p for p in map(json.loads, open(tmp_path / "pairs.jsonl"))}
+    assert res["pairs"] == 2 and res["truncated_pairs"] == 1
+    assert pairs["c-0"]["chosen"] == "r3" and pairs["c-0"]["rejected"] == "r0"
+    # The truncated sample is the rejected side, against the best finished one.
+    assert pairs["c-1"]["chosen"] == "s3" and pairs["c-1"]["rejected"] == "s0"
 
 
 def test_remap_merges_split_paragraphs(tmp_path):

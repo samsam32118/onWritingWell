@@ -218,17 +218,23 @@ def build_sft(job, args):
 @app.function(image=cpu_image, volumes=MOUNTS, timeout=3600, **IDLE)
 def build_human_pairs(job, args):
     """Offline DPO pairs: chosen = human text, rejected = the model's answer to the same
-    request. Stays on the volume because it contains human text."""
+    request. `samples` contributes its finished answers; `loops` (optional) only its
+    truncated ones, which are mostly repetition loops the policy should unlearn. Stays on
+    the volume because it contains human text."""
     sft = {e["id"]: e for e in map(json.loads, open(path(args["sft"])))
         if e["domain"] != "retention"}
-    pairs = [{"id": s["id"], "prompt": sft[s["id"]]["messages"][0]["content"],
-        "chosen": sft[s["id"]]["messages"][-1]["content"], "rejected": s["response"]}
-        for s in map(json.loads, open(path(args["samples"])))
-        if s["id"] in sft and s["finish_reason"] == "stop"]
+    pairs = []
+    for key, want_stop in (("samples", True), ("loops", False)):
+        for s in map(json.loads, open(path(args[key])) if args.get(key) else []):
+            if s["id"] in sft and (s["finish_reason"] == "stop") == want_stop:
+                pairs.append({"id": s["id"], "prompt": sft[s["id"]]["messages"][0]["content"],
+                    "chosen": sft[s["id"]]["messages"][-1]["content"],
+                    "rejected": s["response"], "kind": key})
+    random.Random(0).shuffle(pairs)
     Path(VOL, "data", args.get("out", "human_pairs.jsonl")).write_text(
         "".join(json.dumps(p, ensure_ascii=False) + "\n" for p in pairs))
     vol.commit()
-    return {"pairs": len(pairs)}
+    return {"pairs": len(pairs), "loops": sum(p["kind"] == "loops" for p in pairs)}
 
 
 @app.function(image=vllm_image, gpu=GPU, volumes=MOUNTS, timeout=2 * 3600, **IDLE)

@@ -56,13 +56,19 @@ def prep_vs(ref_path, new_path, out_dir):
     return comps
 
 
-def prep_tournament(samples_path, k=4):
+def prep_tournament(samples_path, out_dir, k=4):
     """Round robin among the first k untruncated samples of each prompt, one random order
-    per pair. Truncated answers lose automatically, so no judging is spent on them."""
-    by_id = defaultdict(list)
+    per pair. Truncated answers (mostly repetition loops) lose automatically: no judging is
+    spent on them, and collect pairs them as rejected against the prompt's best sample."""
+    by_id, cut = defaultdict(list), []
     for r in load(samples_path):
         if r.get("finish_reason", "stop") == "stop":
             by_id[r["id"]].append(keyed(r))
+        else:
+            cut.append({"id": r["id"], "response": r["response"]})
+    Path(out_dir).mkdir(parents=True, exist_ok=True)
+    Path(out_dir, "truncated.jsonl").write_text(
+        "".join(json.dumps(c, ensure_ascii=False) + "\n" for c in cut))
     comps = []
     for pid, rs in sorted(by_id.items()):
         g = rng(pid)
@@ -141,7 +147,8 @@ def collect_vs(out_dir):
 
 
 def collect_tournament(out_dir, pairs_out, min_margin=0.34):
-    """Score each sample by mean preference; emit (best, worst) pairs with a clear margin."""
+    """Score each sample by mean preference; emit (best, worst) pairs with a clear margin.
+    A prompt with a truncated sample pairs its best sample against that instead."""
     d = Path(out_dir)
     comps = load(d / "comparisons.jsonl")
     vs = verdicts(d)
@@ -156,21 +163,27 @@ def collect_tournament(out_dir, pairs_out, min_margin=0.34):
     by_pid = defaultdict(list)
     for (pid, key), ss in pts.items():
         by_pid[pid].append((statistics.fmean(ss), key))
+    cut = {c["id"]: c["response"] for c in load(d / "truncated.jsonl")}
     pairs = []
     for pid, scored in by_pid.items():
         (lo, lk), (hi, hk) = min(scored), max(scored)
-        if hi - lo >= min_margin:
+        if pid in cut:
+            pairs.append({"id": pid, "prompt": prompts[pid], "chosen": text[hk],
+                "rejected": cut[pid], "margin": 1.0, "truncated": True})
+        elif hi - lo >= min_margin:
             pairs.append({"id": pid, "prompt": prompts[pid], "chosen": text[hk],
                 "rejected": text[lk], "margin": round(hi - lo, 3)})
     Path(pairs_out).write_text("".join(json.dumps(p, ensure_ascii=False) + "\n" for p in pairs))
-    lc = [len(p["chosen"].split()) for p in pairs]
-    lr = [len(p["rejected"].split()) for p in pairs]
+    judged = [p for p in pairs if not p.get("truncated")]
+    lc = [len(p["chosen"].split()) for p in judged]
+    lr = [len(p["rejected"].split()) for p in judged]
     return {"prompts_scored": len(by_pid), "pairs": len(pairs),
+        "truncated_pairs": sum(p.get("truncated", False) for p in pairs),
         "missing": len(comps) - sum(c["cid"] in vs for c in comps),
         "chosen_words_mean": round(statistics.fmean(lc), 1) if lc else None,
         "rejected_words_mean": round(statistics.fmean(lr), 1) if lr else None,
         # If chosen is systematically longer, the judge may be rewarding length.
-        "chosen_longer_frac": round(sum(c > r for c, r in zip(lc, lr)) / max(len(pairs), 1), 3)}
+        "chosen_longer_frac": round(sum(c > r for c, r in zip(lc, lr)) / max(len(judged), 1), 3)}
 
 
 def calibrate(key_path, dirs, labels_path=None):
@@ -235,7 +248,7 @@ if __name__ == "__main__":
     if a.cmd == "calibrate":
         print(json.dumps(calibrate(a.key, a.dir, a.labels), indent=1))
     elif a.cmd == "prep":
-        comps = prep_vs(a.a, a.b, a.out) if a.mode == "vs" else prep_tournament(a.samples, a.k)
+        comps = prep_vs(a.a, a.b, a.out) if a.mode == "vs" else prep_tournament(a.samples, a.out, a.k)
         chunks = write_chunks(comps, a.out, a.chunk)
         print(json.dumps({"comparisons": len(comps), "chunks": len(chunks)}))
     elif a.mode == "vs":

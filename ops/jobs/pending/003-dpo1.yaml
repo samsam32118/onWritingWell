@@ -3,10 +3,17 @@
 # sft1 and the update moves away from the default assistant voice rather than re-learning
 # imitation. Then samples eval + capability prompts and the round-1 candidates
 # (1,200 training prompts x 4) from the new policy in one model load.
+# sft1 loops on ~8% of answers (2 epochs overfit), so sft1 first answers the SFT prompts and
+# each of its truncated answers adds a (human, loop) pair.
 id: 003-dpo1
 steps:
+  - generate:
+      model: sft1
+      timeout: 5400
+      runs:
+        - {prompts: results:002-sft1/sft_prompts_sft1.jsonl, tag: sft1, out: sft1_on_sft_prompts.jsonl, private: true, temperature: 0.7}
   - build_human_pairs: {sft: vol:data/sft1.jsonl, samples: vol:data/base_on_sft_prompts.jsonl,
-      out: human_pairs1.jsonl}
+      loops: vol:data/sft1_on_sft_prompts.jsonl, out: human_pairs1.jsonl}
   - train: {stage: dpo, model: sft1, data: vol:data/human_pairs1.jsonl, out_model: dpo1,
       timeout: 18000,
       hp: {epochs: 1, lr: 2.0e-5, beta: 0.1, rpo_alpha: 0.2, lora_r: 64, lora_alpha: 64,
