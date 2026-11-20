@@ -1,0 +1,9 @@
+# Round-1 candidates from dpo1 (0 truncations and 5/180 loops on eval, vs 11 and ~25 for
+# sft2): 3 per training prompt. The tournament adds 1 styled-base candidate (005b).
+id: 006-r1-sample
+steps:
+  - generate:
+      model: dpo1
+      timeout: 4800
+      runs:
+        - {prompts: data/prompts/train.jsonl, tag: dpo1, out: r1_samples.jsonl, n: 3, temperature: 0.9}
