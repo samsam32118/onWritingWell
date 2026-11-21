@@ -1,0 +1,18 @@
+{
+ "finished": "30/68 (26 no_answer, 12 length) at 6000 tokens",
+ "pred_finish": ">=60/68",
+ "reasoning_words_same30": {
+  "013_S3": 4137,
+  "014": 2756
+ },
+ "sonnet_30": {
+  "human_win_all30_unfinished_as_loss": 0.7,
+  "pred": 0.62,
+  "finished_both_n": 18,
+  "human_win_014": 0.5,
+  "human_win_013S3": 0.569,
+  "human_win_P": 0.806
+ },
+ "modal_cost_est": 0.53,
+ "reading": "prompting does not bound thinking; a hard token budget is needed (owl/generate.py think_budget)"
+}
