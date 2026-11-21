@@ -1,0 +1,23 @@
+# Probe 015 (~$0.50: one load, one run; add the commented test run for ~$0.20 more).
+# 013/014 thinking ran at the chat template's default "xhigh" reasoning effort, which
+# appends "think carefully ... consider plausible alternatives" to the system prompt; the
+# model then drafted whole essays inside its reasoning (60-88% of finished answers are
+# copies of a draft) and 28-56% never finished. Changes from 014: reasoning_effort medium
+# (no effort line), and a hard think_budget of 2000 tokens (014's 75th-percentile planning
+# length before drafting began), then 3000 tokens for the essay (95th percentile ~2700).
+# Same prompt as 014. Decided in advance: cut answers that continue a draft mid-essay count
+# as human wins; Sonnet judges the same 30 dev prompts, both orders, paired vs S3 and P.
+# Predictions: cut rate <= 30%; Sonnet human win 0.55 (interval about +-0.11).
+id: 015-think-budget
+gpu: H200
+steps:
+  - generate:
+      model: pol2
+      timeout: 900
+      runs:
+        - {prompts: data/eval/dev_prompts.jsonl, tag: pol2budget, out: dev_B.jsonl,
+            system: configs/substance_plan_prompt.txt, reasoning_effort: medium,
+            think_budget: 2000, max_tokens: 3000}
+        # - {prompts: data/eval/human_ref_prompts.jsonl, tag: pol2budget, out: test_B.jsonl,
+        #     system: configs/substance_plan_prompt.txt, reasoning_effort: medium,
+        #     think_budget: 2000, max_tokens: 3000}
