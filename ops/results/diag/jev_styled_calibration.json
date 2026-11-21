@@ -1,0 +1,7 @@
+{"question": "Can Jev replace DeepSeek for policy vs styled-base evals?",
+ "pass_rule": "both within 0.08 of known (DeepSeek/Sonnet)",
+ "pol1_vs_styled": {"jev": 0.215, "known": 0.339, "order_consistency": 0.822},
+ "pol2_vs_styled": {"jev": 0.346, "known": 0.358, "order_consistency": 0.678},
+ "cost_usd": 0.049, "result": "fail: use DeepSeek for these evals",
+ "r2_pairs_by_source": {"styled>plain": 311, "styled>styled": 25, "plain>styled": 12,
+  "plain>plain": 9}}
