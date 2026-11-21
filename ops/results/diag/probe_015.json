@@ -1,0 +1,34 @@
+{
+ "finished": "66/68 (2 essays hit 3000 tokens); 7/68 reasoning cut at 2000",
+ "reasoning_words_median": 1039,
+ "essay_words_median": 1359,
+ "pred": {
+  "cut_rate": "<=30%",
+  "sonnet_human_win": 0.55
+ },
+ "sonnet_30": {
+  "human_win": 0.7,
+  "ci": [
+   0.583,
+   0.808
+  ],
+  "gain_vs_P": [
+   0.167,
+   0.092,
+   0.25
+  ],
+  "vs_013S3_finished": [
+   30,
+   -0.067,
+   -0.125,
+   -0.008
+  ],
+  "vs_014_finished": [
+   18,
+   -0.111,
+   -0.208,
+   -0.028
+  ]
+ },
+ "modal_cost_est": 0.45
+}
