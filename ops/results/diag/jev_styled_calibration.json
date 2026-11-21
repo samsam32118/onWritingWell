@@ -4,4 +4,12 @@
  "pol2_vs_styled": {"jev": 0.346, "known": 0.358, "order_consistency": 0.678},
  "cost_usd": 0.049, "result": "fail: use DeepSeek for these evals",
  "r2_pairs_by_source": {"styled>plain": 311, "styled>styled": 25, "plain>styled": 12,
-  "plain>plain": 9}}
+  "plain>plain": 9},
+ "agreement_with_sonnet_by_pair_type_r0_tournament": {
+  "note": "direction agreement where both judges are decisive; one order per pair",
+  "jev": {"base-styled": {"n": 1576, "agree": 0.894, "ties": 98},
+   "base-base": {"n": 388, "agree": 0.738, "ties": 133},
+   "styled-styled": {"n": 400, "agree": 0.716, "ties": 96},
+   "styled-styled, jev p<=0.1 or >=0.9": {"n": 46, "agree": 0.889}},
+  "deepseek": {"base-styled": {"n": 200, "agree": 0.864}, "base-base": {"n": 50, "agree": 0.723},
+   "styled-styled": {"n": 48, "agree": 0.787}}}}
