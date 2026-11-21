@@ -1,0 +1,15 @@
+{
+ "id": "015-think-budget",
+ "steps": [
+  {
+   "step": "generate",
+   "ok": true,
+   "result": {
+    "dev_B.jsonl": {
+     "rows": 68,
+     "truncated": 2
+    }
+   }
+  }
+ ]
+}
