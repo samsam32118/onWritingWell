@@ -2,7 +2,7 @@
 
 One process loads the model once and runs every prompt set in --runs, a JSON list of
     {prompts, out, tag, n?, temperature?, max_tokens?, system?, limit?, thinking?,
-     think_budget?}
+     think_budget?, reasoning_effort?}
 Input rows need {id, prompt}; other fields are carried through. Output rows add
 {model_tag, sample_idx, response, finish_reason}. With thinking: true the model reasons
 first; the reasoning goes in a `reasoning` field and only the text after </think> is the
@@ -39,12 +39,17 @@ if __name__ == "__main__":
             if run.get("system") else []
         think = bool(run.get("thinking") or run.get("think_budget"))
         msgs = [system + [{"role": "user", "content": r["prompt"]}] for r in rows]
+        # Qwen's template defaults thinking to "xhigh" effort ("think carefully ... consider
+        # alternatives"), which drafts whole essays in the reasoning; medium adds no line.
+        kw = {"enable_thinking": think}
+        if think and run.get("reasoning_effort"):
+            kw["reasoning_effort"] = run["reasoning_effort"]
         if run.get("think_budget"):
             # Hard budget: reason for at most think_budget tokens, then close the think block
             # ourselves and let the model write the answer in max_tokens more.
             tok = llm.get_tokenizer()
-            heads = [tok.apply_chat_template(m, tokenize=False, add_generation_prompt=True,
-                enable_thinking=True) for m in msgs]
+            heads = [tok.apply_chat_template(m, tokenize=False, add_generation_prompt=True, **kw)
+                for m in msgs]
             sp1 = SamplingParams(n=sp.n, temperature=sp.temperature, top_p=0.95, top_k=20,
                 max_tokens=run["think_budget"], stop=["</think>"], seed=0)
             firsts = llm.generate(heads, sp1, use_tqdm=True)
@@ -60,8 +65,7 @@ if __name__ == "__main__":
                         "finish_reason": c2.finish_reason, "cut": c.finish_reason == "length"})
             outs = firsts
         else:
-            outs = llm.chat(msgs, sp, chat_template_kwargs={"enable_thinking": think},
-                use_tqdm=True)
+            outs = llm.chat(msgs, sp, chat_template_kwargs=kw, use_tqdm=True)
         with open(run["out"], "w") as f:
             for r, o in zip(rows, outs):
                 for i, c in enumerate(o.outputs):
