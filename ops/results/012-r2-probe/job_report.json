@@ -1,0 +1,23 @@
+{
+ "id": "012-r2-probe",
+ "steps": [
+  {
+   "step": "generate",
+   "ok": true,
+   "result": {
+    "eval_pol2_styled.jsonl": {
+     "rows": 180,
+     "truncated": 0
+    },
+    "href_pol2.jsonl": {
+     "rows": 68,
+     "truncated": 0
+    },
+    "href_pol2_styled.jsonl": {
+     "rows": 68,
+     "truncated": 0
+    }
+   }
+  }
+ ]
+}
