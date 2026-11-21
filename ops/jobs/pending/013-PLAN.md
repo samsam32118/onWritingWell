@@ -1,12 +1,30 @@
 # Plan 013: from "beats the prompt" to "beats human essays"
 
+Human essays are the yardstick only. No human essay text is trained on: training uses
+the model's own samples, and human essays are only what those samples are judged against.
+
 Status: plan only. Nothing here is approved to launch. Each Modal job and each spend
 over $1 needs the owner's go-ahead. Written so a fresh model can execute it.
 
 ## Goal, fixed before anything runs
-Metric: human essay vs fine-tune + its system prompt, on the 68 held-out essay prompts
-(`data/eval/human_ref_prompts.jsonl`; texts in the session scratchpad `href_human.jsonl`),
-both orders, DeepSeek V4.1 Flash. Report the human win rate and a paired comparison against
+The system is what we deploy: the fine-tuned model plus its system prompt, run with and
+without thinking mode. Report both.
+
+Metric: human essay vs the system, on the 68 held-out essay prompts
+(`data/eval/human_ref_prompts.jsonl`), both orders, DeepSeek V4.1 Flash. These 68 are a test
+set: measured once per round, never used to choose prompts, sources or settings. The human
+texts rebuild exactly from the committed corpus (checked 68/68):
+```bash
+PYTHONPATH=. python - <<'X' > href_human.jsonl
+import json, gzip, re
+from owl.units import span_text
+docs = {d["doc_id"]: d for d in map(json.loads, gzip.open("data/corpus/corpus.jsonl.gz", "rt"))}
+for l in open("data/eval/human_ref_prompts.jsonl"):
+    r = json.loads(l); m = re.match(r"href-(\w+):(\d+)-(\d+)", r["id"])
+    t = span_text(docs[m[1]], int(m[2]), int(m[3]))
+    print(json.dumps({"id": r["id"], "prompt": r["prompt"], "model_tag": "human", "response": t}))
+X
+``` Report the human win rate and a paired comparison against
 the previous model on the same prompts.
 - Now: humans win 0.65 against pol2 + style prompt (probe 012).
 - **Reach**: the 95% interval of the human win rate includes 0.50.
@@ -34,12 +52,15 @@ the previous model on the same prompts.
    (pol2), paired gain 0.085. The style prompt adds a further 0.16 on top. Selection can
    only pick among what the model already writes, and what is missing is ideas.
 4. **The prompt pool is used up.** All 1,200 training prompts were used in rounds 0-2.
-   Fresh: 1,127 essay prompts backtranslated from corpus essays
-   (`data/backtranslations/`, kind essay, outside the holdout), plus 1,416 passage prompts
-   (conversation, explanation). None overlap the old pool.
+   Fresh: 1,127 essay requests written from corpus essays (`data/backtranslations/`, kind
+   essay, outside the holdout), plus 1,416 passage requests (conversation, explanation).
+   Only the request is used for training; the essay it came from serves as the dev-set
+   yardstick below. None overlap the old pool.
 5. **Judges.** Jev agrees with Sonnet on only 72% of pairs between two prompted samples
    (89% when very confident, 12% of pairs). DeepSeek: 79% on 47 such pairs. True DeepSeek
-   cost is about $0.0028 per comparison (1.6x the logged figure).
+   cost is about $0.0028 per comparison (1.6x the logged figure). Jev picks the shorter of two
+   prompted samples 67% of the time, Sonnet 62%; where they disagree Jev picked the shorter
+   59%. A mild bias toward brevity.
 
 ## Conjecture this plan tests
 The missing quality is thinking, not style. If the model reasons before it writes
@@ -47,6 +68,12 @@ The missing quality is thinking, not style. If the model reasons before it write
 human. Selecting those essays and training the non-thinking model on the final answers
 moves the thinking into the writing itself. This is falsifiable cheaply (step 1) before
 any training.
+
+## Step 0: dev set (free)
+Draw 68 essay requests from the backtranslations (fixed seed, outside the holdout) and
+rebuild their human essays with `span_text` as above: `data/eval/dev_prompts.jsonl` plus
+`dev_human.jsonl`. All source choices are made on this dev set, never on the test set.
+Exclude these documents from every training prompt file.
 
 ## Step 1: probe 013, candidate sources (sampling only)
 Code changes first (small, follow the style guide):
@@ -59,18 +86,25 @@ Code changes first (small, follow the style guide):
   facts you state, develop each point at the length the topic needs, no slogan lines.
   Keep it consistent with `owl/rubric.py`.
 
-Job (H200, two model loads, about $1.20), all on the 68 essay prompts:
+The substance prompt was written from judge reasons on the test set, which is one more
+reason the choice is made on the dev set.
+
+Job (H200, two model loads, about $1.20), all on the 68 dev prompts:
 | Run | Model | Prompt | Thinking |
 |---|---|---|---|
-| S0 | base | style | no (missing reference: how much of 0.65 is the prompt) |
+| P  | pol2 | style | no (paired baseline on the dev set) |
+| S0 | base | style | no (how much is the prompt alone) |
 | S1 | pol2 | style | yes |
 | S2 | pol2 | substance | no |
 | S3 | pol2 | substance | yes |
 
-Judge each against the human essays, both orders, DeepSeek: 4 x 136 comparisons, about
-$1.50. Compare each paired against pol2 + style (probe 012, human win 0.65).
+Judge each against the dev human essays, both orders, DeepSeek: 5 x 136 comparisons, about
+$1.90. Compare each paired against P. Drop any thinking sample with no `</think>` and
+report the count.
 
-Predictions: S0 humans 0.72; S1 0.58; S2 0.60; S3 0.52.
+Predictions (human win rate): P 0.65; S0 0.72; S1 0.58; S2 0.60; S3 0.52.
+If a source with no training already lands near 0.50, report that plainly: the system may
+reach the bar through prompting and thinking alone, and training then has to beat that.
 
 Decision: the source with the lowest human win rate whose paired gain over pol2 + style
 has a 95% interval above zero becomes round 3's candidate source. If none qualifies,
@@ -87,7 +121,9 @@ and the plan should be revisited before spending more.
 - For each prompt take Jev's best and worst; DeepSeek judges that pair in both orders;
   keep only pairs where both orders agree with Jev (about $2.20).
 - Predicted survivors: 250 to 300. Below 200: report and stop before training.
-- Check length: chosen should not be systematically shorter (the rubric's "longer is not
+- Length guard: if chosen is shorter in more than 75% of kept pairs, replace Jev's
+  nomination with one random pair per prompt judged by DeepSeek in both orders (same
+  cost). Chosen should not be systematically shorter (the rubric's "longer is not
   better" must not turn into "shorter is better"; humans write 2.4x longer).
 
 ## Step 4: train and evaluate round 3 (one job, about $4.50)
@@ -95,10 +131,13 @@ and the plan should be revisited before spending more.
   model is trained the way it is deployed. If thinking was used for candidates, train on
   the final answer only, without thinking.
 - DPO pol2 -> pol3, same hyperparameters as round 2.
+- Collapse guard (dpo1's failure): stop and report if pol3 truncates more than 5% of
+  answers, repeats itself (a loop check on the samples), or the training log shows reward
+  margins saturating with chosen log-probability falling.
 - Sample in the same job: pol3 + prompt on the 68 essay prompts (without thinking, and
   with it if the source used it), pol3 + prompt on the 180 eval prompts, capability set,
   and round 4 candidates (so a continuing loop needs one job per round).
-- Judge (about $2.00): humans vs pol3 (68, both orders), pol3 + prompt vs pol2 + prompt
+- Judge (about $2.00): humans vs pol3 on the test set (68, both orders), pol3 + prompt vs pol2 + prompt
   (180, both orders), capability vs base; Sonnet check on 30 prompts.
 
 Predictions: humans vs pol3 + prompt 0.55 to 0.60 (from 0.65); pol3 vs pol2, both
@@ -123,7 +162,7 @@ Each further round repeats steps 3 and 4 (about $7 a round: $4.50 Modal, $2.50 O
 ## Budget
 | Item | Cost |
 |---|---|
-| Step 1 probe | $1.20 Modal + $1.50 OpenRouter |
+| Step 1 probe | $1.20 Modal + $1.90 OpenRouter |
 | Steps 2-4, round 3 | $6.00 Modal + $4.50 OpenRouter |
 | Each later round | $4.50 Modal + $2.50 OpenRouter |
 | Three rounds in total | about $20 Modal, $12 OpenRouter |
