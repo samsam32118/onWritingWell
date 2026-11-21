@@ -269,7 +269,7 @@ def generate(job, args):
         summary[r["out"]] = {"rows": len(rows),
             "truncated": sum(x["finish_reason"] != "stop" for x in rows),
             "slop": aggregate([x["response"] for x in rows])}
-        if r.get("thinking"):
+        if r.get("thinking") or r.get("think_budget"):
             summary[r["out"]]["reasoning_words"] = sum(
                 len(x["reasoning"].split()) for x in rows) / max(len(rows), 1)
         (rd / f"{Path(r['out']).stem}_summary.json").write_text(
