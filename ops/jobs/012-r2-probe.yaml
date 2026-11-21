@@ -1,0 +1,16 @@
+# Sampling only, no training: a baseline and stop signal before round 3.
+# Plan, predictions and decision rules: ops/jobs/pending/012-PLAN.md.
+# 180 prompts, not the 90 of eval_fast: at 90 the win rate is +-0.05, which cannot
+# separate "even" from "fine-tune adds to the prompt".
+id: 012-r2-probe
+gpu: H200
+steps:
+  - generate:
+      model: pol2
+      timeout: 2400
+      runs:
+        - {prompts: data/prompts/eval.jsonl, tag: pol2s, out: eval_pol2_styled.jsonl,
+            system: configs/style_system_prompt.txt}
+        - {prompts: data/eval/human_ref_prompts.jsonl, tag: pol2, out: href_pol2.jsonl}
+        - {prompts: data/eval/human_ref_prompts.jsonl, tag: pol2s, out: href_pol2_styled.jsonl,
+            system: configs/style_system_prompt.txt}
