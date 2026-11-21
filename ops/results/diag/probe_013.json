@@ -1,0 +1,20 @@
+{"plan": "ops/jobs/pending/013-PLAN.md", "set": "68 dev essay prompts (data/eval/dev_prompts.jsonl)",
+ "judge": "deepseek/deepseek-v4.1-flash-1017, both orders, vs human essays",
+ "cost_usd": {"modal_est": 1.5, "openrouter_true": 1.55},
+ "arms_human_win_rate": {
+  "P pol2+style": {"pred": 0.65, "result": 0.706, "ci": [0.629, 0.776], "words": 649},
+  "S0 base+style": {"pred": 0.72, "result": 0.822, "ci": [0.757, 0.879], "words": 841},
+  "S2 pol2+substance": {"pred": 0.60, "result": 0.706, "ci": [0.632, 0.772], "words": 1185},
+  "S3 pol2+substance+thinking": {"pred": 0.52, "finished": "49/68 (11 length, 8 no_answer)",
+   "result_finished_only": 0.298, "P_same_prompts": 0.681, "paired_gain_vs_P": [0.383, 0.314, 0.452],
+   "reasoning_words_median_finished": 4081, "essay_words_median": 1278},
+  "B3 base+substance+thinking": {"pred": 0.55, "finished": "36/68 (13 length, 19 no_answer)",
+   "result_finished_only": 0.375, "P_same_prompts": 0.646, "paired_gain_vs_P": [0.271, 0.201, 0.344],
+   "paired_gain_vs_S0": [0.389, 0.299, 0.476], "reasoning_words_median_finished": 5318}},
+ "paired": {"S2-P": [0.0, -0.048, 0.048], "S0-P": [-0.116, -0.173, -0.061]},
+ "readings": {
+  "substance prompt": "refuted: no gain despite 1.8x length",
+  "fine-tune": "confirmed: +0.12 over base+style on dev",
+  "thinking": "finished samples beat P by 0.38 on the same prompts (humans 0.30 vs 0.68); an upper bound because 28-47% did not finish (reasoning drafts the whole essay, then rechecks the prompt's rules until tokens run out). DeepSeek only; needs a Claude check.",
+  "lived-experience prompts": "not where the human margin is (dev: lived 0.63, general 0.75; test: equal)",
+  "why humans beat S2": "reasons cite concrete specifics 79/104, voice 78, ideas 52, errors 36; model specifics sometimes fabricated"}}
