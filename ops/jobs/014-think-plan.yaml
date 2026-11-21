@@ -1,0 +1,16 @@
+# Probe 014 ($0.50 cap: one model load, one run). Thinking samples in 013 drafted the whole
+# essay inside their reasoning and rechecked it until tokens ran out (19/68 unfinished), and
+# Sonnet scored long-reasoning samples worse. Test: pol2 + substance prompt + one line telling
+# it to plan briefly and write once, capped at 6000 tokens, on the 68 dev prompts.
+# Decided in advance: unfinished samples count as human wins. Sonnet judges the same 30
+# prompts as 013 (both orders) against human essays; compare with S3's 0.63.
+# Predictions: >=60/68 finish; Sonnet human win 0.62.
+id: 014-think-plan
+gpu: H200
+steps:
+  - generate:
+      model: pol2
+      timeout: 900
+      runs:
+        - {prompts: data/eval/dev_prompts.jsonl, tag: pol2plan_think, out: dev_T.jsonl,
+            system: configs/substance_plan_prompt.txt, thinking: true, max_tokens: 6000}
