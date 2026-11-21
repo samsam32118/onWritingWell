@@ -1,0 +1,37 @@
+{
+ "id": "013-probe",
+ "steps": [
+  {
+   "step": "generate",
+   "ok": true,
+   "result": {
+    "dev_S0.jsonl": {
+     "rows": 68,
+     "truncated": 0
+    },
+    "dev_B3.jsonl": {
+     "rows": 68,
+     "truncated": 32
+    }
+   }
+  },
+  {
+   "step": "generate",
+   "ok": true,
+   "result": {
+    "dev_P.jsonl": {
+     "rows": 68,
+     "truncated": 0
+    },
+    "dev_S2.jsonl": {
+     "rows": 68,
+     "truncated": 0
+    },
+    "dev_S3.jsonl": {
+     "rows": 68,
+     "truncated": 19
+    }
+   }
+  }
+ ]
+}
