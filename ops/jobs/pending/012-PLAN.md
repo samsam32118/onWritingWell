@@ -29,9 +29,11 @@ Reading the results:
 ## Steps
 1. Launch (about $1.50, about 20 minutes, H200, sampling only):
    ```bash
-   git mv ops/jobs/pending/012-r2-probe.yaml ops/jobs/012-r2-probe.yaml
+   cp ops/jobs/pending/012-r2-probe.yaml ops/jobs/012-r2-probe.yaml && git add ops/jobs
    git commit -m "Launch 012-r2-probe" && git push -u origin claude/bold-lovelace-nkhae0
    ```
+   Copy, never git mv: the workflow runs only added/modified specs, and a rename runs
+   nothing. Done 2026-11-21; results in ops/results/diag/probe_012.json.
    The push starts the GitHub Actions workflow `modal-job`. If the permission check
    blocks the push, stop and tell the owner; do not work around it.
 2. Watch the run with the GitHub MCP tools (`actions_list`, `get_job_logs`). Results land

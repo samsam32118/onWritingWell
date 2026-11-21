@@ -1,14 +1,118 @@
-{"plan": "ops/jobs/pending/012-PLAN.md", "judge": "deepseek/deepseek-v4.1-flash-1017, both orders",
- "cost_usd": {"modal_est": 0.5, "openrouter": 1.11},
- "A_pol2s_vs_base_styled": {"prompts": 180, "prediction": 0.50, "result": 0.579,
-  "wins_ties_losses": [96, 37, 47], "order_consistency": 0.783,
-  "by_domain": {"conversation": 0.517, "essay": 0.675, "explanation": 0.544},
-  "rule": ">=0.57 fine-tune adds to the prompt; <=0.43 hurts", "reading": "adds (just over the line)"},
- "B_human_vs_pol2": {"prompts": 68, "prediction_human": 0.85, "result_human": 0.809,
-  "reference_human_vs_base": 0.893, "order_consistency": 0.896, "missing_prompts": 1,
-  "rule": "human <=0.78 means gap measurably closed", "reading": "no detectable change"},
- "C_human_vs_pol2s": {"prompts": 68, "prediction_human": 0.80, "result_human": 0.653,
+{
+ "plan": "ops/jobs/pending/012-PLAN.md",
+ "judge": "deepseek/deepseek-v4.1-flash-1017, both orders",
+ "cost_usd": {
+  "modal_est": 0.5,
+  "openrouter_true_from_key": 1.76
+ },
+ "A_pol2s_vs_base_styled": {
+  "prompts": 180,
+  "prediction": 0.5,
+  "result": 0.579,
+  "wins_ties_losses": [
+   96,
+   37,
+   47
+  ],
+  "order_consistency": 0.783,
+  "by_domain": {
+   "conversation": 0.517,
+   "essay": 0.675,
+   "explanation": 0.544
+  },
+  "rule": ">=0.57 fine-tune adds to the prompt; <=0.43 hurts",
+  "reading": "adds (just over the line)"
+ },
+ "B_human_vs_pol2": {
+  "prompts": 68,
+  "prediction_human": 0.85,
+  "result_human": 0.809,
+  "reference_human_vs_base": 0.893,
+  "order_consistency": 0.896,
+  "missing_prompts": 1,
+  "rule": "human <=0.78 means gap measurably closed",
+  "reading": "no detectable change"
+ },
+ "C_human_vs_pol2s": {
+  "prompts": 68,
+  "prediction_human": 0.8,
+  "result_human": 0.653,
   "order_consistency": 0.721,
   "rule": "human <=0.78 means gap measurably closed",
-  "reading": "closed, but no human vs base+style reference, so the prompt's share is unknown"},
- "words_mean": {"pol2s_eval": 478, "pol2_href": 973, "pol2s_href": 694}}
+  "reading": "closed, but no human vs base+style reference, so the prompt's share is unknown"
+ },
+ "words_mean": {
+  "pol2s_eval": 478,
+  "pol2_href": 973,
+  "pol2s_href": 694
+ },
+ "post_hoc": {
+  "note": "computed after seeing results; pre-set readings above stand",
+  "A_bootstrap_95ci": [
+   0.541,
+   0.616
+  ],
+  "A_by_length": {
+   "pol2s_shorter": {
+    "n": 318,
+    "win": 0.573
+   },
+   "pol2s_longer": {
+    "n": 42,
+    "win": 0.619
+   }
+  },
+  "A_style_stats": {
+   "base_styled": {
+    "words": 664,
+    "bullet_line_frac": 0.25,
+    "headers": 2.29,
+    "bold_per_1k": 13.1
+   },
+   "pol2s": {
+    "words": 478,
+    "bullet_line_frac": 0.1,
+    "headers": 0.33,
+    "bold_per_1k": 3.9
+   }
+  },
+  "paired_vs_human_same_68_prompts": {
+   "pol2_minus_base": {
+    "diff": 0.085,
+    "ci": [
+     0.033,
+     0.136
+    ],
+    "better_worse_same": [
+     28,
+     5,
+     35
+    ]
+   },
+   "pol2s_minus_pol2": {
+    "diff": 0.156,
+    "ci": [
+     0.107,
+     0.211
+    ],
+    "better_worse_same": [
+     37,
+     4,
+     27
+    ]
+   },
+   "pol2s_minus_base": {
+    "diff": 0.241,
+    "ci": [
+     0.171,
+     0.312
+    ],
+    "better_worse_same": [
+     43,
+     4,
+     21
+    ]
+   }
+  }
+ }
+}

@@ -1,3 +1,4 @@
+# Launch by copying into ops/jobs/ (not git mv: a rename runs nothing).
 # Fast-loop round 3 (last planned): DPO pol2 -> pol3 on round-2 pairs, then sample the full
 # 180-prompt eval and capability set for the final comparison against base, styled base
 # and earlier rounds. No further candidates are sampled. Also samples pol3 WITH the style
