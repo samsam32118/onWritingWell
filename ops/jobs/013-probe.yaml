@@ -1,0 +1,29 @@
+# Probe 013 (plan: ops/jobs/pending/013-PLAN.md): which candidate source writes closest to
+# human essays? Sampling only, on the 68 dev prompts (data/eval/dev_prompts.jsonl), never
+# the test prompts. Thinking runs get 11.5k tokens (model length 12288) so reasoning does
+# not crowd out the essay. pol2 was trained only with an empty think block, so thinking
+# also runs on base (B3) in case pol2's thinking is degraded.
+# Predicted human win rate (DeepSeek, both orders):
+#   P pol2+style 0.65, S0 base+style 0.72, S2 pol2+substance 0.60,
+#   S3 pol2+substance+thinking 0.52, B3 base+substance+thinking 0.55.
+id: 013-probe
+gpu: H200
+steps:
+  - generate:
+      model: base
+      timeout: 3000
+      runs:
+        - {prompts: data/eval/dev_prompts.jsonl, tag: base_styled, out: dev_S0.jsonl,
+            system: configs/style_system_prompt.txt}
+        - {prompts: data/eval/dev_prompts.jsonl, tag: base_sub_think, out: dev_B3.jsonl,
+            system: configs/substance_system_prompt.txt, thinking: true, max_tokens: 11500}
+  - generate:
+      model: pol2
+      timeout: 3000
+      runs:
+        - {prompts: data/eval/dev_prompts.jsonl, tag: pol2s, out: dev_P.jsonl,
+            system: configs/style_system_prompt.txt}
+        - {prompts: data/eval/dev_prompts.jsonl, tag: pol2sub, out: dev_S2.jsonl,
+            system: configs/substance_system_prompt.txt}
+        - {prompts: data/eval/dev_prompts.jsonl, tag: pol2sub_think, out: dev_S3.jsonl,
+            system: configs/substance_system_prompt.txt, thinking: true, max_tokens: 11500}

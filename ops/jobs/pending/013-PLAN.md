@@ -71,7 +71,8 @@ any training.
 
 ## Step 0: dev set (free)
 Draw 68 essay requests from the backtranslations (fixed seed, outside the holdout) and
-rebuild their human essays with `span_text` as above: `data/eval/dev_prompts.jsonl` plus
+rebuild their human essays with `span_text` as above (dev ids start with `dev-`,
+so match `(?:href|dev)-(\w+):(\d+)-(\d+)`; the file list is `data/eval/dev_prompts.jsonl`): `data/eval/dev_prompts.jsonl` plus
 `dev_human.jsonl`. All source choices are made on this dev set, never on the test set.
 Exclude these documents from every training prompt file.
 
