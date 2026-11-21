@@ -1,0 +1,1 @@
+[{"prompts": "/repo/data/eval/dev_prompts.jsonl", "tag": "pol2plan_think", "out": "/vol/results/014-think-plan/dev_T.jsonl", "system": "/repo/configs/substance_plan_prompt.txt", "thinking": true, "max_tokens": 6000}]
