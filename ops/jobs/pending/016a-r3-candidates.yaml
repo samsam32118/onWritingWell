@@ -1,0 +1,18 @@
+# Round 3, job 1 of 2 (plan: ops/jobs/pending/016-PLAN.md). Sampling only, one pol2 load.
+# Chosen candidates: pol2 + substance prompt + xhigh thinking (013's S3 settings), reasoning
+# capped at 8000 tokens (59% of 013's samples finish under it), essay 3500 (fits 12288).
+# Rejected candidates: pol2 + style prompt, no thinking (the deployed setup P).
+# Prompts: 430 essay + 50 conversation + 50 explanation requests, fresh, holdout and dev
+# documents excluded (data/prompts/train_r3.jsonl).
+# Predictions: 55-65% of thinking samples finish uncut (>= 290 usable pairs).
+id: 016a-r3-candidates
+gpu: H200
+steps:
+  - generate:
+      model: pol2
+      timeout: 5400
+      runs:
+        - {prompts: data/prompts/train_r3.jsonl, tag: pol2think, out: r3_think.jsonl,
+            system: configs/substance_system_prompt.txt, think_budget: 8000, max_tokens: 3500}
+        - {prompts: data/prompts/train_r3.jsonl, tag: pol2s, out: r3_plain.jsonl,
+            system: configs/style_system_prompt.txt}

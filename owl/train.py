@@ -49,7 +49,9 @@ def train(a):
         args = SFTConfig(completion_only_loss=True, **common)
         Trainer = SFTTrainer
     else:
-        ds = Dataset.from_list([{"prompt": prompt([{"role": "user", "content": r["prompt"]}]),
+        # A pair may carry the system prompt it is deployed with; train with it in context.
+        ds = Dataset.from_list([{"prompt": prompt(([{"role": "system", "content": r["system"]}]
+            if r.get("system") else []) + [{"role": "user", "content": r["prompt"]}]),
             "chosen": completion(r["chosen"]), "rejected": completion(r["rejected"])}
             for r in rows])
         # The SFT term on chosen (RPO) keeps DPO from pushing both likelihoods down,
