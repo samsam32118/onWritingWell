@@ -89,20 +89,27 @@ Code changes first (small, follow the style guide):
 The substance prompt was written from judge reasons on the test set, which is one more
 reason the choice is made on the dev set.
 
-Job (H200, two model loads, about $1.20), all on the 68 dev prompts:
-| Run | Model | Prompt | Thinking |
+Job (H200, two model loads, about $1.50): `ops/jobs/pending/013-probe.yaml`, all on the 68
+dev prompts (`data/eval/dev_prompts.jsonl`, same source mix as the test set; doc ids in
+`data/eval/dev_docs.json`, excluded from all training prompts). pol2 was trained only with
+an empty think block, so thinking is also tried on base.
+| Arm | Model | Prompt | Thinking |
 |---|---|---|---|
-| P  | pol2 | style | no (paired baseline on the dev set) |
-| S0 | base | style | no (how much is the prompt alone) |
-| S1 | pol2 | style | yes |
+| P  | pol2 | style | no (paired baseline) |
+| S0 | base | style | no (prompt alone) |
 | S2 | pol2 | substance | no |
 | S3 | pol2 | substance | yes |
+| B3 | base | substance | yes (is the fine-tune needed?) |
+
+Before judging: read the thinking arms' summaries (no_answer count, truncation, reasoning
+words). Judge P first: if it is far from 0.65, dev and test differ; say so before reading
+the other arms.
 
 Judge each against the dev human essays, both orders, DeepSeek: 5 x 136 comparisons, about
 $1.90. Compare each paired against P. Drop any thinking sample with no `</think>` and
 report the count.
 
-Predictions (human win rate): P 0.65; S0 0.72; S1 0.58; S2 0.60; S3 0.52.
+Predictions (human win rate): P 0.65; S0 0.72; S2 0.60; S3 0.52; B3 0.55.
 If a source with no training already lands near 0.50, report that plainly: the system may
 reach the bar through prompting and thinking alone, and training then has to beat that.
 

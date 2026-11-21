@@ -1,9 +1,11 @@
 """Sample responses with vLLM, thinking disabled, same chat template as training.
 
 One process loads the model once and runs every prompt set in --runs, a JSON list of
-    {prompts, out, tag, n?, temperature?, max_tokens?, system?, limit?}
+    {prompts, out, tag, n?, temperature?, max_tokens?, system?, limit?, thinking?}
 Input rows need {id, prompt}; other fields are carried through. Output rows add
-{model_tag, sample_idx, response, finish_reason}.
+{model_tag, sample_idx, response, finish_reason}. With thinking: true the model reasons
+first; the reasoning goes in a `reasoning` field and only the text after </think> is the
+response. No </think>, or nothing after it, is finish_reason "no_answer".
 
     python -m owl.generate --model PATH --runs runs.json
 """
@@ -32,12 +34,22 @@ if __name__ == "__main__":
             top_k=20, max_tokens=run.get("max_tokens", 4096), seed=0)
         system = [{"role": "system", "content": open(run["system"]).read()}] \
             if run.get("system") else []
+        think = bool(run.get("thinking"))
         outs = llm.chat([system + [{"role": "user", "content": r["prompt"]}] for r in rows], sp,
-            chat_template_kwargs={"enable_thinking": False}, use_tqdm=True)
+            chat_template_kwargs={"enable_thinking": think}, use_tqdm=True)
         with open(run["out"], "w") as f:
             for r, o in zip(rows, outs):
                 for i, c in enumerate(o.outputs):
-                    text = c.text.replace("<think>", "").replace("</think>", "").strip()
-                    f.write(json.dumps({**r, "model_tag": run["tag"], "sample_idx": i,
-                        "response": text, "finish_reason": c.finish_reason},
-                        ensure_ascii=False) + "\n")
+                    reasoning, finish = "", c.finish_reason
+                    text = c.text
+                    if think:
+                        reasoning, sep, text = text.partition("</think>")
+                        reasoning = reasoning.replace("<think>", "").strip()
+                        if not sep or not text.strip():
+                            finish = "no_answer"
+                    text = text.replace("<think>", "").replace("</think>", "").strip()
+                    row = {**r, "model_tag": run["tag"], "sample_idx": i, "response": text,
+                        "finish_reason": finish}
+                    if think:
+                        row["reasoning"] = reasoning
+                    f.write(json.dumps(row, ensure_ascii=False) + "\n")

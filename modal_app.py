@@ -243,7 +243,7 @@ def build_human_pairs(job, args):
 @app.function(image=vllm_image, gpu=GPU, volumes=MOUNTS, timeout=2 * 3600, **IDLE)
 def generate(job, args):
     """args: {model, runs: [{prompts, out, tag?, n?, temperature?, max_tokens?, system?,
-    limit?, private?}]}, or a single run's fields inline. The model loads once for all runs;
+    limit?, private?, thinking?}]}, or a single run's fields inline. The model loads once for all runs;
     each load of a 27B checkpoint costs minutes of GPU time."""
     from owl.slop import aggregate
 
@@ -269,6 +269,9 @@ def generate(job, args):
         summary[r["out"]] = {"rows": len(rows),
             "truncated": sum(x["finish_reason"] != "stop" for x in rows),
             "slop": aggregate([x["response"] for x in rows])}
+        if r.get("thinking"):
+            summary[r["out"]]["reasoning_words"] = sum(
+                len(x["reasoning"].split()) for x in rows) / max(len(rows), 1)
         (rd / f"{Path(r['out']).stem}_summary.json").write_text(
             json.dumps(summary[r["out"]], indent=1))
     vol.commit()
