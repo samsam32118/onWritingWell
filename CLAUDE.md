@@ -6,13 +6,15 @@ Project rules
 - The scraped essays are committed at data/corpus/corpus.jsonl.gz by the owner's decision
   (to be removed later). Keep it in sync with data/manifest.jsonl hashes.
 - Training/sampling runs on Modal via ops/jobs/*.yaml pushed to a claude/** branch.
-- Decisions (tournament ranking, per-round evals) are made by Jev (typesafe/jev-1.14 on
-  OpenRouter, owl/jev.py; key in OPENROUTERAPIKEY or injected by the proxy): ~$0.30 and ~1
-  minute per round. It matches Sonnet on ranking a policy's own samples (88%) but rates human
-  essays far below Claude does (ops/results/diag/jev_calibration.json), so each round also
-  gets a very small Claude check (Sonnet, ~30 prompts both orders, ops/workflows/judge.js).
-  Opus agents were repeatedly blocked by safeguards on this workload; use Opus at most for
-  one final check, and retry any failed chunk on Sonnet.
+- Decisions are arbitrated by Sonnet subagents (rubric in owl/rubric.py, both orders;
+  chunk files from owl.judging prep). Jev (owl/jev.py, typesafe/jev-1.14 on OpenRouter)
+  is cheap but agrees with Sonnet on only 72% of pairs of two prompted samples, and
+  DeepSeek V4.1 Flash overrates thinking-mode essays (human win 0.28 vs Sonnet 0.63), so
+  both are screening tools only (ops/results/diag/jev_*.json, probe_013.json). Opus at
+  most for one final check.
+- Human-essay yardstick: 68 test prompts (data/eval/human_ref_prompts.jsonl) measured
+  once per round; choices are made on the 68 dev prompts (data/eval/dev_prompts.jsonl).
+  Human texts rebuild from the corpus (ops/jobs/pending/013-PLAN.md).
 - Budget: small fast rounds (400 prompts, one Modal job per round); stop when a round does
   not beat the previous model.
 - Annotation and judge prompts must stay consistent with owl/rubric.py.
