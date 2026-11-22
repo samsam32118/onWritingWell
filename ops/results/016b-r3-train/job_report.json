@@ -1,0 +1,38 @@
+{
+ "id": "016b-r3-train",
+ "steps": [
+  {
+   "step": "train",
+   "ok": true,
+   "result": {
+    "model": "pol3"
+   }
+  },
+  {
+   "step": "generate",
+   "ok": true,
+   "result": {
+    "dev_pol3s.jsonl": {
+     "rows": 68,
+     "truncated": 2
+    },
+    "dev_pol3think.jsonl": {
+     "rows": 68,
+     "truncated": 8
+    },
+    "test_pol3s.jsonl": {
+     "rows": 68,
+     "truncated": 4
+    },
+    "eval_pol3s.jsonl": {
+     "rows": 180,
+     "truncated": 0
+    },
+    "cap_pol3.jsonl": {
+     "rows": 60,
+     "truncated": 0
+    }
+   }
+  }
+ ]
+}

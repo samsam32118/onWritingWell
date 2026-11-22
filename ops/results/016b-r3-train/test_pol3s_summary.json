@@ -1,0 +1,16 @@
+{
+ "rows": 68,
+ "truncated": 4,
+ "slop": {
+  "words": 1434.0147,
+  "stock_per_1k": 0.3207,
+  "em_dash_per_1k": 0.666,
+  "bullet_line_frac": 0.054,
+  "header_count": 3.1471,
+  "bold_per_1k": 0.6438,
+  "not_x_but_y": 0.0882,
+  "sent_len_mean": 13.6237,
+  "sent_len_cv": 0.5992,
+  "question_open": 0.0147
+ }
+}
