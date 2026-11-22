@@ -1,0 +1,6 @@
+# Delete merged checkpoints no longer used, after 016c samples were confirmed (530 plain +
+# 530 thinking, 340 usable pairs). Kept: base, pol2, pol3; all adapters, data and results
+# stay, so any deleted model can be re-merged. CPU only.
+id: 017b-cleanup
+steps:
+  - rm: {models: [sft1, sft2, dpo1, pol1, probe, probe2], keep: [pol2, pol3]}
