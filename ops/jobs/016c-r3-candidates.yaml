@@ -1,0 +1,27 @@
+# Relaunch of 016a (plan: ops/jobs/pending/016-PLAN.md). 016a got ~20 GPU minutes after an
+# ~1 h H200 queue and was terminated by the workspace spending limit at 453/530 thinking
+# samples (2,800 tok/s); nothing was saved because a run's file is written at its end.
+# Changes: GPU not pinned (first free B200/H200), plain run first, thinking split into 4
+# chunks in two steps (each step commits its files to the volume when it ends; an
+# extra model load, ~$0.30, buys that). Settings otherwise identical to 016a.
+# Expected ~30 GPU minutes. Predictions: 55-65% of thinking samples usable (>= 290 pairs).
+id: 016c-r3-candidates
+steps:
+  - generate:
+      model: pol2
+      timeout: 3000
+      runs:
+        - {prompts: data/prompts/train_r3.jsonl, tag: pol2s, out: r3_plain.jsonl,
+            system: configs/style_system_prompt.txt}
+        - {prompts: data/prompts/r3/part0.jsonl, tag: pol2think, out: r3_think_0.jsonl,
+            system: configs/substance_system_prompt.txt, think_budget: 8000, max_tokens: 3500}
+        - {prompts: data/prompts/r3/part1.jsonl, tag: pol2think, out: r3_think_1.jsonl,
+            system: configs/substance_system_prompt.txt, think_budget: 8000, max_tokens: 3500}
+  - generate:
+      model: pol2
+      timeout: 3000
+      runs:
+        - {prompts: data/prompts/r3/part2.jsonl, tag: pol2think, out: r3_think_2.jsonl,
+            system: configs/substance_system_prompt.txt, think_budget: 8000, max_tokens: 3500}
+        - {prompts: data/prompts/r3/part3.jsonl, tag: pol2think, out: r3_think_3.jsonl,
+            system: configs/substance_system_prompt.txt, think_budget: 8000, max_tokens: 3500}
