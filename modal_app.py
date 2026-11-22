@@ -311,9 +311,31 @@ def ls(job, args):
     return out
 
 
+@app.function(image=cpu_image, volumes=MOUNTS, timeout=1800, **IDLE)
+def rm(job, args):
+    """Delete merged model checkpoints (models/<name>) to cut volume storage. Adapters,
+    data and results stay, so a deleted model can be re-merged. Never base or the live
+    policies listed in `keep`."""
+    import shutil
+
+    vol.reload()
+    keep = {"base", *args.get("keep", [])}
+    gone = []
+    for name in args["models"]:
+        assert name not in keep and "/" not in name and name, name
+        if Path(VOL, "models", name).exists():
+            shutil.rmtree(Path(VOL, "models", name))
+            gone.append(name)
+    vol.commit()
+    left = sorted(os.listdir(f"{VOL}/models"))
+    (results(job) / "rm.json").write_text(json.dumps({"deleted": gone, "models_left": left}))
+    vol.commit()
+    return {"deleted": gone, "models_left": left}
+
+
 STEPS = {"download_base": download_base, "build_corpus": build_corpus,
     "build_sft": build_sft, "build_human_pairs": build_human_pairs, "generate": generate,
-    "train": train, "ls": ls}
+    "train": train, "ls": ls, "rm": rm}
 
 
 @app.local_entrypoint()

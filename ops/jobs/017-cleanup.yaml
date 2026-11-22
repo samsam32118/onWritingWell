@@ -1,0 +1,7 @@
+# Free volume storage (owl-vol was 369 GiB): delete merged checkpoints no longer used.
+# Kept: base (reference), pol2 (round-3 parent and sampler), pol3 (round 3, if present).
+# Adapters, data and results stay, so any deleted model can be re-merged. CPU only.
+id: 017-cleanup
+steps:
+  - ls: {}
+  - rm: {models: [sft1, sft2, dpo1, pol1, probe, probe2], keep: [pol2, pol3]}
