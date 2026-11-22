@@ -1,0 +1,47 @@
+{
+ "models": [
+  "base",
+  "dpo1",
+  "pol1",
+  "pol2",
+  "probe",
+  "sft1",
+  "sft2"
+ ],
+ "data": [
+  "base_on_sft_prompts.jsonl",
+  "human_pairs1.jsonl",
+  "sft1.jsonl",
+  "sft2.jsonl",
+  "sft2_on_sft_prompts.jsonl"
+ ],
+ "adapters": [
+  "dpo1",
+  "pol1",
+  "pol2",
+  "probe",
+  "probe2",
+  "sft1",
+  "sft2"
+ ],
+ "results": [
+  "000-smoke",
+  "001-baseline",
+  "002-sft1",
+  "002a-sft-probe",
+  "002b-sft-probe",
+  "004-sft2",
+  "005-dpo1",
+  "005b-dpo1-sample",
+  "006-r1-sample",
+  "008-r0-sample",
+  "009-r1",
+  "010-r2",
+  "012-r2-probe",
+  "013-probe",
+  "014-think-plan",
+  "015-think-budget",
+  "016a-r3-candidates",
+  "016c-r3-candidates"
+ ]
+}
