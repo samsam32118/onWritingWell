@@ -108,5 +108,38 @@
   ],
   "order_consistency": 0.985,
   "note": "judged once; Sonnet has no pol2 reference on test (DeepSeek: humans 0.65 vs pol2+style)"
+ },
+ "test68_paired_vs_pol2": {
+  "n": 68,
+  "human_win_pol2s": 0.882,
+  "human_win_pol3s": 0.868,
+  "paired_gain_pol3_minus_pol2": [
+   0.015,
+   -0.015,
+   0.048
+  ],
+  "better_worse_same": [
+   8,
+   6,
+   54
+  ],
+  "order_consistency_pol2": 1.0
+ },
+ "stop_rule": "triggered: dev head-to-head pol3s vs P 0.50 < pred 0.62 (rule: stop, keep pol2); test set judged anyway, reported as such",
+ "length_split": {
+  "dev_h2h_ratio_lt_1.3": [
+   9,
+   0.639
+  ],
+  "dev_h2h_ratio_gt_2": [
+   17,
+   0.456
+  ],
+  "dev_losses_citing_length": "22/30",
+  "eval_median_ratio": {
+   "conversation": 1.05,
+   "essay": 1.67,
+   "explanation": 1.27
+  }
  }
 }
