@@ -1,0 +1,120 @@
+{"cid": "cap-1~0", "reason": "Same correct answer with essentially identical content; differences are cosmetic only.", "verdict": "A=B"}
+{"cid": "cap-1~1", "reason": "Same correct answer with essentially identical content; differences are cosmetic only.", "verdict": "A=B"}
+{"cid": "cap-10~0", "reason": "Same correct answer with essentially identical content; differences are cosmetic only.", "verdict": "A=B"}
+{"cid": "cap-10~1", "reason": "Same correct answer with essentially identical content; differences are cosmetic only.", "verdict": "A=B"}
+{"cid": "cap-11~0", "reason": "Same correct answer with essentially identical content; differences are cosmetic only.", "verdict": "A=B"}
+{"cid": "cap-11~1", "reason": "Same correct answer with essentially identical content; differences are cosmetic only.", "verdict": "A=B"}
+{"cid": "cap-12~0", "reason": "Same correct answer with essentially identical content; differences are cosmetic only.", "verdict": "A=B"}
+{"cid": "cap-12~1", "reason": "Same correct answer with essentially identical content; differences are cosmetic only.", "verdict": "A=B"}
+{"cid": "cap-13~0", "reason": "Same correct answer with essentially identical content; differences are cosmetic only.", "verdict": "A=B"}
+{"cid": "cap-13~1", "reason": "Same correct answer with essentially identical content; differences are cosmetic only.", "verdict": "A=B"}
+{"cid": "cap-14~0", "reason": "Both get -85; B is tighter, going straight to the cofactor expansion without the redundant formula and element listing.", "verdict": "B>A"}
+{"cid": "cap-14~1", "reason": "Both get -85; A is tighter, going straight to the cofactor expansion without the redundant formula and element listing.", "verdict": "A>B"}
+{"cid": "cap-15~0", "reason": "Both correct (15 days); B appends a redundant second method that adds no idea.", "verdict": "A>B"}
+{"cid": "cap-15~1", "reason": "Both correct (15 days); A appends a redundant second method that adds no idea.", "verdict": "B>A"}
+{"cid": "cap-16~0", "reason": "Both correctly get 4; A wanders into a modular-inverse aside it abandons ('let's stick to...'), while B is cleaner.", "verdict": "B>A"}
+{"cid": "cap-16~1", "reason": "Both correctly get 4; B wanders into a modular-inverse aside it abandons, while A is cleaner.", "verdict": "A>B"}
+{"cid": "cap-17~0", "reason": "Both give 420; B adds a short complementary-counting check that confirms it, and is less padded in the per-case arithmetic.", "verdict": "B>A"}
+{"cid": "cap-17~1", "reason": "Both give 420; A adds a short complementary-counting check that confirms it.", "verdict": "A>B"}
+{"cid": "cap-18~0", "reason": "Same correct answer with essentially identical content; differences are cosmetic only.", "verdict": "A=B"}
+{"cid": "cap-18~1", "reason": "Same correct answer with essentially identical content; differences are cosmetic only.", "verdict": "A=B"}
+{"cid": "cap-19~0", "reason": "Same correct answer with essentially identical content; differences are cosmetic only.", "verdict": "A=B"}
+{"cid": "cap-19~1", "reason": "Same correct answer with essentially identical content; differences are cosmetic only.", "verdict": "A=B"}
+{"cid": "cap-2~0", "reason": "Same correct answer with essentially identical content; differences are cosmetic only.", "verdict": "A=B"}
+{"cid": "cap-2~1", "reason": "Same correct answer with essentially identical content; differences are cosmetic only.", "verdict": "A=B"}
+{"cid": "cap-20~0", "reason": "Same correct answer with essentially identical content; differences are cosmetic only.", "verdict": "A=B"}
+{"cid": "cap-20~1", "reason": "Same correct answer with essentially identical content; differences are cosmetic only.", "verdict": "A=B"}
+{"cid": "cap-21~0", "reason": "Same correct answer with essentially identical content; differences are cosmetic only.", "verdict": "A=B"}
+{"cid": "cap-21~1", "reason": "Same correct answer with essentially identical content; differences are cosmetic only.", "verdict": "A=B"}
+{"cid": "cap-22~0", "reason": "Same correct answer with essentially identical content; differences are cosmetic only.", "verdict": "A=B"}
+{"cid": "cap-22~1", "reason": "Same correct answer with essentially identical content; differences are cosmetic only.", "verdict": "A=B"}
+{"cid": "cap-23~0", "reason": "Both correct, but A leaves a stream-of-consciousness comment block ('No wait', 'Let me think more carefully') in the code; B is clean.", "verdict": "B>A"}
+{"cid": "cap-23~1", "reason": "Both correct, but B leaves a stream-of-consciousness comment block ('No wait', 'Let me think more carefully') in the code; A is clean.", "verdict": "A>B"}
+{"cid": "cap-24~0", "reason": "Same correct answer with essentially identical content; differences are cosmetic only.", "verdict": "A=B"}
+{"cid": "cap-24~1", "reason": "Same correct answer with essentially identical content; differences are cosmetic only.", "verdict": "A=B"}
+{"cid": "cap-25~0", "reason": "Same correct answer with essentially identical content; differences are cosmetic only.", "verdict": "A=B"}
+{"cid": "cap-25~1", "reason": "Same correct answer with essentially identical content; differences are cosmetic only.", "verdict": "A=B"}
+{"cid": "cap-26~0", "reason": "Same correct answer with essentially identical content; differences are cosmetic only.", "verdict": "A=B"}
+{"cid": "cap-26~1", "reason": "Same correct answer with essentially identical content; differences are cosmetic only.", "verdict": "A=B"}
+{"cid": "cap-27~0", "reason": "Same correct answer with essentially identical content; differences are cosmetic only.", "verdict": "A=B"}
+{"cid": "cap-27~1", "reason": "Same correct answer with essentially identical content; differences are cosmetic only.", "verdict": "A=B"}
+{"cid": "cap-28~0", "reason": "Identical code.", "verdict": "A=B"}
+{"cid": "cap-28~1", "reason": "Identical code.", "verdict": "A=B"}
+{"cid": "cap-29~0", "reason": "Both correct DFS island counters; one mutates a copy, the other tracks visited.", "verdict": "A=B"}
+{"cid": "cap-29~1", "reason": "Both correct DFS island counters; equivalent.", "verdict": "A=B"}
+{"cid": "cap-3~0", "reason": "Same correct answer 2:00 p.m., 432 km, same method.", "verdict": "A=B"}
+{"cid": "cap-3~1", "reason": "Same correct answer 2:00 p.m., 432 km, same method.", "verdict": "A=B"}
+{"cid": "cap-30~0", "reason": "Both correct, but B's anchored regex is much simpler than A's findall plus reconstruction plus subsequence check.", "verdict": "B>A"}
+{"cid": "cap-30~1", "reason": "A's anchored regex is correct and far simpler than B's multi-step validation.", "verdict": "A>B"}
+{"cid": "cap-31~0", "reason": "Both correct; B is simpler and avoids float drift from the sliding sum.", "verdict": "B>A"}
+{"cid": "cap-31~1", "reason": "A is simpler and avoids float drift from the sliding sum; both correct.", "verdict": "A>B"}
+{"cid": "cap-32~0", "reason": "B restricts to ASCII letters as asked; A's isalpha mishandles non-ASCII letters.", "verdict": "B>A"}
+{"cid": "cap-32~1", "reason": "A restricts to ASCII letters as asked; B's isalpha mishandles non-ASCII letters.", "verdict": "A>B"}
+{"cid": "cap-33~0", "reason": "Both reach the correct solution with valid deduction.", "verdict": "A=B"}
+{"cid": "cap-33~1", "reason": "Both reach the correct solution with valid deduction.", "verdict": "A=B"}
+{"cid": "cap-34~0", "reason": "Both correct (A knight, B and C knaves) with sound case analysis.", "verdict": "A=B"}
+{"cid": "cap-34~1", "reason": "Both correct (A knight, B and C knaves) with sound case analysis.", "verdict": "A=B"}
+{"cid": "cap-35~0", "reason": "Both give 65, but B asserts the false rule 2a+1 as its headline and final rule, plus a wrong 2^n-1 detour; A ends on 2^n+1.", "verdict": "A>B"}
+{"cid": "cap-35~1", "reason": "Both give 65, but A asserts the false rule 2a+1 as its headline and final rule, plus a wrong 2^n-1 detour; B ends on 2^n+1.", "verdict": "B>A"}
+{"cid": "cap-36~0", "reason": "Both correct: Wednesday.", "verdict": "A=B"}
+{"cid": "cap-36~1", "reason": "Both correct: Wednesday.", "verdict": "A=B"}
+{"cid": "cap-37~0", "reason": "Both correct: 130 degrees.", "verdict": "A=B"}
+{"cid": "cap-37~1", "reason": "Both correct: 130 degrees.", "verdict": "A=B"}
+{"cid": "cap-38~0", "reason": "Equivalent correct answers.", "verdict": "A=B"}
+{"cid": "cap-38~1", "reason": "Equivalent correct answers.", "verdict": "A=B"}
+{"cid": "cap-39~0", "reason": "Both correctly find statement 4; A is more economical.", "verdict": "A>B"}
+{"cid": "cap-39~1", "reason": "Both correctly find statement 4; B is more economical.", "verdict": "B>A"}
+{"cid": "cap-4~0", "reason": "Both correct: $5,634.13.", "verdict": "A=B"}
+{"cid": "cap-4~1", "reason": "Both correct: $5,634.13.", "verdict": "A=B"}
+{"cid": "cap-40~0", "reason": "Both correct order.", "verdict": "A=B"}
+{"cid": "cap-40~1", "reason": "Both correct order.", "verdict": "A=B"}
+{"cid": "cap-41~0", "reason": "Both correct: box 2.", "verdict": "A=B"}
+{"cid": "cap-41~1", "reason": "Both correct: box 2.", "verdict": "A=B"}
+{"cid": "cap-42~0", "reason": "Both correct: 7 cows.", "verdict": "A=B"}
+{"cid": "cap-42~1", "reason": "Both correct: 7 cows.", "verdict": "A=B"}
+{"cid": "cap-43~0", "reason": "Both correct Canberra with fitting context.", "verdict": "A=B"}
+{"cid": "cap-43~1", "reason": "Both correct Canberra with fitting context.", "verdict": "A=B"}
+{"cid": "cap-44~0", "reason": "Identical.", "verdict": "A=B"}
+{"cid": "cap-44~1", "reason": "Identical.", "verdict": "A=B"}
+{"cid": "cap-45~0", "reason": "Both correct; B adds fluff like 'global literary icon'.", "verdict": "A>B"}
+{"cid": "cap-45~1", "reason": "Both correct; A adds fluff like 'global literary icon'.", "verdict": "B>A"}
+{"cid": "cap-46~0", "reason": "Both give 206; the concise one adds a correct 80/126 axial-appendicular split, while the 'Logical Deduction' one is wordy and loosely says the infant skull fuses into a single skull bone.", "verdict": "B>A"}
+{"cid": "cap-46~1", "reason": "Both give 206; the concise one adds a correct 80/126 axial-appendicular split, while the 'Logical Deduction' one is wordy and loosely says the infant skull fuses into a single skull bone.", "verdict": "A>B"}
+{"cid": "cap-47~0", "reason": "Same correct answer; differences are only minor formatting/padding.", "verdict": "A=B"}
+{"cid": "cap-47~1", "reason": "Same correct answer; differences are only minor formatting/padding.", "verdict": "A=B"}
+{"cid": "cap-48~0", "reason": "Same correct answer; differences are only minor formatting/padding.", "verdict": "A=B"}
+{"cid": "cap-48~1", "reason": "Same correct answer; differences are only minor formatting/padding.", "verdict": "A=B"}
+{"cid": "cap-49~0", "reason": "Both correct (iron, Fe); the shorter reply carries the same content with less redundant bullet padding.", "verdict": "A>B"}
+{"cid": "cap-49~1", "reason": "Both correct (iron, Fe); the shorter reply carries the same content with less redundant bullet padding.", "verdict": "B>A"}
+{"cid": "cap-5~0", "reason": "Both reach the correct 166; the one with the independent check (133+33-0) verifies more convincingly, while the other just restates the same calculation and has a redundant duplicated formula in the alt-method version.", "verdict": "B>A"}
+{"cid": "cap-5~1", "reason": "Both reach the correct 166; the one with the independent check (133+33-0) verifies more convincingly, while the other just restates the same calculation and has a redundant duplicated formula in the alt-method version.", "verdict": "A>B"}
+{"cid": "cap-50~0", "reason": "Both correct at 212F; the concise reply is better proportioned than the multi-header deduction for a one-fact question.", "verdict": "B>A"}
+{"cid": "cap-50~1", "reason": "Both correct at 212F; the concise reply is better proportioned than the multi-header deduction for a one-fact question.", "verdict": "A>B"}
+{"cid": "cap-51~0", "reason": "Both are exactly three sentences and correct; the one that explains why violet does not dominate answers the obvious follow-up and is more complete.", "verdict": "B>A"}
+{"cid": "cap-51~1", "reason": "Both are exactly three sentences and correct; the one that explains why violet does not dominate answers the obvious follow-up and is more complete.", "verdict": "A>B"}
+{"cid": "cap-52~0", "reason": "Both valid integers for Tokyo; 13.96M is the city proper, a closer fit for 'city' than the metro-area figure.", "verdict": "B>A"}
+{"cid": "cap-52~1", "reason": "Both valid integers for Tokyo; 13.96M is the city proper, a closer fit for 'city' than the metro-area figure.", "verdict": "A>B"}
+{"cid": "cap-53~0", "reason": "Radish is a true root vegetable while potato is a tuber, so the list with radish is more accurate.", "verdict": "B>A"}
+{"cid": "cap-53~1", "reason": "Radish is a true root vegetable while potato is a tuber, so the list with radish is more accurate.", "verdict": "A>B"}
+{"cid": "cap-54~0", "reason": "Both sentences avoid the letter 'e' and satisfy the constraint.", "verdict": "A=B"}
+{"cid": "cap-54~1", "reason": "Both sentences avoid the letter 'e' and satisfy the constraint.", "verdict": "A=B"}
+{"cid": "cap-55~0", "reason": "Both give three valid lowercase synonyms in the required format.", "verdict": "A=B"}
+{"cid": "cap-55~1", "reason": "Both give three valid lowercase synonyms in the required format.", "verdict": "A=B"}
+{"cid": "cap-56~0", "reason": "Responses are identical.", "verdict": "A=B"}
+{"cid": "cap-56~1", "reason": "Responses are identical.", "verdict": "A=B"}
+{"cid": "cap-57~0", "reason": "Responses are identical.", "verdict": "A=B"}
+{"cid": "cap-57~1", "reason": "Responses are identical.", "verdict": "A=B"}
+{"cid": "cap-59~0", "reason": "Responses are identical.", "verdict": "A=B"}
+{"cid": "cap-59~1", "reason": "Responses are identical.", "verdict": "A=B"}
+{"cid": "cap-58~0", "reason": "Both follow the format with END; both have a 6-syllable middle line and neither mentions rain.", "verdict": "A=B"}
+{"cid": "cap-58~1", "reason": "Both follow the format with END; both have a 6-syllable middle line and neither mentions rain.", "verdict": "A=B"}
+{"cid": "cap-6~0", "reason": "Both are correct and satisfy the constraints; differences are trivial.", "verdict": "A=B"}
+{"cid": "cap-6~1", "reason": "Both are correct and satisfy the constraints; differences are trivial.", "verdict": "A=B"}
+{"cid": "cap-7~0", "reason": "Both are correct and satisfy the constraints; differences are trivial.", "verdict": "A=B"}
+{"cid": "cap-7~1", "reason": "Both are correct and satisfy the constraints; differences are trivial.", "verdict": "A=B"}
+{"cid": "cap-8~0", "reason": "Both are correct and satisfy the constraints; differences are trivial.", "verdict": "A=B"}
+{"cid": "cap-8~1", "reason": "Both are correct and satisfy the constraints; differences are trivial.", "verdict": "A=B"}
+{"cid": "cap-60~0", "reason": "Both are correct and satisfy the constraints; differences are trivial.", "verdict": "A=B"}
+{"cid": "cap-60~1", "reason": "Both are correct and satisfy the constraints; differences are trivial.", "verdict": "A=B"}
+{"cid": "cap-9~0", "reason": "Both get 1350; the compact derivation is as clear as the bloated step-by-step version and much shorter.", "verdict": "B>A"}
+{"cid": "cap-9~1", "reason": "Both get 1350; the compact derivation is as clear as the bloated step-by-step version and much shorter.", "verdict": "A>B"}
