@@ -101,12 +101,12 @@
   "017": 0.05
  },
  "test68_human_win_pol3_style": {
-  "result": 0.871,
+  "result": 0.868,
   "ci": [
-   0.812,
-   0.925
+   0.805,
+   0.919
   ],
-  "order_consistency": 1.0,
-  "note": "judged once; no Sonnet reference for pol2 on test (DeepSeek gave humans 0.65 vs pol2+style)"
+  "order_consistency": 0.985,
+  "note": "judged once; Sonnet has no pol2 reference on test (DeepSeek: humans 0.65 vs pol2+style)"
  }
 }
