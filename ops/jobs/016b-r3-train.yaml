@@ -1,0 +1,28 @@
+# Round 3, job 2 of 2 (pairs: 340 = 258 essay + 43 conversation + 39 explanation;
+# Sonnet preferred thinking in all 82 non-essay pairs). (plan: ops/jobs/pending/016-PLAN.md). Needs data/rounds/r3_pairs.jsonl
+# built from 016a. DPO pol2 -> pol3 with the style prompt in context (pairs carry `system`),
+# trained without thinking, so pol3 + style is the deployed setup P and its score against
+# P isolates training. Samples everything needed to judge it in the same load.
+# Predictions (Sonnet, 30 dev prompts, human win): pol3+style 0.80 (P 0.87);
+# pol3 + xhigh thinking 0.58 (S3 0.63). pol3+style beats P head to head 0.62.
+id: 016b-r3-train
+gpu: H200
+steps:
+  - train: {stage: dpo, model: pol2, data: data/rounds/r3_pairs.jsonl, out_model: pol3,
+      timeout: 5400,
+      hp: {epochs: 1, lr: 2.0e-5, beta: 0.1, rpo_alpha: 0.2, lora_r: 64, lora_alpha: 64,
+        grad_accum: 8, max_length: 6144}}
+  - generate:
+      model: pol3
+      timeout: 4800
+      runs:
+        - {prompts: data/eval/dev_prompts.jsonl, tag: pol3s, out: dev_pol3s.jsonl,
+            system: configs/style_system_prompt.txt}
+        - {prompts: data/eval/dev_prompts.jsonl, tag: pol3think, out: dev_pol3think.jsonl,
+            system: configs/substance_system_prompt.txt, think_budget: 8000, max_tokens: 3500}
+        - {prompts: data/eval/human_ref_prompts.jsonl, tag: pol3s, out: test_pol3s.jsonl,
+            system: configs/style_system_prompt.txt}
+        - {prompts: data/prompts/eval.jsonl, tag: pol3s, out: eval_pol3s.jsonl,
+            system: configs/style_system_prompt.txt}
+        - {prompts: data/eval/capability_prompts.jsonl, tag: pol3, out: cap_pol3.jsonl,
+            temperature: 0.2}
