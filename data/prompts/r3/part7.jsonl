@@ -1,0 +1,61 @@
+{"id": "r3-48851b98c2f4:15-16", "domain": "conversation", "prompt": "ok but if I promise myself a candy bar every time I finish my homework, is that actually going to make me do more homework? why does that kind of self-reward feel like it never works"}
+{"id": "r3-e81b170544fa:1-2", "domain": "conversation", "prompt": "is there a moral version of carbon offsets? like could I do something kind of bad and make up for it by donating"}
+{"id": "r3-dbd6fdf65ad4:53-60", "domain": "conversation", "prompt": "In a lot of European countries kids get tracked into a career in high school, while Americans often don't decide till after college. Is the American way just messier, or is there an upside to it?"}
+{"id": "r3-d3ef6c414498:1-7", "domain": "conversation", "prompt": "How can an unknown artist convince a big company to eventually back them?"}
+{"id": "r3-0326c0340dff:20-21", "domain": "conversation", "prompt": "Is it fair to say teachers and poets are underpaid and athletes are overpaid? Like, is that actually an injustice?"}
+{"id": "r3-5a6c79d46170:4-6", "domain": "conversation", "prompt": "a friend says AI language models are just brute-force pattern matchers that blend up the internet and spit it back. fair criticism or does it apply to humans too?"}
+{"id": "r3-2dc3cc7a996f:4-10", "domain": "conversation", "prompt": "why is twitter so full of angry fights? is it just the people or something about the platform"}
+{"id": "r3-691a542ca30b:1-16", "domain": "conversation", "prompt": "ok what superpower would you pick? and does your answer change as you get older"}
+{"id": "r3-a8b2b088ba72:1-5", "domain": "conversation", "prompt": "does it help or hurt motivation to learn that your hero actually had flaws?"}
+{"id": "r3-50d7e72f116a:10-17", "domain": "conversation", "prompt": "ok but is it really that bad to make Cthulhu jokes? Lovecraft is basically a horror writer, so what's the problem with Hello Kitty Cthulhu?"}
+{"id": "r3-663dccd9d6b3:68-68", "domain": "conversation", "prompt": "our automated calling system can easily handle 100x the volume our customers ask for. is there any reason to bother rate limiting it?"}
+{"id": "r3-e0b146984d14:93-93", "domain": "explanation", "prompt": "people throw around the word \"liberalism\" like it just means being a Democrat or loving free markets. what is it actually, historically?"}
+{"id": "r3-3ad413affa69:4-4", "domain": "explanation", "prompt": "why are prescription drugs in the US so wildly more expensive without insurance, and is there any trick for paying less out of pocket?"}
+{"id": "r3-2d63df4db2c7:4-6", "domain": "explanation", "prompt": "In a sentence or two of intuition: what makes a convolutional neural network different from a regular neural net, and why does that help?"}
+{"id": "r3-c1bc80f680c4:10-13", "domain": "explanation", "prompt": "how do valuation and dilution work for an angel investor? if I put in $50k, what do I actually own and what happens to it in later rounds?"}
+{"id": "r3-37f479820b04:14-17", "domain": "explanation", "prompt": "Explain the counterfactual mugging problem to me. Why would anyone hand over $5 in that situation, and does it connect to anything in ethics?"}
+{"id": "r3-ee0b3e3f075f:34-42", "domain": "explanation", "prompt": "Say I want to plot MNIST digits in 2D. What would a 'perfect' visualization even mean, and how does multidimensional scaling try to get there?"}
+{"id": "r3-d9a569d5fe21:18-24", "domain": "explanation", "prompt": "Everyone says to size thread pools at 2x the number of cores. Is that actually good advice for services running in CPU-limited containers?"}
+{"id": "r3-9fc6ed497dfe:89-92", "domain": "explanation", "prompt": "how do DMs work on Mastodon? are they actually private?"}
+{"id": "r3-07c24efbe8ee:36-39", "domain": "explanation", "prompt": "What is folie a deux, and how does it work if psychosis is supposed to be a biological illness?"}
+{"id": "r3-a1c29c1d0515:90-92", "domain": "explanation", "prompt": "What's the real difference between the economics of a B2C software company and a B2B one? I keep hearing that B2B companies benefit when their customers succeed but I don't get why that matters so much."}
+{"id": "r3-11192e774b97:10-24", "domain": "explanation", "prompt": "Why are yes/no questions supposedly a good way to learn from coworkers? Seems like you'd just get a yes or a no."}
+{"id": "r3-508965039ded:14-18", "domain": "explanation", "prompt": "Where did the school system actually come from? People say it was built to make obedient factory workers, but is that true?"}
+{"id": "r3-02171c6380e8:60-68", "domain": "explanation", "prompt": "Can you explain the idea of memes as parasites that evolve? Use a real parasite's life cycle to make it concrete, and give me an example from politics."}
+{"id": "r3-d1c16ba0a292:1-10", "domain": "explanation", "prompt": "why do people give such confident reasons for things they did, when the reason is obviously made up after the fact? is there actual research on this"}
+{"id": "r3-051a3cde1c5f:20-24", "domain": "explanation", "prompt": "if there was an advanced civilization during the Ice Age, what would they have eaten? Does the history of crops say anything about this?"}
+{"id": "r3-a728aaa1e1c8:20-26", "domain": "explanation", "prompt": "What's the actual difference between money and wealth? People use the words interchangeably but I've heard they aren't the same thing."}
+{"id": "r3-164e263ddc20:30-33", "domain": "explanation", "prompt": "How should I think about where to draw the line for a word's meaning, like how broad a category should be? Is there a way to think about it with statistics?"}
+{"id": "r3-f5ba14195611:17-22", "domain": "explanation", "prompt": "why do non-programmers think software is almost done when the interface looks polished, or terrible when it looks plain?"}
+{"id": "r3-dafc6cc38231:1-7", "domain": "explanation", "prompt": "Is depression actually a real disease the way the flu is? Psychiatric diagnoses always seem kind of arbitrary to me, with everything overlapping with everything else."}
+{"id": "r3-f573dfac8cf6:7-10", "domain": "explanation", "prompt": "if you want to claim a rare disaster isn't a real risk because the yearly average death toll is low, how much does it matter where you start counting?"}
+{"id": "r3-4d2257f12216:7-12", "domain": "explanation", "prompt": "why do colleges pay a few star professors a lot and the people who actually teach most of the classes so little? it doesn't seem like greed alone explains it"}
+{"id": "r3-3778116e4df0:2-8", "domain": "explanation", "prompt": "what's the actual pitch for genetic testing to choose antidepressants? like why would knowing my genes help me pick one"}
+{"id": "r3-192bbb1fe7e9:13-16", "domain": "explanation", "prompt": "Why do big companies care so much about where job applicants went to college, if it's such a weak signal?"}
+{"id": "r3-1e57bc0fbeaf:14-22", "domain": "explanation", "prompt": "I heard that for years nearly every top Chinese official was an engineer. Is that real? Does it mean China was run by technocrats?"}
+{"id": "r3-970d3523ba19:28-30", "domain": "explanation", "prompt": "Why do mathematicians bother defining abstract structures like groups or rings instead of just studying numbers and sets directly?"}
+{"id": "r3-96961be1deba:21-39", "domain": "explanation", "prompt": "ok dumb question but what actually is a kernel? like what does it do while I'm just browsing the web"}
+{"id": "r3-6bdcb3e5501a:32-39", "domain": "explanation", "prompt": "Why did societies stop trying to kill or legislate away their religious enemies? Explain how things like the First Amendment came about, in simple terms."}
+{"id": "r3-056e3caa4d9c:3-4", "domain": "explanation", "prompt": "When people argue about whether X 'causes' Y, there's always some philosophical way the statement is imperfect. How should I decide whether a causal claim is fair to make?"}
+{"id": "r3-02b874d64305:20-27", "domain": "explanation", "prompt": "when I run git stash, where do my changes actually go?"}
+{"id": "r3-ff6e91359d1b:4-6", "domain": "explanation", "prompt": "why do we even get nightmares? is it just stress or is there more to it"}
+{"id": "r3-0d99ae5485eb:80-86", "domain": "explanation", "prompt": "In a merge conflict, what does the `<<<<<<< HEAD` part refer to? I feel like it means different things at different times."}
+{"id": "r3-d1eadf4ea08b:7-9", "domain": "explanation", "prompt": "why does DNS use UDP instead of TCP?"}
+{"id": "r3-48aba37f9d80:1-4", "domain": "explanation", "prompt": "when people say a good programmer 'holds the whole program in their head', what do they actually mean? and why does it matter so much?"}
+{"id": "r3-cc2af4d574fe:1-3", "domain": "explanation", "prompt": "Why would an insurance company make doctors jump through hoops like an hour of phone calls to approve an expensive drug? Seems like pure waste to me."}
+{"id": "r3-7c1fcb9f5ee4:12-17", "domain": "explanation", "prompt": "Why does fashion keep changing so fast? Can you explain it with a simple model involving social classes trying to look like each other?"}
+{"id": "r3-fc9c501f5cfd:12-20", "domain": "explanation", "prompt": "Why is it so hard to apologize properly in English? It feels like 'I'm sorry' can mean totally different things depending on the situation."}
+{"id": "r3-1d996adb268f:63-66", "domain": "explanation", "prompt": "why does it matter how fast someone can do really easy problems? like if they get there eventually, what's the difference"}
+{"id": "r3-60c11898c871:55-63", "domain": "explanation", "prompt": "what does 'reference class tennis' mean? people keep using it when arguing about forecasts"}
+{"id": "r3-af773788b8b1:41-44", "domain": "explanation", "prompt": "how do I stop a third-party API going down from taking my whole web app down with it?"}
+{"id": "r3-926a898d59d8:15-22", "domain": "explanation", "prompt": "can you explain the grue and bleen problem in philosophy? and is there a good reply to it"}
+{"id": "r3-6d8f06b2a611:76-89", "domain": "explanation", "prompt": "what do set -e, set -u and set -x actually do in a bash script and why does everyone put them at the top?"}
+{"id": "r3-4222dd510aa1:14-21", "domain": "explanation", "prompt": "the melatonin pills at my pharmacy are 10 mg. is that too much? what dose do studies actually support"}
+{"id": "r3-b28dc5311158:59-65", "domain": "explanation", "prompt": "I typed `git checkout asdf` meaning a branch and git told me \"pathspec 'asdf' did not match any file(s) known to git\". Why is it talking about files?"}
+{"id": "r3-5940ae0d0cec:18-20", "domain": "explanation", "prompt": "why are school tests so easy to game? it seems like everyone who gets good grades knows how to study for the test rather than learn the material"}
+{"id": "r3-2d9101d71722:16-19", "domain": "explanation", "prompt": "In what sense is GPT-2 doing the same kind of thing the human brain does? Explain the prediction idea in plain terms."}
+{"id": "r3-3fd0e1998a93:12-17", "domain": "explanation", "prompt": "If a government taxed land, why couldn't landlords just raise rents to cover it? Every other tax seems to get passed on to customers, so what's different about land?"}
+{"id": "r3-c4a565140465:2-11", "domain": "explanation", "prompt": "Isn't education the obvious way to reduce inequality without taking money from anyone? Walk me through what reducing inequality really requires."}
+{"id": "r3-33728d7241b0:8-11", "domain": "explanation", "prompt": "why can't clinical trials just catch every side effect before a drug gets approved? seems like that would solve the whole problem"}
+{"id": "r3-302d15fabe89:1-17", "domain": "explanation", "prompt": "How does price anchoring work, and how can a small business get out from under it?"}
+{"id": "r3-70d9a4c8714d:38-40", "domain": "explanation", "prompt": "why does the same teaching approach work great for some kids and flop for others? like with learning to read or times tables"}
