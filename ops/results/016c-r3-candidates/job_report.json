@@ -1,0 +1,37 @@
+{
+ "id": "016c-r3-candidates",
+ "steps": [
+  {
+   "step": "generate",
+   "ok": true,
+   "result": {
+    "r3_plain.jsonl": {
+     "rows": 530,
+     "truncated": 0
+    },
+    "r3_think_0.jsonl": {
+     "rows": 133,
+     "truncated": 6
+    },
+    "r3_think_1.jsonl": {
+     "rows": 133,
+     "truncated": 2
+    }
+   }
+  },
+  {
+   "step": "generate",
+   "ok": true,
+   "result": {
+    "r3_think_2.jsonl": {
+     "rows": 133,
+     "truncated": 5
+    },
+    "r3_think_3.jsonl": {
+     "rows": 131,
+     "truncated": 0
+    }
+   }
+  }
+ ]
+}
