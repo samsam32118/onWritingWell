@@ -1,0 +1,20 @@
+✓ Initialized. View run at 
+https://modal.com/apps/samarvir1996/main/ap-QUBKO6K5IgE2uxoTqFvNAw
+✓ Created objects.
+├── ✓ Uploaded /home/runner/work/onWritingWell/onWritingWell/modal_app.py
+├── ✓ Uploaded /home/runner/work/onWritingWell/onWritingWell/configs
+├── ✓ Uploaded PythonPackage:owl
+├── ✓ Uploaded /home/runner/work/onWritingWell/onWritingWell/data
+├── ✓ Created Function train.
+├── ✓ Created Function download_base.
+├── ✓ Created Function build_corpus.
+├── ✓ Created Function build_sft.
+├── ✓ Created Function build_human_pairs.
+├── ✓ Created Function ls.
+├── ✓ Created Function rm.
+└── ✓ Created Function generate.
+[job 017b-cleanup] start rm {"models": ["sft1", "sft2", "dpo1", "pol1", "probe", "probe2"], "keep": ["pol2", "pol3"]}
+[job 017b-cleanup] done rm: {"deleted": ["sft1", "sft2", "dpo1", "pol1", "probe"], "models_left": ["base", "pol2"]}
+Stopping app - local entrypoint completed.
+✓ App completed. View run at 
+https://modal.com/apps/samarvir1996/main/ap-QUBKO6K5IgE2uxoTqFvNAw

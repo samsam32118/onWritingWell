@@ -1,0 +1,22 @@
+{
+ "id": "017b-cleanup",
+ "steps": [
+  {
+   "step": "rm",
+   "ok": true,
+   "result": {
+    "deleted": [
+     "sft1",
+     "sft2",
+     "dpo1",
+     "pol1",
+     "probe"
+    ],
+    "models_left": [
+     "base",
+     "pol2"
+    ]
+   }
+  }
+ ]
+}
